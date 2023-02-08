@@ -1,11 +1,11 @@
 version: "1"
 packages:
-  - name: "db"                         # 生成的Go包名称
-    path: "./internal/admin/db/sqlc/"                 # 生成Go代码 目录
-    queries: "./internal/admin/db/query/"						 # 查询语句 目录
+  - name: "domain"                         # 生成的Go包名称
+    path: "./internal/admin/domain/sqlc/"                 # 生成Go代码 目录
+    queries: "./internal/admin/domain/query/"						 # 查询语句 目录
     schema: "./db/migration/"					 # 数据库架构/迁移文件 目录
     engine: "postgresql"               # 数据库引擎
-    emit_json_tags: true               # 是否将JSON标记添加到生成结构
+    emit_json_tags: false              # 是否将JSON标记添加到生成结构
     emit_prepared_queries: false
     emit_interface: false							 # 为生成的包生成Querier接口
     emit_exact_table_names: false			 # 设置为 false， sqlc会单数化复数表名

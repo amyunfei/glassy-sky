@@ -3,11 +3,10 @@
 //   sqlc v1.16.0
 // source: category.sql
 
-package db
+package domain
 
 import (
 	"context"
-	"database/sql"
 )
 
 const createCategory = `-- name: CreateCategory :one
@@ -21,9 +20,9 @@ INSERT INTO categories (
 `
 
 type CreateCategoryParams struct {
-	Name     string        `json:"name"`
-	ParentID int64         `json:"parent_id"`
-	Color    sql.NullInt32 `json:"color"`
+	Name     string
+	ParentID int64
+	Color    int32
 }
 
 func (q *Queries) CreateCategory(ctx context.Context, arg CreateCategoryParams) (Category, error) {
