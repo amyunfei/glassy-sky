@@ -39,6 +39,9 @@ func Debug(message string) {
 func Error(message string) {
 	sugaredLogger.Errorf(message)
 }
+func Panic(message string) {
+	sugaredLogger.Panic()
+}
 func Sync() {
 	sugaredLogger.Sync()
 }

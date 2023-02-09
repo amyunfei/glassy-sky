@@ -2,7 +2,7 @@
 // versions:
 //   sqlc v1.16.0
 
-package domain
+package postgresql
 
 import (
 	"context"
