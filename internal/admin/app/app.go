@@ -4,7 +4,10 @@ import (
 	"database/sql"
 	"time"
 
+	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
+	"github.com/amyunfei/glassy-sky/internal/admin/handler"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/logger"
+	"github.com/amyunfei/glassy-sky/internal/admin/service"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,9 +15,12 @@ func Start() {
 	logger.Init()
 	defer logger.Sync()
 
-	// db := getDB()
-	// queries := postgresql.New(db)
+	db := getDB()
+	queries := postgresql.New(db)
 	router := gin.Default()
+
+	categoryHandlers := handler.CategoryHandlers{Service: service.NewCategoryService(queries)}
+	router.POST("/category", categoryHandlers.Create)
 	router.Run(":9999")
 	logger.Info("glassy-sky running on port 9999 ...")
 }
