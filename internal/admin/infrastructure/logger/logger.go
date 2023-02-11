@@ -40,7 +40,7 @@ func Error(message string) {
 	sugaredLogger.Errorf(message)
 }
 func Panic(message string) {
-	sugaredLogger.Panic()
+	sugaredLogger.Panic(message)
 }
 func Sync() {
 	sugaredLogger.Sync()

@@ -9,6 +9,8 @@ import (
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/logger"
 	"github.com/amyunfei/glassy-sky/internal/admin/service"
 	"github.com/gin-gonic/gin"
+
+	_ "github.com/lib/pq"
 )
 
 func Start() {
@@ -20,7 +22,7 @@ func Start() {
 	router := gin.Default()
 
 	categoryHandlers := handler.CategoryHandlers{Service: service.NewCategoryService(queries)}
-	router.POST("/category", categoryHandlers.Create)
+	router.POST("/category", categoryHandlers.CreateCategory)
 	router.Run(":9999")
 	logger.Info("glassy-sky running on port 9999 ...")
 }
