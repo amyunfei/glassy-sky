@@ -28,7 +28,7 @@ $$ LANGUAGE 'plpgsql';
 CREATE TABLE "categories" (
   "id" bigint PRIMARY KEY NOT NULL DEFAULT (id_generator()),
   "name" varchar(100) NOT NULL,
-  "parent_id" bigint NOT NULL DEFAULT 0,
+  "parent_id" bigint NOT NULL DEFAULT 0 CHECK (parent_id <> id),
   "color" integer NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now()),
   "updated_at" timestamptz NOT NULL DEFAULT (now()),

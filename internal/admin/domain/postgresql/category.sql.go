@@ -61,6 +61,26 @@ func (q *Queries) DeleteCategory(ctx context.Context, id int64) error {
 	return err
 }
 
+const getCategory = `-- name: GetCategory :one
+SELECT id, name, parent_id, color, created_at, updated_at, deleted_at FROM categories
+WHERE id = $1
+`
+
+func (q *Queries) GetCategory(ctx context.Context, id int64) (Category, error) {
+	row := q.db.QueryRowContext(ctx, getCategory, id)
+	var i Category
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.ParentID,
+		&i.Color,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.DeletedAt,
+	)
+	return i, err
+}
+
 const listCategory = `-- name: ListCategory :many
 SELECT id, name, parent_id, color, created_at, updated_at, deleted_at FROM categories
 ORDER BY id

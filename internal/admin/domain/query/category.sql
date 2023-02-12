@@ -19,6 +19,10 @@ color = $4
 WHERE id = $1
 RETURNING *;
 
+-- name: GetCategory :one
+SELECT * FROM categories
+WHERE id = $1;
+
 -- name: CountCategory :one
 SELECT count(*) FROM categories;
 

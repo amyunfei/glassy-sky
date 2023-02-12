@@ -14,7 +14,13 @@ type CategoryHandlers struct {
 func (h CategoryHandlers) CreateCategory(ctx *gin.Context) {
 	var req dto.CreateCategoryRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		response.ValidationError(ctx, err.Error())
+		response.ValidationError(ctx, req, err)
 		return
 	}
+	res, err := h.Service.CreateCategory(ctx, req)
+	if err != nil {
+		response.UnexpectedError(ctx, err.Error())
+		return
+	}
+	response.Success(ctx, res, "success")
 }

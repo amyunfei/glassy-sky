@@ -4,12 +4,20 @@ import (
 	"strconv"
 
 	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
+	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/response"
 )
 
 type CreateCategoryRequest struct {
 	Name     string `json:"name" binding:"required"`
 	ParentId string `json:"parentId"`
 	Color    string `json:"color" binding:"required"`
+}
+
+func (c CreateCategoryRequest) GetValidateMessage() response.ErrorMessages {
+	return response.ErrorMessages{
+		"Name.required":  "分类名称不能为空",
+		"Color.required": "分类颜色不能为空",
+	}
 }
 
 type CreateCategoryResponse struct {

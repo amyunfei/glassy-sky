@@ -12,6 +12,7 @@ type Querier interface {
 	CountCategory(ctx context.Context) (int64, error)
 	CreateCategory(ctx context.Context, arg CreateCategoryParams) (Category, error)
 	DeleteCategory(ctx context.Context, id int64) error
+	GetCategory(ctx context.Context, id int64) (Category, error)
 	ListCategory(ctx context.Context, arg ListCategoryParams) ([]Category, error)
 	UpdateCategory(ctx context.Context, arg UpdateCategoryParams) (Category, error)
 }
