@@ -41,6 +41,31 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/category/{id}": {
+            "delete": {
+                "tags": [
+                    "分类信息"
+                ],
+                "summary": "删除分类",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "分类id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SuccessEmptyResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -82,6 +107,23 @@ const docTemplate = `{
                 },
                 "updatedAt": {
                     "type": "string"
+                }
+            }
+        },
+        "dto.SuccessEmptyResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "data": {
+                    "type": "string",
+                    "example": ""
+                },
+                "msg": {
+                    "type": "string",
+                    "example": "success"
                 }
             }
         }

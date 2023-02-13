@@ -11,6 +11,7 @@ import (
 
 type CategoryService interface {
 	CreateCategory(ctx context.Context, data dto.CreateCategoryRequest) (*dto.CreateCategoryResponse, error)
+	DeleteCategory(ctx context.Context, data dto.UriIdRequest) error
 }
 
 type DefaultCategoryService struct {
@@ -54,6 +55,16 @@ func (s DefaultCategoryService) CreateCategory(
 	var result dto.CreateCategoryResponse
 	result.Transform(category)
 	return &result, nil
+}
+
+func (s DefaultCategoryService) DeleteCategory(ctx context.Context, data dto.UriIdRequest) error {
+	var err error
+	id, err := strconv.ParseInt(data.Id, 10, 64)
+	if err != nil {
+		return err
+	}
+	err = s.repo.DeleteCategory(ctx, id)
+	return err
 }
 
 func NewCategoryService(repo *postgresql.Queries) DefaultCategoryService {

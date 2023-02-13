@@ -26,6 +26,18 @@ definitions:
       updatedAt:
         type: string
     type: object
+  dto.SuccessEmptyResponse:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data:
+        example: ""
+        type: string
+      msg:
+        example: success
+        type: string
+    type: object
 info:
   contact: {}
 paths:
@@ -44,6 +56,22 @@ paths:
           schema:
             $ref: '#/definitions/dto.CreateCategoryResponse'
       summary: 创建分类
+      tags:
+      - 分类信息
+  /category/{id}:
+    delete:
+      parameters:
+      - description: 分类id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessEmptyResponse'
+      summary: 删除分类
       tags:
       - 分类信息
 swagger: "2.0"
