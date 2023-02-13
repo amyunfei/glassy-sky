@@ -16,4 +16,7 @@ migratedown:
 sqlc:
 	sqlc generate
 
-.PHONY: postgres createdb dropdb migrateup migratedown sqlc
+swag:
+	swag init -g cmd/main.go -o ./api
+
+.PHONY: postgres createdb dropdb migrateup migratedown sqlc swag

@@ -11,6 +11,11 @@ type CategoryHandlers struct {
 	Service service.CategoryService
 }
 
+// @Tags 分类信息
+// @Summary 创建分类
+// @Param body body dto.CreateCategoryRequest true "分类信息"
+// @Success 200 {object} dto.CreateCategoryResponse
+// @Router /category [POST]
 func (h CategoryHandlers) CreateCategory(ctx *gin.Context) {
 	var req dto.CreateCategoryRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {

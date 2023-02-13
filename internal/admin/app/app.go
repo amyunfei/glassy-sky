@@ -4,11 +4,14 @@ import (
 	"database/sql"
 	"time"
 
+	_ "github.com/amyunfei/glassy-sky/api"
 	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
 	"github.com/amyunfei/glassy-sky/internal/admin/handler"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/logger"
 	"github.com/amyunfei/glassy-sky/internal/admin/service"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 
 	_ "github.com/lib/pq"
 )
@@ -20,6 +23,9 @@ func Start() {
 	db := getDB()
 	queries := postgresql.New(db)
 	router := gin.Default()
+
+	// swagger
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	categoryHandlers := handler.CategoryHandlers{Service: service.NewCategoryService(queries)}
 	router.POST("/category", categoryHandlers.CreateCategory)

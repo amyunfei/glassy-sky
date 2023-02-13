@@ -1,0 +1,49 @@
+definitions:
+  dto.CreateCategoryRequest:
+    properties:
+      color:
+        type: string
+      name:
+        type: string
+      parentId:
+        type: string
+    required:
+    - color
+    - name
+    type: object
+  dto.CreateCategoryResponse:
+    properties:
+      color:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      parentId:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /category:
+    post:
+      parameters:
+      - description: 分类信息
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateCategoryRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CreateCategoryResponse'
+      summary: 创建分类
+      tags:
+      - 分类信息
+swagger: "2.0"
