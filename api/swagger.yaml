@@ -26,6 +26,19 @@ definitions:
       updatedAt:
         type: string
     type: object
+  dto.ModifyCategoryRequest:
+    properties:
+      color:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      parentId:
+        type: string
+    required:
+    - id
+    type: object
   dto.SuccessEmptyResponse:
     properties:
       code:
@@ -72,6 +85,22 @@ paths:
           schema:
             $ref: '#/definitions/dto.SuccessEmptyResponse'
       summary: 删除分类
+      tags:
+      - 分类信息
+    put:
+      parameters:
+      - description: 分类信息
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ModifyCategoryRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CreateCategoryResponse'
+      summary: 修改分类
       tags:
       - 分类信息
 swagger: "2.0"

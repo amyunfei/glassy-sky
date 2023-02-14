@@ -29,11 +29,24 @@ type CreateCategoryResponse struct {
 	UpdatedAt string `json:"updatedAt"`
 }
 
-func (c *CreateCategoryResponse) Transform(modal postgresql.Category) {
-	c.ID = strconv.FormatInt(modal.ID, 10)
-	c.Name = modal.Name
-	c.ParentId = strconv.FormatInt(modal.ParentID, 10)
-	c.Color = strconv.FormatInt(int64(modal.Color), 16)
-	c.CreatedAt = modal.CreatedAt.Format("2006-01-02 15:04:05")
-	c.UpdatedAt = modal.UpdatedAt.Format("2006-01-02 15:04:05")
+func (r *CreateCategoryResponse) Transform(modal postgresql.Category) {
+	r.ID = strconv.FormatInt(modal.ID, 10)
+	r.Name = modal.Name
+	r.ParentId = strconv.FormatInt(modal.ParentID, 10)
+	r.Color = strconv.FormatInt(int64(modal.Color), 16)
+	r.CreatedAt = modal.CreatedAt.Format("2006-01-02 15:04:05")
+	r.UpdatedAt = modal.UpdatedAt.Format("2006-01-02 15:04:05")
+}
+
+type ModifyCategoryRequest struct {
+	ID       string `uri:"id" binding:"required"`
+	Name     string `json:"name"`
+	ParentId string `json:"parentId"`
+	Color    string `json:"color"`
+}
+
+func (r ModifyCategoryRequest) GetValidateMessage() response.ErrorMessages {
+	return response.ErrorMessages{
+		"ID.required": "ID不能为空",
+	}
 }

@@ -39,6 +39,7 @@ func (h CategoryHandlers) DeleteCategory(ctx *gin.Context) {
 	var req dto.UriIdRequest
 	if err := ctx.ShouldBindUri(&req); err != nil {
 		response.ValidationError(ctx, req, err)
+		return
 	}
 	err := h.Service.DeleteCategory(ctx, req)
 	if err != nil {
@@ -46,4 +47,27 @@ func (h CategoryHandlers) DeleteCategory(ctx *gin.Context) {
 		return
 	}
 	response.Success(ctx, nil, "success")
+}
+
+// @Tags 分类信息
+// @Summary 修改分类
+// @Param body body dto.ModifyCategoryRequest true "分类信息"
+// @Success 200 {object} dto.CreateCategoryResponse
+// @Router /category/{id} [PUT]
+func (h CategoryHandlers) ModifyCategory(ctx *gin.Context) {
+	var req dto.ModifyCategoryRequest
+	if err := ctx.ShouldBindUri(&req); err != nil {
+		response.ValidationError(ctx, req, err)
+		return
+	}
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		response.ValidationError(ctx, req, err)
+		return
+	}
+	res, err := h.Service.ModifyCategory(ctx, req)
+	if err != nil {
+		response.UnexpectedError(ctx, err.Error())
+		return
+	}
+	response.Success(ctx, res, "success")
 }

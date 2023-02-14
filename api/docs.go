@@ -43,6 +43,31 @@ const docTemplate = `{
             }
         },
         "/category/{id}": {
+            "put": {
+                "tags": [
+                    "分类信息"
+                ],
+                "summary": "修改分类",
+                "parameters": [
+                    {
+                        "description": "分类信息",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ModifyCategoryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateCategoryResponse"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "tags": [
                     "分类信息"
@@ -106,6 +131,26 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ModifyCategoryRequest": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parentId": {
                     "type": "string"
                 }
             }

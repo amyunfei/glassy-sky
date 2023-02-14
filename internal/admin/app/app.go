@@ -30,6 +30,7 @@ func Start() {
 	categoryHandlers := handler.CategoryHandlers{Service: service.NewCategoryService(queries)}
 	router.POST("/category", categoryHandlers.CreateCategory)
 	router.DELETE("/category/:id", categoryHandlers.DeleteCategory)
+	router.PUT("/category/:id", categoryHandlers.ModifyCategory)
 	router.Run(":9999")
 	logger.Info("glassy-sky running on port 9999 ...")
 }
