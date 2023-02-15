@@ -7,6 +7,7 @@ package postgresql
 
 import (
 	"context"
+	"database/sql"
 )
 
 const countCategory = `-- name: CountCategory :one
@@ -126,18 +127,18 @@ func (q *Queries) ListCategory(ctx context.Context, arg ListCategoryParams) ([]C
 
 const updateCategory = `-- name: UpdateCategory :one
 UPDATE categories SET
-name = $2,
-parent_id = $3,
-color = $4
+name = COALESCE($2, name),
+parent_id = COALESCE($3, parent_id),
+color = COALESCE($4, color)
 WHERE id = $1
 RETURNING id, name, parent_id, color, created_at, updated_at, deleted_at
 `
 
 type UpdateCategoryParams struct {
 	ID       int64
-	Name     string
-	ParentID int64
-	Color    int32
+	Name     sql.NullString
+	ParentID sql.NullInt64
+	Color    sql.NullInt32
 }
 
 func (q *Queries) UpdateCategory(ctx context.Context, arg UpdateCategoryParams) (Category, error) {

@@ -13,9 +13,9 @@ WHERE id = $1;
 
 -- name: UpdateCategory :one
 UPDATE categories SET
-name = $2,
-parent_id = $3,
-color = $4
+name = COALESCE(sqlc.narg(name), name),
+parent_id = COALESCE(sqlc.narg(parent_id), parent_id),
+color = COALESCE(sqlc.narg(color), color)
 WHERE id = $1
 RETURNING *;
 

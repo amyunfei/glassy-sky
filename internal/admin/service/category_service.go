@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"database/sql"
 	"strconv"
 
 	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
@@ -75,11 +76,34 @@ func (s DefaultCategoryService) ModifyCategory(
 	if err != nil {
 		return nil, err
 	}
+	name := sql.NullString{}
+	if data.Name != "" {
+		name.String = data.Name
+		name.Valid = true
+	}
+	parentId := sql.NullInt64{}
+	if data.ParentId != "" {
+		id, err := strconv.ParseInt(data.ParentId, 10, 64)
+		if err != nil {
+			return nil, err
+		}
+		parentId.Int64 = id
+		parentId.Valid = true
+	}
+	color := sql.NullInt32{}
+	if data.Color != "" {
+		num, err := strconv.ParseInt(data.Color, 16, 32)
+		if err != nil {
+			return nil, err
+		}
+		color.Int32 = int32(num)
+		color.Valid = true
+	}
 	arg := postgresql.UpdateCategoryParams{
 		ID:       id,
-		Name:     data.Name,
-		ParentID: 0,
-		Color:    0,
+		Name:     name,
+		ParentID: parentId,
+		Color:    color,
 	}
 	category, err := s.repo.UpdateCategory(ctx, arg)
 	if err != nil {
