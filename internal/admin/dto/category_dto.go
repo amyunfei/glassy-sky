@@ -50,3 +50,11 @@ func (r ModifyCategoryRequest) GetValidateMessage() response.ErrorMessages {
 		"ID.required": "ID不能为空",
 	}
 }
+
+type FilterCategoryRequest struct {
+	Name string `form:"name"`
+}
+
+func (c FilterCategoryRequest) GetValidateMessage() response.ErrorMessages {
+	return response.ErrorMessages{}
+}

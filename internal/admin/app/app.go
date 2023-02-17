@@ -31,6 +31,8 @@ func Start() {
 	router.POST("/category", categoryHandlers.CreateCategory)
 	router.DELETE("/category/:id", categoryHandlers.DeleteCategory)
 	router.PUT("/category/:id", categoryHandlers.ModifyCategory)
+	router.GET("/category", categoryHandlers.ListCategory)
+
 	router.Run(":9999")
 	logger.Info("glassy-sky running on port 9999 ...")
 }

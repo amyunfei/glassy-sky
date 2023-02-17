@@ -16,6 +16,39 @@ const docTemplate = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/category": {
+            "get": {
+                "tags": [
+                    "分类信息"
+                ],
+                "summary": "分页查询分类",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "current",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "size",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "name",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateCategoryResponse"
+                        }
+                    }
+                }
+            },
             "post": {
                 "tags": [
                     "分类信息"

@@ -24,10 +24,12 @@ SELECT * FROM categories
 WHERE id = $1;
 
 -- name: CountCategory :one
-SELECT count(*) FROM categories;
+SELECT count(*) FROM categories
+WHERE name LIKE sqlc.narg('name');
 
 -- name: ListCategory :many
 SELECT * FROM categories
+WHERE name LIKE COALESCE(sqlc.narg(name), name)
 ORDER BY id
 LIMIT $1
 OFFSET $2;

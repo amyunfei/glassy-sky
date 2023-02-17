@@ -55,6 +55,27 @@ info:
   contact: {}
 paths:
   /category:
+    get:
+      parameters:
+      - in: query
+        name: current
+        required: true
+        type: integer
+      - in: query
+        name: size
+        required: true
+        type: integer
+      - in: query
+        name: name
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CreateCategoryResponse'
+      summary: 分页查询分类
+      tags:
+      - 分类信息
     post:
       parameters:
       - description: 分类信息

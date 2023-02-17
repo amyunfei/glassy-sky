@@ -14,6 +14,7 @@ type CategoryService interface {
 	CreateCategory(ctx context.Context, data dto.CreateCategoryRequest) (*dto.CreateCategoryResponse, error)
 	DeleteCategory(ctx context.Context, data dto.UriIdRequest) error
 	ModifyCategory(ctx context.Context, data dto.ModifyCategoryRequest) (*dto.CreateCategoryResponse, error)
+	ListCategory(ctx context.Context, listData dto.ListRequest, filterData dto.FilterCategoryRequest) (*dto.ListResponse[dto.CreateCategoryResponse], error)
 }
 
 type DefaultCategoryService struct {
@@ -112,6 +113,41 @@ func (s DefaultCategoryService) ModifyCategory(
 	var result dto.CreateCategoryResponse
 	result.Transform(category)
 	return &result, nil
+}
+
+func (s DefaultCategoryService) ListCategory(
+	ctx context.Context, listData dto.ListRequest, filterData dto.FilterCategoryRequest,
+) (*dto.ListResponse[dto.CreateCategoryResponse], error) {
+	var name sql.NullString
+	if filterData.Name != "" {
+		name.String = filterData.Name
+		name.Valid = true
+	}
+	arg := postgresql.ListCategoryParams{
+		Limit:  listData.Size,
+		Offset: (listData.Current - 1) * listData.Size,
+		Name:   name,
+	}
+	count, err := s.repo.CountCategory(ctx, name)
+	if err != nil {
+		logger.Error(err.Error())
+		return nil, err
+	}
+	categories, err := s.repo.ListCategory(ctx, arg)
+	if err != nil {
+		logger.Error(err.Error())
+		return nil, err
+	}
+	list := make([]dto.CreateCategoryResponse, 0)
+	for _, category := range categories {
+		var item dto.CreateCategoryResponse
+		item.Transform(category)
+		list = append(list, item)
+	}
+	return &dto.ListResponse[dto.CreateCategoryResponse]{
+		List:  list,
+		Count: count,
+	}, nil
 }
 
 func NewCategoryService(repo *postgresql.Queries) DefaultCategoryService {
