@@ -12,10 +12,10 @@ import (
 
 const countCategory = `-- name: CountCategory :one
 SELECT count(*) FROM categories
-WHERE name LIKE $1
+WHERE ($1::text = '' OR name LIKE '%' || $1 || '%')
 `
 
-func (q *Queries) CountCategory(ctx context.Context, name sql.NullString) (int64, error) {
+func (q *Queries) CountCategory(ctx context.Context, name string) (int64, error) {
 	row := q.db.QueryRowContext(ctx, countCategory, name)
 	var count int64
 	err := row.Scan(&count)
@@ -85,7 +85,7 @@ func (q *Queries) GetCategory(ctx context.Context, id int64) (Category, error) {
 
 const listCategory = `-- name: ListCategory :many
 SELECT id, name, parent_id, color, created_at, updated_at, deleted_at FROM categories
-WHERE name LIKE COALESCE($3, name)
+WHERE ($3::text = '' OR name LIKE '%' || $3 || '%')
 ORDER BY id
 LIMIT $1
 OFFSET $2
@@ -94,7 +94,7 @@ OFFSET $2
 type ListCategoryParams struct {
 	Limit  int32
 	Offset int32
-	Name   sql.NullString
+	Name   string
 }
 
 func (q *Queries) ListCategory(ctx context.Context, arg ListCategoryParams) ([]Category, error) {

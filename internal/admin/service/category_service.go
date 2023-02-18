@@ -118,17 +118,12 @@ func (s DefaultCategoryService) ModifyCategory(
 func (s DefaultCategoryService) ListCategory(
 	ctx context.Context, listData dto.ListRequest, filterData dto.FilterCategoryRequest,
 ) (*dto.ListResponse[dto.CreateCategoryResponse], error) {
-	var name sql.NullString
-	if filterData.Name != "" {
-		name.String = filterData.Name
-		name.Valid = true
-	}
 	arg := postgresql.ListCategoryParams{
 		Limit:  listData.Size,
 		Offset: (listData.Current - 1) * listData.Size,
-		Name:   name,
+		Name:   filterData.Name,
 	}
-	count, err := s.repo.CountCategory(ctx, name)
+	count, err := s.repo.CountCategory(ctx, filterData.Name)
 	if err != nil {
 		logger.Error(err.Error())
 		return nil, err

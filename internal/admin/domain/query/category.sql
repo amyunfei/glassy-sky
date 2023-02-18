@@ -25,11 +25,11 @@ WHERE id = $1;
 
 -- name: CountCategory :one
 SELECT count(*) FROM categories
-WHERE name LIKE sqlc.narg('name');
+WHERE (@name::text = '' OR name LIKE '%' || @name || '%');
 
 -- name: ListCategory :many
 SELECT * FROM categories
-WHERE name LIKE COALESCE(sqlc.narg(name), name)
+WHERE (@name::text = '' OR name LIKE '%' || @name || '%')
 ORDER BY id
 LIMIT $1
 OFFSET $2;

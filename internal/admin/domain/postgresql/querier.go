@@ -6,11 +6,10 @@ package postgresql
 
 import (
 	"context"
-	"database/sql"
 )
 
 type Querier interface {
-	CountCategory(ctx context.Context, name sql.NullString) (int64, error)
+	CountCategory(ctx context.Context, name string) (int64, error)
 	CreateCategory(ctx context.Context, arg CreateCategoryParams) (Category, error)
 	DeleteCategory(ctx context.Context, id int64) error
 	GetCategory(ctx context.Context, id int64) (Category, error)
