@@ -10,11 +10,17 @@ import (
 
 type Querier interface {
 	CountCategory(ctx context.Context, name string) (int64, error)
+	CountLabel(ctx context.Context, name string) (int64, error)
 	CreateCategory(ctx context.Context, arg CreateCategoryParams) (Category, error)
+	CreateLabel(ctx context.Context, arg CreateLabelParams) (Label, error)
 	DeleteCategory(ctx context.Context, id int64) error
+	DeleteLabel(ctx context.Context, id int64) error
 	GetCategory(ctx context.Context, id int64) (Category, error)
+	GetLabel(ctx context.Context, id int64) (Label, error)
 	ListCategory(ctx context.Context, arg ListCategoryParams) ([]Category, error)
+	ListLabel(ctx context.Context, arg ListLabelParams) ([]Label, error)
 	UpdateCategory(ctx context.Context, arg UpdateCategoryParams) (Category, error)
+	UpdateLabel(ctx context.Context, arg UpdateLabelParams) (Label, error)
 }
 
 var _ Querier = (*Queries)(nil)

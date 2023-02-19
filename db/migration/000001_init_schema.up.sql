@@ -35,3 +35,13 @@ CREATE TABLE "categories" (
   "deleted_at" timestamptz
 );
 CREATE TRIGGER update_categories_update_at BEFORE UPDATE ON categories FOR EACH ROW EXECUTE PROCEDURE update_modified_column();
+
+CREATE TABLE "labels" (
+  "id" bigint PRIMARY KEY NOT NULL DEFAULT (id_generator()),
+  "name" varchar(100) NOT NULL,
+  "color" integer NOT NULL,
+  "created_at" timestamptz NOT NULL DEFAULT (now()),
+  "updated_at" timestamptz NOT NULL DEFAULT (now()),
+  "deleted_at" timestamptz
+);
+CREATE TRIGGER update_labels_update_at BEFORE UPDATE ON labels FOR EACH ROW EXECUTE PROCEDURE update_modified_column();

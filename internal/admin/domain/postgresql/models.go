@@ -18,3 +18,12 @@ type Category struct {
 	UpdatedAt time.Time
 	DeletedAt sql.NullTime
 }
+
+type Label struct {
+	ID        int64
+	Name      string
+	Color     int32
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt sql.NullTime
+}
