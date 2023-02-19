@@ -80,3 +80,29 @@ func TestUpdateCategory(t *testing.T) {
 
 	require.WithinDuration(t, category1.UpdatedAt, category2.UpdatedAt, time.Second)
 }
+
+func TestCountCategory(t *testing.T) {
+	count1, err := testQueries.CountCategory(context.Background(), "")
+	require.NoError(t, err)
+	createRandomCategory(t)
+	count2, err := testQueries.CountCategory(context.Background(), "")
+	require.NoError(t, err)
+	require.Equal(t, count1+1, count2)
+}
+
+func TestListCategory(t *testing.T) {
+	for i := 0; i < 10; i++ {
+		createRandomCategory(t)
+	}
+	arg := ListCategoryParams{
+		Limit:  5,
+		Offset: 5,
+		Name:   "",
+	}
+	categories, err := testQueries.ListCategory(context.Background(), arg)
+	require.NoError(t, err)
+	require.Len(t, categories, 5)
+	for _, category := range categories {
+		require.NotEmpty(t, category)
+	}
+}
