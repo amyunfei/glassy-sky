@@ -29,6 +29,12 @@ func Start() {
 	router.PUT("/category/:id", categoryHandlers.ModifyCategory)
 	router.GET("/category", categoryHandlers.ListCategory)
 
+	labelHandlers := handler.LabelHandlers{Service: service.NewLabelService(queries)}
+	router.POST("/label", labelHandlers.CreateLabel)
+	router.DELETE("/label/:id", labelHandlers.DeleteLabel)
+	router.PUT("/label/:id", labelHandlers.ModifyLabel)
+	router.GET("/label", labelHandlers.ListLabel)
+
 	router.Run(":9999")
 	logger.Info("glassy-sky running on port 9999 ...")
 }

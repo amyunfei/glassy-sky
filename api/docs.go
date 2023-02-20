@@ -124,6 +124,116 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/label": {
+            "get": {
+                "tags": [
+                    "标签信息"
+                ],
+                "summary": "分页查询标签",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "current",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "size",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "name",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateCategoryResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "标签信息"
+                ],
+                "summary": "创建标签",
+                "parameters": [
+                    {
+                        "description": "标签信息",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateLabelRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateLabelResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/label/{id}": {
+            "put": {
+                "tags": [
+                    "标签信息"
+                ],
+                "summary": "修改标签",
+                "parameters": [
+                    {
+                        "description": "标签信息",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ModifyLabelRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateLabelResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "标签信息"
+                ],
+                "summary": "删除标签",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "标签id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SuccessEmptyResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -168,6 +278,41 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.CreateLabelRequest": {
+            "type": "object",
+            "required": [
+                "color",
+                "name"
+            ],
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateLabelResponse": {
+            "type": "object",
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.ModifyCategoryRequest": {
             "type": "object",
             "required": [
@@ -184,6 +329,23 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "parentId": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ModifyLabelRequest": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
                     "type": "string"
                 }
             }

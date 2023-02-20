@@ -26,6 +26,29 @@ definitions:
       updatedAt:
         type: string
     type: object
+  dto.CreateLabelRequest:
+    properties:
+      color:
+        type: string
+      name:
+        type: string
+    required:
+    - color
+    - name
+    type: object
+  dto.CreateLabelResponse:
+    properties:
+      color:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      updatedAt:
+        type: string
+    type: object
   dto.ModifyCategoryRequest:
     properties:
       color:
@@ -35,6 +58,17 @@ definitions:
       name:
         type: string
       parentId:
+        type: string
+    required:
+    - id
+    type: object
+  dto.ModifyLabelRequest:
+    properties:
+      color:
+        type: string
+      id:
+        type: string
+      name:
         type: string
     required:
     - id
@@ -124,4 +158,74 @@ paths:
       summary: 修改分类
       tags:
       - 分类信息
+  /label:
+    get:
+      parameters:
+      - in: query
+        name: current
+        required: true
+        type: integer
+      - in: query
+        name: size
+        required: true
+        type: integer
+      - in: query
+        name: name
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CreateCategoryResponse'
+      summary: 分页查询标签
+      tags:
+      - 标签信息
+    post:
+      parameters:
+      - description: 标签信息
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateLabelRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CreateLabelResponse'
+      summary: 创建标签
+      tags:
+      - 标签信息
+  /label/{id}:
+    delete:
+      parameters:
+      - description: 标签id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessEmptyResponse'
+      summary: 删除标签
+      tags:
+      - 标签信息
+    put:
+      parameters:
+      - description: 标签信息
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ModifyLabelRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CreateLabelResponse'
+      summary: 修改标签
+      tags:
+      - 标签信息
 swagger: "2.0"
