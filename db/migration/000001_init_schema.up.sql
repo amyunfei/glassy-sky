@@ -45,3 +45,16 @@ CREATE TABLE "labels" (
   "deleted_at" timestamptz
 );
 CREATE TRIGGER update_labels_update_at BEFORE UPDATE ON labels FOR EACH ROW EXECUTE PROCEDURE update_modified_column();
+
+CREATE TABLE "users" (
+  "id" bigint PRIMARY KEY NOT NULL DEFAULT (id_generator()),
+  "username" varchar(100) NOT NULL,
+  "password" varchar(32) NOT NULL,
+  "email" varchar(100) NOT NULL,
+  "nickname" varchar(100) NOT NULL,
+  "avatar" varchar(255),
+  "created_at" timestamptz NOT NULL DEFAULT (now()),
+  "updated_at" timestamptz NOT NULL DEFAULT (now()),
+  "deleted_at" timestamptz
+);
+CREATE TRIGGER update_users_update_at BEFORE UPDATE ON labels FOR EACH ROW EXECUTE PROCEDURE update_modified_column();
