@@ -16,7 +16,10 @@ migratedown:
 sqlc:
 	sqlc generate
 
+mock:
+	mockgen -package mockdb -destination internal/admin/domain/mockdb/db.go github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql Querier
+
 swag:
 	swag init -g cmd/main.go -o ./api
 
-.PHONY: postgres createdb dropdb migrateup migratedown sqlc swag
+.PHONY: postgres createdb dropdb migrateup migratedown sqlc mock swag
