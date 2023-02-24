@@ -22,4 +22,7 @@ mock:
 swag:
 	swag init -g cmd/main.go -o ./api
 
-.PHONY: postgres createdb dropdb migrateup migratedown sqlc mock swag
+test:
+	go test -v -cover ./...
+
+.PHONY: postgres createdb dropdb migrateup migratedown sqlc mock swag test
