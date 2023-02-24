@@ -65,6 +65,21 @@ func (mr *MockQuerierMockRecorder) CountLabel(arg0, arg1 interface{}) *gomock.Ca
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountLabel", reflect.TypeOf((*MockQuerier)(nil).CountLabel), arg0, arg1)
 }
 
+// CountUser mocks base method.
+func (m *MockQuerier) CountUser(arg0 context.Context, arg1 postgresql.CountUserParams) (int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CountUser", arg0, arg1)
+	ret0, _ := ret[0].(int64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CountUser indicates an expected call of CountUser.
+func (mr *MockQuerierMockRecorder) CountUser(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountUser", reflect.TypeOf((*MockQuerier)(nil).CountUser), arg0, arg1)
+}
+
 // CreateCategory mocks base method.
 func (m *MockQuerier) CreateCategory(arg0 context.Context, arg1 postgresql.CreateCategoryParams) (postgresql.Category, error) {
 	m.ctrl.T.Helper()
@@ -95,6 +110,21 @@ func (mr *MockQuerierMockRecorder) CreateLabel(arg0, arg1 interface{}) *gomock.C
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateLabel", reflect.TypeOf((*MockQuerier)(nil).CreateLabel), arg0, arg1)
 }
 
+// CreateUser mocks base method.
+func (m *MockQuerier) CreateUser(arg0 context.Context, arg1 postgresql.CreateUserParams) (postgresql.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateUser", arg0, arg1)
+	ret0, _ := ret[0].(postgresql.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateUser indicates an expected call of CreateUser.
+func (mr *MockQuerierMockRecorder) CreateUser(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockQuerier)(nil).CreateUser), arg0, arg1)
+}
+
 // DeleteCategory mocks base method.
 func (m *MockQuerier) DeleteCategory(arg0 context.Context, arg1 int64) error {
 	m.ctrl.T.Helper()
@@ -121,6 +151,20 @@ func (m *MockQuerier) DeleteLabel(arg0 context.Context, arg1 int64) error {
 func (mr *MockQuerierMockRecorder) DeleteLabel(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteLabel", reflect.TypeOf((*MockQuerier)(nil).DeleteLabel), arg0, arg1)
+}
+
+// DeleteUser mocks base method.
+func (m *MockQuerier) DeleteUser(arg0 context.Context, arg1 int64) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteUser", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteUser indicates an expected call of DeleteUser.
+func (mr *MockQuerierMockRecorder) DeleteUser(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUser", reflect.TypeOf((*MockQuerier)(nil).DeleteUser), arg0, arg1)
 }
 
 // GetCategory mocks base method.
@@ -153,6 +197,21 @@ func (mr *MockQuerierMockRecorder) GetLabel(arg0, arg1 interface{}) *gomock.Call
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLabel", reflect.TypeOf((*MockQuerier)(nil).GetLabel), arg0, arg1)
 }
 
+// GetUser mocks base method.
+func (m *MockQuerier) GetUser(arg0 context.Context, arg1 int64) (postgresql.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUser", arg0, arg1)
+	ret0, _ := ret[0].(postgresql.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUser indicates an expected call of GetUser.
+func (mr *MockQuerierMockRecorder) GetUser(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUser", reflect.TypeOf((*MockQuerier)(nil).GetUser), arg0, arg1)
+}
+
 // ListCategory mocks base method.
 func (m *MockQuerier) ListCategory(arg0 context.Context, arg1 postgresql.ListCategoryParams) ([]postgresql.Category, error) {
 	m.ctrl.T.Helper()
@@ -183,6 +242,21 @@ func (mr *MockQuerierMockRecorder) ListLabel(arg0, arg1 interface{}) *gomock.Cal
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListLabel", reflect.TypeOf((*MockQuerier)(nil).ListLabel), arg0, arg1)
 }
 
+// ListUser mocks base method.
+func (m *MockQuerier) ListUser(arg0 context.Context, arg1 postgresql.ListUserParams) ([]postgresql.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListUser", arg0, arg1)
+	ret0, _ := ret[0].([]postgresql.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListUser indicates an expected call of ListUser.
+func (mr *MockQuerierMockRecorder) ListUser(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListUser", reflect.TypeOf((*MockQuerier)(nil).ListUser), arg0, arg1)
+}
+
 // UpdateCategory mocks base method.
 func (m *MockQuerier) UpdateCategory(arg0 context.Context, arg1 postgresql.UpdateCategoryParams) (postgresql.Category, error) {
 	m.ctrl.T.Helper()
@@ -211,4 +285,19 @@ func (m *MockQuerier) UpdateLabel(arg0 context.Context, arg1 postgresql.UpdateLa
 func (mr *MockQuerierMockRecorder) UpdateLabel(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateLabel", reflect.TypeOf((*MockQuerier)(nil).UpdateLabel), arg0, arg1)
+}
+
+// UpdateUser mocks base method.
+func (m *MockQuerier) UpdateUser(arg0 context.Context, arg1 postgresql.UpdateUserParams) (postgresql.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateUser", arg0, arg1)
+	ret0, _ := ret[0].(postgresql.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateUser indicates an expected call of UpdateUser.
+func (mr *MockQuerierMockRecorder) UpdateUser(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUser", reflect.TypeOf((*MockQuerier)(nil).UpdateUser), arg0, arg1)
 }

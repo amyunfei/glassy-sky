@@ -27,3 +27,15 @@ type Label struct {
 	UpdatedAt time.Time
 	DeletedAt sql.NullTime
 }
+
+type User struct {
+	ID        int64
+	Username  string
+	Password  string
+	Email     string
+	Nickname  string
+	Avatar    sql.NullString
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt sql.NullTime
+}
