@@ -17,7 +17,7 @@ func Start() {
 	defer logger.Sync()
 
 	db := database.GetDB()
-	queries := postgresql.New(db)
+	queries := postgresql.NewStore(db)
 	router := gin.Default()
 
 	// swagger

@@ -18,7 +18,7 @@ type LabelService interface {
 }
 
 type DefaultLabelService struct {
-	repo *postgresql.Queries
+	repo postgresql.Repository
 }
 
 func (s DefaultLabelService) CreateLabel(
@@ -98,33 +98,39 @@ func (s DefaultLabelService) ModifyLabel(
 func (s DefaultLabelService) ListLabel(
 	ctx context.Context, listData dto.ListRequest, filterData dto.FilterLabelRequest,
 ) (*dto.ListResponse[dto.CreateLabelResponse], error) {
-	arg := postgresql.ListLabelParams{
-		Limit:  listData.Size,
-		Offset: (listData.Current - 1) * listData.Size,
-		Name:   filterData.Name,
-	}
-	count, err := s.repo.CountLabel(ctx, filterData.Name)
+	var result dto.ListResponse[dto.CreateLabelResponse]
+	err := s.repo.ExecTx(ctx, func(postgresql.Querier) error {
+		var err error
+		arg := postgresql.ListLabelParams{
+			Limit:  listData.Size,
+			Offset: (listData.Current - 1) * listData.Size,
+			Name:   filterData.Name,
+		}
+		count, err := s.repo.CountLabel(ctx, filterData.Name)
+		if err != nil {
+			return err
+		}
+		labels, err := s.repo.ListLabel(ctx, arg)
+		if err != nil {
+			return err
+		}
+		list := make([]dto.CreateLabelResponse, 0)
+		for _, label := range labels {
+			var item dto.CreateLabelResponse
+			item.Transform(label)
+			list = append(list, item)
+		}
+		result.Count = count
+		result.List = list
+		return nil
+	})
 	if err != nil {
 		logger.Error(err.Error())
 		return nil, err
 	}
-	labels, err := s.repo.ListLabel(ctx, arg)
-	if err != nil {
-		logger.Error(err.Error())
-		return nil, err
-	}
-	list := make([]dto.CreateLabelResponse, 0)
-	for _, label := range labels {
-		var item dto.CreateLabelResponse
-		item.Transform(label)
-		list = append(list, item)
-	}
-	return &dto.ListResponse[dto.CreateLabelResponse]{
-		List:  list,
-		Count: count,
-	}, nil
+	return &result, nil
 }
 
-func NewLabelService(repo *postgresql.Queries) LabelService {
+func NewLabelService(repo postgresql.Repository) LabelService {
 	return DefaultLabelService{repo}
 }

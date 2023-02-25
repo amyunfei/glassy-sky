@@ -21,13 +21,13 @@ func TestCreateCategory(t *testing.T) {
 	defer ctrl.Finish()
 
 	// build stubs
-	querier := mockdb.NewMockQuerier(ctrl)
-	querier.EXPECT().
+	repo := mockdb.NewMockRepository(ctrl)
+	repo.EXPECT().
 		GetCategory(gomock.Any(), gomock.Eq(category.ID)).
 		Times(1).
 		Return(category, nil)
 
-	service := NewCategoryService(querier)
+	service := NewCategoryService(repo)
 	arg := dto.UriIdRequest{
 		ID: strconv.FormatInt(category.ID, 10),
 	}

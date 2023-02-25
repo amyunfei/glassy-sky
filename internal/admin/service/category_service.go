@@ -19,7 +19,7 @@ type CategoryService interface {
 }
 
 type DefaultCategoryService struct {
-	repo postgresql.Querier
+	repo postgresql.Repository
 }
 
 func (s DefaultCategoryService) CreateCategory(
@@ -119,31 +119,37 @@ func (s DefaultCategoryService) ModifyCategory(
 func (s DefaultCategoryService) ListCategory(
 	ctx context.Context, listData dto.ListRequest, filterData dto.FilterCategoryRequest,
 ) (*dto.ListResponse[dto.CreateCategoryResponse], error) {
-	arg := postgresql.ListCategoryParams{
-		Limit:  listData.Size,
-		Offset: (listData.Current - 1) * listData.Size,
-		Name:   filterData.Name,
-	}
-	count, err := s.repo.CountCategory(ctx, filterData.Name)
+	var result dto.ListResponse[dto.CreateCategoryResponse]
+	err := s.repo.ExecTx(ctx, func(q postgresql.Querier) error {
+		var err error
+		arg := postgresql.ListCategoryParams{
+			Limit:  listData.Size,
+			Offset: (listData.Current - 1) * listData.Size,
+			Name:   filterData.Name,
+		}
+		count, err := q.CountCategory(ctx, filterData.Name)
+		if err != nil {
+			return err
+		}
+		categories, err := q.ListCategory(ctx, arg)
+		if err != nil {
+			return err
+		}
+		list := make([]dto.CreateCategoryResponse, 0)
+		for _, category := range categories {
+			var item dto.CreateCategoryResponse
+			item.Transform(category)
+			list = append(list, item)
+		}
+		result.Count = count
+		result.List = list
+		return nil
+	})
 	if err != nil {
 		logger.Error(err.Error())
 		return nil, err
 	}
-	categories, err := s.repo.ListCategory(ctx, arg)
-	if err != nil {
-		logger.Error(err.Error())
-		return nil, err
-	}
-	list := make([]dto.CreateCategoryResponse, 0)
-	for _, category := range categories {
-		var item dto.CreateCategoryResponse
-		item.Transform(category)
-		list = append(list, item)
-	}
-	return &dto.ListResponse[dto.CreateCategoryResponse]{
-		List:  list,
-		Count: count,
-	}, nil
+	return &result, nil
 }
 
 func (s DefaultCategoryService) GetCategory(
@@ -164,6 +170,6 @@ func (s DefaultCategoryService) GetCategory(
 	return &result, nil
 }
 
-func NewCategoryService(repo postgresql.Querier) DefaultCategoryService {
+func NewCategoryService(repo postgresql.Repository) DefaultCategoryService {
 	return DefaultCategoryService{repo}
 }
