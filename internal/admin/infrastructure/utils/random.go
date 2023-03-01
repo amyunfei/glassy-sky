@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"math/rand"
 	"strings"
 )
@@ -24,4 +25,8 @@ func RandomInt(min, max int64) int64 {
 
 func RandomColorInt() int32 {
 	return int32(RandomInt(0, COLOR_FFFFFF))
+}
+
+func RandomEmail() string {
+	return fmt.Sprintf("%s@email.com", RandomString(6))
 }

@@ -27,6 +27,7 @@ func (s DefaultCategoryService) CreateCategory(
 	data dto.CreateCategoryRequest,
 ) (*dto.CreateCategoryResponse, error) {
 	var parentId int64
+	var color int64
 	var err error
 	if data.ParentId == "" {
 		parentId = 0
@@ -40,8 +41,9 @@ func (s DefaultCategoryService) CreateCategory(
 		logger.Error(err.Error())
 		return nil, err
 	}
-	color, err := strconv.ParseInt(data.Color, 16, 32)
-	if err != nil {
+	if data.Color == "" {
+		color = 0
+	} else if color, err = strconv.ParseInt(data.Color, 16, 32); err != nil {
 		logger.Error(err.Error())
 		return nil, err
 	}
