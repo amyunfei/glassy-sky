@@ -57,4 +57,4 @@ CREATE TABLE "users" (
   "updated_at" timestamptz NOT NULL DEFAULT (now()),
   "deleted_at" timestamptz
 );
-CREATE TRIGGER update_users_update_at BEFORE UPDATE ON labels FOR EACH ROW EXECUTE PROCEDURE update_modified_column();
+CREATE TRIGGER update_users_update_at BEFORE UPDATE ON users FOR EACH ROW EXECUTE PROCEDURE update_modified_column();
