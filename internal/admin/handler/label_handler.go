@@ -11,6 +11,10 @@ type LabelHandlers struct {
 	Service service.LabelService
 }
 
+func NewLabelHandlers(service service.LabelService) LabelHandlers {
+	return LabelHandlers{Service: service}
+}
+
 // @Tags    标签信息
 // @Summary 创建标签
 // @Param   body    body     dto.CreateLabelRequest  true "标签信息"

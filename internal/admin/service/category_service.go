@@ -172,6 +172,6 @@ func (s DefaultCategoryService) GetCategory(
 	return &result, nil
 }
 
-func NewCategoryService(repo postgresql.Repository) DefaultCategoryService {
+func NewCategoryService(repo postgresql.Repository) CategoryService {
 	return DefaultCategoryService{repo}
 }

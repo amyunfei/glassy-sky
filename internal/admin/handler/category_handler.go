@@ -12,6 +12,10 @@ type CategoryHandlers struct {
 	Service service.CategoryService
 }
 
+func NewCategoryHandlers(service service.CategoryService) CategoryHandlers {
+	return CategoryHandlers{Service: service}
+}
+
 // @Tags    分类信息
 // @Summary 创建分类
 // @Param   body      body     dto.CreateCategoryRequest  true "分类信息"
