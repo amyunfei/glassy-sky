@@ -18,6 +18,13 @@ import (
 
 // Injectors from wire.go:
 
+// user handlers
+func InitializeUserHandlers(repo postgresql.Repository) handler.UserHandlers {
+	userService := service.NewUserService(repo)
+	userHandlers := handler.NewUserHandlers(userService)
+	return userHandlers
+}
+
 // category handlers
 func InitializeCategoryHandlers(repo postgresql.Repository) handler.CategoryHandlers {
 	categoryService := service.NewCategoryService(repo)

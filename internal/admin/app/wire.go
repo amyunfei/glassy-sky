@@ -10,6 +10,15 @@ import (
 	"github.com/google/wire"
 )
 
+// user handlers
+func InitializeUserHandlers(repo postgresql.Repository) handler.UserHandlers {
+	wire.Build(
+		handler.NewUserHandlers,
+		service.NewUserService,
+	)
+	return handler.UserHandlers{}
+}
+
 // category handlers
 func InitializeCategoryHandlers(repo postgresql.Repository) handler.CategoryHandlers {
 	wire.Build(

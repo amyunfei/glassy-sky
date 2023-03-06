@@ -7,10 +7,22 @@ import (
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/response"
 )
 
+type SendEmailCodeRequest struct {
+	Email string `uri:"email" binding:"required"`
+}
+
+func (c SendEmailCodeRequest) GetValidateMessage() response.ErrorMessages {
+	return response.ErrorMessages{
+		"Email.required": "邮箱地址不能为空",
+		"Email.email":    "邮箱地址不正确",
+	}
+}
+
 type CreateUserRequest struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
 	Email    string `json:"email" binding:"required,email"`
+	Code     string `json:"code" binding:"required"`
 	Nickname string `json:"nickname"`
 }
 
@@ -20,6 +32,7 @@ func (c CreateUserRequest) GetValidateMessage() response.ErrorMessages {
 		"Password.required": "用户密码不能为空",
 		"Email.required":    "邮箱地址不能为空",
 		"Email.email":       "邮箱地址不正确",
+		"Code.required":     "验证码不能为空",
 	}
 }
 

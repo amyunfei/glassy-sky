@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"math/rand"
+	"strconv"
 	"strings"
 )
 
@@ -29,4 +30,13 @@ func RandomColorInt() int32 {
 
 func RandomEmail() string {
 	return fmt.Sprintf("%s@email.com", RandomString(6))
+}
+
+// 生成随机code
+func RandomCode(len int) string {
+	s := ""
+	for i := 0; i < len; i++ {
+		s += strconv.Itoa(rand.Intn(10))
+	}
+	return s
 }

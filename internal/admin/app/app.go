@@ -21,6 +21,10 @@ func Start() {
 	// swagger
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
+	userHandlers := InitializeUserHandlers(queries)
+	router.GET("/user/email-code/:email", userHandlers.SendEmailCode)
+	router.POST("/user/register", userHandlers.RegisterUser)
+
 	categoryHandlers := InitializeCategoryHandlers(queries)
 	router.POST("/category", categoryHandlers.CreateCategory)
 	router.DELETE("/category/:id", categoryHandlers.DeleteCategory)
