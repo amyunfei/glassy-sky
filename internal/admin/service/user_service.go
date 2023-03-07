@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"database/sql"
 	"time"
 
 	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
@@ -15,6 +16,7 @@ import (
 type UserService interface {
 	SendEmailCode(ctx context.Context, data dto.SendEmailCodeRequest) error
 	CreateUser(ctx context.Context, data dto.CreateUserRequest) (*dto.CreateUserResponse, error)
+	VerifyEmail(ctx context.Context, data dto.SendEmailCodeRequest) (avaliable bool, err error)
 }
 
 type DefaultUserService struct {
@@ -34,6 +36,22 @@ func (s DefaultUserService) SendEmailCode(ctx context.Context, data dto.SendEmai
 
 func (s DefaultUserService) CreateUser(ctx context.Context, data dto.CreateUserRequest) (*dto.CreateUserResponse, error) {
 	return nil, nil
+}
+
+func (s DefaultUserService) VerifyEmail(ctx context.Context, data dto.SendEmailCodeRequest) (avaliable bool, err error) {
+	_, err = s.repo.GetUserByEmail(ctx, data.Email)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			avaliable = true
+			err = nil
+		} else {
+			logger.Error(err.Error())
+			avaliable = false
+		}
+	} else {
+		avaliable = false
+	}
+	return
 }
 
 func NewUserService(repo postgresql.Repository) UserService {

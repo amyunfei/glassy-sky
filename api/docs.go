@@ -235,7 +235,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/email": {
+        "/user/email-code/{email}": {
             "get": {
                 "tags": [
                     "用户信息"
@@ -244,7 +244,32 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "用户注册信息",
+                        "description": "邮箱地址",
+                        "name": "email",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SuccessEmptyResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/email-verify/{email}": {
+            "get": {
+                "tags": [
+                    "用户信息"
+                ],
+                "summary": "验证邮箱可用",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "邮箱地址",
                         "name": "email",
                         "in": "path",
                         "required": true

@@ -226,6 +226,21 @@ func (mr *MockRepositoryMockRecorder) GetUser(arg0, arg1 interface{}) *gomock.Ca
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUser", reflect.TypeOf((*MockRepository)(nil).GetUser), arg0, arg1)
 }
 
+// GetUserByEmail mocks base method.
+func (m *MockRepository) GetUserByEmail(arg0 context.Context, arg1 string) (postgresql.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUserByEmail", arg0, arg1)
+	ret0, _ := ret[0].(postgresql.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUserByEmail indicates an expected call of GetUserByEmail.
+func (mr *MockRepositoryMockRecorder) GetUserByEmail(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByEmail", reflect.TypeOf((*MockRepository)(nil).GetUserByEmail), arg0, arg1)
+}
+
 // ListCategory mocks base method.
 func (m *MockRepository) ListCategory(arg0 context.Context, arg1 postgresql.ListCategoryParams) ([]postgresql.Category, error) {
 	m.ctrl.T.Helper()

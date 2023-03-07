@@ -8,7 +8,7 @@ import (
 )
 
 type SendEmailCodeRequest struct {
-	Email string `uri:"email" binding:"required"`
+	Email string `uri:"email" binding:"required,email"`
 }
 
 func (c SendEmailCodeRequest) GetValidateMessage() response.ErrorMessages {

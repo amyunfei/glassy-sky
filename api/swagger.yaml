@@ -261,10 +261,10 @@ paths:
       summary: 修改标签
       tags:
       - 标签信息
-  /user/email:
+  /user/email-code/{email}:
     get:
       parameters:
-      - description: 用户注册信息
+      - description: 邮箱地址
         in: path
         name: email
         required: true
@@ -275,6 +275,22 @@ paths:
           schema:
             $ref: '#/definitions/dto.SuccessEmptyResponse'
       summary: 发送邮箱验证码
+      tags:
+      - 用户信息
+  /user/email-verify/{email}:
+    get:
+      parameters:
+      - description: 邮箱地址
+        in: path
+        name: email
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessEmptyResponse'
+      summary: 验证邮箱可用
       tags:
       - 用户信息
   /user/register:

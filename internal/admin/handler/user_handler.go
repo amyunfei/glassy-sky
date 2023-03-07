@@ -35,10 +35,29 @@ func (h UserHandlers) RegisterUser(ctx *gin.Context) {
 }
 
 // @Tags    用户信息
+// @Summary 验证邮箱可用
+// @Param   email        path          string  true "邮箱地址"
+// @Success 200          {object}      dto.SuccessEmptyResponse
+// @Router  /user/email-verify/{email} [GET]
+func (h UserHandlers) VerifyEmail(ctx *gin.Context) {
+	var req dto.SendEmailCodeRequest
+	if err := ctx.ShouldBindUri(&req); err != nil {
+		response.ValidationError(ctx, req, err)
+		return
+	}
+	avaliable, err := h.Service.VerifyEmail(ctx, req)
+	if err != nil {
+		response.UnexpectedError(ctx, err.Error())
+		return
+	}
+	response.Success(ctx, avaliable, "success")
+}
+
+// @Tags    用户信息
 // @Summary 发送邮箱验证码
-// @Param   email        path     string  true "用户注册信息"
+// @Param   email        path     string  true "邮箱地址"
 // @Success 200          {object} dto.SuccessEmptyResponse
-// @Router  /user/email  [GET]
+// @Router  /user/email-code/{email}  [GET]
 func (h UserHandlers) SendEmailCode(ctx *gin.Context) {
 	var req dto.SendEmailCodeRequest
 	if err := ctx.ShouldBindUri(&req); err != nil {
