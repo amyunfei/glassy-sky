@@ -50,7 +50,7 @@ CREATE TABLE "users" (
   "id" bigint PRIMARY KEY NOT NULL DEFAULT (id_generator()),
   "username" varchar(100) NOT NULL,
   "password" varchar(32) NOT NULL,
-  "email" varchar(100) NOT NULL,
+  "email" varchar(100) UNIQUE NOT NULL,
   "nickname" varchar(100) NOT NULL,
   "avatar" varchar(255),
   "created_at" timestamptz NOT NULL DEFAULT (now()),

@@ -15,6 +15,7 @@ import (
 
 type UserService interface {
 	SendEmailCode(ctx context.Context, data dto.SendEmailCodeRequest) error
+	CheckEmailCode(ctx context.Context, data dto.CheckEmailCodeRequest) (validity bool)
 	CreateUser(ctx context.Context, data dto.CreateUserRequest) (*dto.CreateUserResponse, error)
 	VerifyEmail(ctx context.Context, data dto.SendEmailCodeRequest) (avaliable bool, err error)
 }
@@ -34,8 +35,30 @@ func (s DefaultUserService) SendEmailCode(ctx context.Context, data dto.SendEmai
 	return err
 }
 
+func (s DefaultUserService) CheckEmailCode(ctx context.Context, data dto.CheckEmailCodeRequest) (validity bool) {
+	code, ok := store.KV.Load(data.Email)
+	if ok && code == data.Code {
+		return true
+	} else {
+		return false
+	}
+}
+
 func (s DefaultUserService) CreateUser(ctx context.Context, data dto.CreateUserRequest) (*dto.CreateUserResponse, error) {
-	return nil, nil
+	arg := postgresql.CreateUserParams{
+		Username: data.Username,
+		Password: data.Password,
+		Email:    data.Email,
+		Nickname: data.Nickname,
+	}
+	user, err := s.repo.CreateUser(ctx, arg)
+	if err != nil {
+		logger.Error(err.Error())
+		return nil, err
+	}
+	var result dto.CreateUserResponse
+	result.Transform(user)
+	return &result, nil
 }
 
 func (s DefaultUserService) VerifyEmail(ctx context.Context, data dto.SendEmailCodeRequest) (avaliable bool, err error) {

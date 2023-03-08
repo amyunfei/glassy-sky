@@ -26,6 +26,14 @@ func (h UserHandlers) RegisterUser(ctx *gin.Context) {
 		response.ValidationError(ctx, req, err)
 		return
 	}
+	validity := h.Service.CheckEmailCode(ctx, dto.CheckEmailCodeRequest{
+		Email: req.Email,
+		Code:  req.Code,
+	})
+	if !validity {
+		response.RequestError(ctx, "邮箱验证失败")
+		return
+	}
 	res, err := h.Service.CreateUser(ctx, req)
 	if err != nil {
 		response.UnexpectedError(ctx, err.Error())
