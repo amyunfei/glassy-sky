@@ -235,6 +235,46 @@ const docTemplate = `{
                 }
             }
         },
+        "/user": {
+            "get": {
+                "tags": [
+                    "用户信息"
+                ],
+                "summary": "分页查询用户",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "current",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "size",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "nickname",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "username",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateCategoryResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/user/email-code/{email}": {
             "get": {
                 "tags": [

@@ -25,6 +25,7 @@ func Start() {
 	router.GET("/user/email-verify/:email", userHandlers.VerifyEmail)
 	router.GET("/user/email-code/:email", userHandlers.SendEmailCode)
 	router.POST("/user/register", userHandlers.RegisterUser)
+	router.GET("/user", userHandlers.ListUser)
 
 	categoryHandlers := InitializeCategoryHandlers(queries)
 	router.POST("/category", categoryHandlers.CreateCategory)

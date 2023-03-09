@@ -79,3 +79,28 @@ func (h UserHandlers) SendEmailCode(ctx *gin.Context) {
 	}
 	response.Success(ctx, nil, "success")
 }
+
+// @Tags    用户信息
+// @Summary 分页查询用户
+// @Param   pageParams query    dto.ListRequest            true "分页参数"
+// @Param   filter     query    dto.FilterUserRequest      true "筛选参数"
+// @Success 200        {object} dto.CreateCategoryResponse
+// @Router  /user      [GET]
+func (h UserHandlers) ListUser(ctx *gin.Context) {
+	var listReq dto.ListRequest
+	if err := ctx.ShouldBindQuery(&listReq); err != nil {
+		response.ValidationError(ctx, listReq, err)
+		return
+	}
+	var filterReq dto.FilterUserRequest
+	if err := ctx.ShouldBindQuery(&filterReq); err != nil {
+		response.ValidationError(ctx, filterReq, err)
+		return
+	}
+	result, err := h.Service.ListUser(ctx, listReq, filterReq)
+	if err != nil {
+		response.UnexpectedError(ctx, err.Error())
+		return
+	}
+	response.Success(ctx, result, "success")
+}

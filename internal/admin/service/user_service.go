@@ -18,6 +18,9 @@ type UserService interface {
 	CheckEmailCode(ctx context.Context, data dto.CheckEmailCodeRequest) (validity bool)
 	CreateUser(ctx context.Context, data dto.CreateUserRequest) (*dto.CreateUserResponse, error)
 	VerifyEmail(ctx context.Context, data dto.SendEmailCodeRequest) (avaliable bool, err error)
+	ListUser(
+		ctx context.Context, listData dto.ListRequest, filterData dto.FilterUserRequest,
+	) (*dto.ListResponse[dto.CreateUserResponse], error)
 }
 
 type DefaultUserService struct {
@@ -75,6 +78,47 @@ func (s DefaultUserService) VerifyEmail(ctx context.Context, data dto.SendEmailC
 		avaliable = false
 	}
 	return
+}
+
+func (s DefaultUserService) ListUser(
+	ctx context.Context,
+	listData dto.ListRequest,
+	filterData dto.FilterUserRequest,
+) (*dto.ListResponse[dto.CreateUserResponse], error) {
+	var result dto.ListResponse[dto.CreateUserResponse]
+	err := s.repo.ExecTx(ctx, func(q postgresql.Querier) error {
+		arg := postgresql.ListUserParams{
+			Limit:    listData.Size,
+			Offset:   (listData.Current - 1) * listData.Size,
+			Username: filterData.Username,
+			Nickname: filterData.Nickname,
+		}
+		count, err := s.repo.CountUser(ctx, postgresql.CountUserParams{
+			Username: filterData.Username,
+			Nickname: filterData.Nickname,
+		})
+		if err != nil {
+			return err
+		}
+		users, err := s.repo.ListUser(ctx, arg)
+		if err != nil {
+			return err
+		}
+		list := make([]dto.CreateUserResponse, 0)
+		for _, user := range users {
+			var item dto.CreateUserResponse
+			item.Transform(user)
+			list = append(list, item)
+		}
+		result.Count = count
+		result.List = list
+		return nil
+	})
+	if err != nil {
+		logger.Error(err.Error())
+		return nil, err
+	}
+	return &result, nil
 }
 
 func NewUserService(repo postgresql.Repository) UserService {

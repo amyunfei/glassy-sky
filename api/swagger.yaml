@@ -261,6 +261,31 @@ paths:
       summary: 修改标签
       tags:
       - 标签信息
+  /user:
+    get:
+      parameters:
+      - in: query
+        name: current
+        required: true
+        type: integer
+      - in: query
+        name: size
+        required: true
+        type: integer
+      - in: query
+        name: nickname
+        type: string
+      - in: query
+        name: username
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CreateCategoryResponse'
+      summary: 分页查询用户
+      tags:
+      - 用户信息
   /user/email-code/{email}:
     get:
       parameters:

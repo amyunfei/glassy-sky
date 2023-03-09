@@ -58,3 +58,12 @@ func (r *CreateUserResponse) Transform(modal postgresql.User) {
 	r.CreatedAt = modal.CreatedAt.Format("2006-01-02 15:04:05")
 	r.UpdatedAt = modal.UpdatedAt.Format("2006-01-02 15:04:05")
 }
+
+type FilterUserRequest struct {
+	Username string `form:"username"`
+	Nickname string `form:"nickname"`
+}
+
+func (c FilterUserRequest) GetValidateMessage() response.ErrorMessages {
+	return response.ErrorMessages{}
+}
