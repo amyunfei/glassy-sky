@@ -59,6 +59,19 @@ func (r *CreateUserResponse) Transform(modal postgresql.User) {
 	r.UpdatedAt = modal.UpdatedAt.Format("2006-01-02 15:04:05")
 }
 
+type ModifyUserRequest struct {
+	ID       string `uri:"id" binding:"required"`
+	Password string `json:"password"`
+	Nickname string `json:"nickname"`
+	Avatar   string `json:"avatar"`
+}
+
+func (r ModifyUserRequest) GetValidateMessage() response.ErrorMessages {
+	return response.ErrorMessages{
+		"ID.required": "ID不能为空",
+	}
+}
+
 type FilterUserRequest struct {
 	Username string `form:"username"`
 	Nickname string `form:"nickname"`

@@ -81,6 +81,29 @@ func (h UserHandlers) SendEmailCode(ctx *gin.Context) {
 }
 
 // @Tags    用户信息
+// @Summary 修改用户信息
+// @Param   data       body     dto.ModifyUserRequest      true "用户信息"
+// @Success 200        {object} dto.CreateUserResponse
+// @Router  /user/{id} [PUT]
+func (h UserHandlers) ModifyUser(ctx *gin.Context) {
+	var req dto.ModifyUserRequest
+	if err := ctx.ShouldBindUri(&req); err != nil {
+		response.ValidationError(ctx, req, err)
+		return
+	}
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		response.ValidationError(ctx, req, err)
+		return
+	}
+	result, err := h.Service.ModifyUser(ctx, req)
+	if err != nil {
+		response.UnexpectedError(ctx, err.Error())
+		return
+	}
+	response.Success(ctx, result, "success")
+}
+
+// @Tags    用户信息
 // @Summary 分页查询用户
 // @Param   pageParams query    dto.ListRequest            true "分页参数"
 // @Param   filter     query    dto.FilterUserRequest      true "筛选参数"

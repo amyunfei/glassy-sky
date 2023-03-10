@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"database/sql"
+	"strconv"
 	"time"
 
 	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
@@ -21,6 +22,9 @@ type UserService interface {
 	ListUser(
 		ctx context.Context, listData dto.ListRequest, filterData dto.FilterUserRequest,
 	) (*dto.ListResponse[dto.CreateUserResponse], error)
+	ModifyUser(
+		ctx context.Context, data dto.ModifyUserRequest,
+	) (*dto.CreateUserResponse, error)
 }
 
 type DefaultUserService struct {
@@ -78,6 +82,43 @@ func (s DefaultUserService) VerifyEmail(ctx context.Context, data dto.SendEmailC
 		avaliable = false
 	}
 	return
+}
+
+func (s DefaultUserService) ModifyUser(
+	ctx context.Context, data dto.ModifyUserRequest,
+) (*dto.CreateUserResponse, error) {
+	id, err := strconv.ParseInt(data.ID, 10, 64)
+	if err != nil {
+		logger.Error(err.Error())
+		return nil, err
+	}
+	nickname := sql.NullString{}
+	if data.Nickname != "" {
+		nickname.String = data.Nickname
+		nickname.Valid = true
+	}
+	avatar := sql.NullString{}
+	if data.Avatar != "" {
+		avatar.String = data.Avatar
+		avatar.Valid = true
+	}
+	arg := postgresql.UpdateUserParams{
+		ID:       id,
+		Nickname: nickname,
+		Avatar:   avatar,
+		Password: sql.NullString{
+			String: "",
+			Valid:  false,
+		},
+	}
+	user, err := s.repo.UpdateUser(ctx, arg)
+	if err != nil {
+		logger.Error(err.Error())
+		return nil, err
+	}
+	var result dto.CreateUserResponse
+	result.Transform(user)
+	return &result, nil
 }
 
 func (s DefaultUserService) ListUser(
