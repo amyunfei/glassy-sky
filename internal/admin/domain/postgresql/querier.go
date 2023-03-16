@@ -22,6 +22,7 @@ type Querier interface {
 	GetLabel(ctx context.Context, id int64) (Label, error)
 	GetUser(ctx context.Context, id int64) (User, error)
 	GetUserByEmail(ctx context.Context, email string) (User, error)
+	GetUserByUsername(ctx context.Context, username string) (User, error)
 	ListCategory(ctx context.Context, arg ListCategoryParams) ([]Category, error)
 	ListLabel(ctx context.Context, arg ListLabelParams) ([]Label, error)
 	ListUser(ctx context.Context, arg ListUserParams) ([]User, error)

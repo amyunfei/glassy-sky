@@ -41,6 +41,18 @@ func (c CreateUserRequest) GetValidateMessage() response.ErrorMessages {
 	}
 }
 
+type LoginRequest struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
+func (c LoginRequest) GetValidateMessage() response.ErrorMessages {
+	return response.ErrorMessages{
+		"Username.required": "用户名不能为空",
+		"Password.required": "用户密码不能为空",
+	}
+}
+
 type CreateUserResponse struct {
 	ID        string `json:"id"`
 	Username  string `json:"username"`

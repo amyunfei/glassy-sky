@@ -81,6 +81,20 @@ func (h UserHandlers) SendEmailCode(ctx *gin.Context) {
 }
 
 // @Tags    用户信息
+// @Summary 登录
+// @Param   data        body     dto.LoginRequest       true "登录信息"
+// @Success 200         {object} dto.CreateUserResponse
+// @Router  /user/login [POST]
+func (h UserHandlers) Login(ctx *gin.Context) {
+	var req dto.LoginRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		response.ValidationError(ctx, req, err)
+		return
+	}
+	h.Service.Login(ctx, req)
+}
+
+// @Tags    用户信息
 // @Summary 修改用户信息
 // @Param   data       body     dto.ModifyUserRequest      true "用户信息"
 // @Success 200        {object} dto.CreateUserResponse

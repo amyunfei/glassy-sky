@@ -25,6 +25,10 @@ WHERE id = $1;
 SELECT * FROM users
 WHERE email = $1;
 
+-- name: GetUserByUsername :one
+SELECT * FROM users
+WHERE username = $1;
+
 -- name: CountUser :one
 SELECT count(*) FROM users
 WHERE (@username::text = '' OR username LIKE '%' || @username || '%') AND

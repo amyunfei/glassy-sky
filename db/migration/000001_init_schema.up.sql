@@ -48,7 +48,7 @@ CREATE TRIGGER update_labels_update_at BEFORE UPDATE ON labels FOR EACH ROW EXEC
 
 CREATE TABLE "users" (
   "id" bigint PRIMARY KEY NOT NULL DEFAULT (id_generator()),
-  "username" varchar(100) NOT NULL,
+  "username" varchar(100) UNIQUE NOT NULL,
   "password" varchar(32) NOT NULL,
   "email" varchar(100) UNIQUE NOT NULL,
   "nickname" varchar(100) NOT NULL,

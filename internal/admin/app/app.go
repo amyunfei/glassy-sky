@@ -25,6 +25,8 @@ func Start() {
 	router.GET("/user/email-verify/:email", userHandlers.VerifyEmail)
 	router.GET("/user/email-code/:email", userHandlers.SendEmailCode)
 	router.POST("/user/register", userHandlers.RegisterUser)
+	router.POST("/user/login", userHandlers.Login)
+
 	router.GET("/user", userHandlers.ListUser)
 	router.PUT("/user/:id", userHandlers.ModifyUser)
 

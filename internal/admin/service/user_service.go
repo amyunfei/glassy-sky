@@ -19,6 +19,7 @@ type UserService interface {
 	CheckEmailCode(ctx context.Context, data dto.CheckEmailCodeRequest) (validity bool)
 	CreateUser(ctx context.Context, data dto.CreateUserRequest) (*dto.CreateUserResponse, error)
 	VerifyEmail(ctx context.Context, data dto.SendEmailCodeRequest) (avaliable bool, err error)
+	Login(ctx context.Context, data dto.LoginRequest) (token string, err error)
 	ListUser(
 		ctx context.Context, listData dto.ListRequest, filterData dto.FilterUserRequest,
 	) (*dto.ListResponse[dto.CreateUserResponse], error)
@@ -82,6 +83,19 @@ func (s DefaultUserService) VerifyEmail(ctx context.Context, data dto.SendEmailC
 		avaliable = false
 	}
 	return
+}
+
+func (s DefaultUserService) Login(ctx context.Context, data dto.LoginRequest) (token string, err error) {
+	user, err := s.repo.GetUserByUsername(ctx, data.Username)
+	if err != nil {
+		logger.Error(err.Error())
+		return "", err
+	}
+	password := utils.GetMD5(data.Password, "avalon", 5)
+	if password == user.Password {
+		//
+	}
+	return "", nil
 }
 
 func (s DefaultUserService) ModifyUser(

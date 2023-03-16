@@ -82,6 +82,16 @@ definitions:
       username:
         type: string
     type: object
+  dto.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
   dto.ModifyCategoryRequest:
     properties:
       color:
@@ -346,6 +356,23 @@ paths:
           schema:
             $ref: '#/definitions/dto.SuccessEmptyResponse'
       summary: 验证邮箱可用
+      tags:
+      - 用户信息
+  /user/login:
+    post:
+      parameters:
+      - description: 登录信息
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CreateUserResponse'
+      summary: 登录
       tags:
       - 用户信息
   /user/register:

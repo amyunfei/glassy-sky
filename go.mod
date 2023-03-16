@@ -3,6 +3,7 @@ module github.com/amyunfei/glassy-sky
 go 1.20
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.8.2
 	github.com/go-playground/validator/v10 v10.11.2
 	github.com/golang/mock v1.6.0
