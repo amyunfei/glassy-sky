@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"strconv"
 	"time"
 
@@ -11,6 +12,7 @@ import (
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/email"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/logger"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/store"
+	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/token"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/utils"
 )
 
@@ -29,7 +31,8 @@ type UserService interface {
 }
 
 type DefaultUserService struct {
-	repo postgresql.Repository
+	repo       postgresql.Repository
+	tokenMaker token.Maker
 }
 
 func (s DefaultUserService) SendEmailCode(ctx context.Context, data dto.SendEmailCodeRequest) error {
@@ -89,13 +92,18 @@ func (s DefaultUserService) Login(ctx context.Context, data dto.LoginRequest) (t
 	user, err := s.repo.GetUserByUsername(ctx, data.Username)
 	if err != nil {
 		logger.Error(err.Error())
+		return "", errors.New("username or password incorrect")
+	}
+	// password := utils.GetMD5(data.Password, "avalon", 5)
+	if data.Password != user.Password {
+		return "", errors.New("username or password incorrect")
+	}
+	token, err = s.tokenMaker.CreateToken(user.Username, time.Minute)
+	if err != nil {
+		logger.Error(err.Error())
 		return "", err
 	}
-	password := utils.GetMD5(data.Password, "avalon", 5)
-	if password == user.Password {
-		//
-	}
-	return "", nil
+	return token, nil
 }
 
 func (s DefaultUserService) ModifyUser(
@@ -176,6 +184,6 @@ func (s DefaultUserService) ListUser(
 	return &result, nil
 }
 
-func NewUserService(repo postgresql.Repository) UserService {
-	return DefaultUserService{repo}
+func NewUserService(repo postgresql.Repository, tokenMaker token.Maker) UserService {
+	return DefaultUserService{repo, tokenMaker}
 }

@@ -91,7 +91,12 @@ func (h UserHandlers) Login(ctx *gin.Context) {
 		response.ValidationError(ctx, req, err)
 		return
 	}
-	h.Service.Login(ctx, req)
+	token, err := h.Service.Login(ctx, req)
+	if err != nil {
+		response.UnexpectedError(ctx, err.Error())
+		return
+	}
+	response.Success(ctx, token, "success")
 }
 
 // @Tags    用户信息

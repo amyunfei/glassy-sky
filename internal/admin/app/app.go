@@ -5,6 +5,7 @@ import (
 	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/database"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/logger"
+	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/token"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -16,12 +17,17 @@ func Start() {
 
 	db := database.GetDB()
 	queries := postgresql.NewStore(db)
+	tokenMaker, err := token.NewJWTMaker("secret")
+	if err != nil {
+		logger.Panic(err.Error())
+		return
+	}
 	router := gin.Default()
 
 	// swagger
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	userHandlers := InitializeUserHandlers(queries)
+	userHandlers := InitializeUserHandlers(queries, tokenMaker)
 	router.GET("/user/email-verify/:email", userHandlers.VerifyEmail)
 	router.GET("/user/email-code/:email", userHandlers.SendEmailCode)
 	router.POST("/user/register", userHandlers.RegisterUser)
