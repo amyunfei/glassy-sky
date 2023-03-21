@@ -6,6 +6,7 @@ import (
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/database"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/logger"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/token"
+	"github.com/amyunfei/glassy-sky/internal/admin/middleware"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -33,20 +34,22 @@ func Start() {
 	router.POST("/user/register", userHandlers.RegisterUser)
 	router.POST("/user/login", userHandlers.Login)
 
-	router.GET("/user", userHandlers.ListUser)
-	router.PUT("/user/:id", userHandlers.ModifyUser)
+	authRouter := router.Group("/")
+	authRouter.Use(middleware.AuthMiddleware(tokenMaker))
+	authRouter.GET("/user", userHandlers.ListUser)
+	authRouter.PUT("/user/:id", userHandlers.ModifyUser)
 
 	categoryHandlers := InitializeCategoryHandlers(queries)
-	router.POST("/category", categoryHandlers.CreateCategory)
-	router.DELETE("/category/:id", categoryHandlers.DeleteCategory)
-	router.PUT("/category/:id", categoryHandlers.ModifyCategory)
-	router.GET("/category", categoryHandlers.ListCategory)
+	authRouter.POST("/category", categoryHandlers.CreateCategory)
+	authRouter.DELETE("/category/:id", categoryHandlers.DeleteCategory)
+	authRouter.PUT("/category/:id", categoryHandlers.ModifyCategory)
+	authRouter.GET("/category", categoryHandlers.ListCategory)
 
 	labelHandlers := InitializeLabelHandlers(queries)
-	router.POST("/label", labelHandlers.CreateLabel)
-	router.DELETE("/label/:id", labelHandlers.DeleteLabel)
-	router.PUT("/label/:id", labelHandlers.ModifyLabel)
-	router.GET("/label", labelHandlers.ListLabel)
+	authRouter.POST("/label", labelHandlers.CreateLabel)
+	authRouter.DELETE("/label/:id", labelHandlers.DeleteLabel)
+	authRouter.PUT("/label/:id", labelHandlers.ModifyLabel)
+	authRouter.GET("/label", labelHandlers.ListLabel)
 
 	router.Run(":9999")
 	logger.Info("glassy-sky running on port 9999 ...")

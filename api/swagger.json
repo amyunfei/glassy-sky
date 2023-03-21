@@ -1,11 +1,17 @@
 {
     "swagger": "2.0",
     "info": {
+        "title": "Glassy Sky API",
         "contact": {}
     },
     "paths": {
         "/category": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "tags": [
                     "分类信息"
                 ],
@@ -610,6 +616,13 @@
                     "example": "success"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "authorization",
+            "in": "header"
         }
     }
 }

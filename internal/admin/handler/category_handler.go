@@ -80,6 +80,7 @@ func (h CategoryHandlers) ModifyCategory(ctx *gin.Context) {
 
 // @Tags    分类信息
 // @Summary 分页查询分类
+// @Security ApiKeyAuth
 // @Param   pageParams query    dto.ListRequest           true "分页参数"
 // @Param   filter     query    dto.FilterCategoryRequest true "筛选参数"
 // @Success 200        {object} dto.CreateCategoryResponse

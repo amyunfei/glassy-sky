@@ -143,6 +143,7 @@ definitions:
     type: object
 info:
   contact: {}
+  title: Glassy Sky API
 paths:
   /category:
     get:
@@ -163,6 +164,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/dto.CreateCategoryResponse'
+      security:
+      - ApiKeyAuth: []
       summary: 分页查询分类
       tags:
       - 分类信息
@@ -392,4 +395,9 @@ paths:
       summary: 注册用户
       tags:
       - 用户信息
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: authorization
+    type: apiKey
 swagger: "2.0"
