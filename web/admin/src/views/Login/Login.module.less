@@ -1,0 +1,104 @@
+.page-login {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  overflow: hidden;
+  &::before, &::after {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 50%;
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    right: -20%;
+    top: 0;
+    @apply bg-blue-link;
+    opacity: 0.3;
+    animation: wave 3s infinite alternate;
+  }
+  &::after {
+    right: -25%;
+    top: 0;
+    @apply bg-blue-link;
+    opacity: 0.3;
+    animation: move 3s infinite alternate;
+  }
+  @keyframes wave {
+    from {
+      transform: skewX(-15deg);
+    }
+    to {
+      transform: skewX(-20deg);
+    }
+  }
+  @keyframes move {
+    from {
+      transform: translateX(0) skewX(-22deg);
+    }
+    to {
+      transform: translateX(30px) skewX(-22deg);
+    }
+  }
+}
+.cube {
+  @keyframes rotate {
+    from {
+      transform: translateY(-50%) rotateX(-20deg) rotateY(0deg);
+    }
+    to {
+      transform: translateY(-50%) rotateX(-20deg) rotateY(-360deg);
+    }
+  }
+  height: 300px;
+  width: 300px;
+  transform-style: preserve-3d;
+  position: relative;
+  top: 50%;
+  left: 200px;
+  background-color: transparent;
+  animation: rotate 10s linear infinite;
+  div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    font-weight: 900;
+    &:nth-child(1) {
+      transform: translate3d(0, 0, 150px);
+      background: #498bc9;
+    }
+    &:nth-child(2) {
+      transform: rotateY(90deg) translate3d(0, 0, 150px);
+      background: #457eb4;
+      
+    }
+    &:nth-child(3) {
+      transform: rotateY(180deg) translate3d(0, 0, 150px);
+      background: #498bc9;
+    }
+    &:nth-child(4) {
+      transform: rotateY(270deg) translate3d(0, 0, 150px);
+      background: #457eb4;
+    }
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(59, 120, 156, 0.192);
+    transform: rotateX(90deg) translateZ(-220px);
+    filter: blur(50px);
+  }
+}

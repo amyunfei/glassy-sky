@@ -1,10 +1,12 @@
 import { BrowserRouter } from 'react-router-dom'
+import Login from '@/views/Login/Login'
 import { ConfigProvider } from 'antd'
 
 function App() :JSX.Element {
   return (
     <ConfigProvider>
-      <BrowserRouter></BrowserRouter>
+      <Login></Login>
+      {/* <BrowserRouter></BrowserRouter> */}
     </ConfigProvider>
   )
 }
