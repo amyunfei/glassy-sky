@@ -1,0 +1,27 @@
+{
+  "navbar": {
+    "welcome": "Welcome to Glassy Sky Admin"
+  },
+  "input-placeholder": {
+    "search": "Search for something..."
+  },
+  "common-tips": {
+    "noData": "No Data"
+  },
+  "common-title": {
+    "username": "UserName",
+    "email": "Email",
+    "phone": "Phone",
+    "createdAt": "Creation Time",
+    "action": "Action",
+    "categoryName": "Category Name"
+  },
+  "common-action": {
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "menu": {
+    "userManagement": "User-Management",
+    "exerciseManagement": "Exercise-Management"
+  }
+}

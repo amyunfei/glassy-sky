@@ -9,10 +9,12 @@ import 'simplebar/dist/simplebar.css'
 import './styles/antd-theme.less'
 import './index.css'
 
-import App from './App'
+import { initI18n } from './lang'
+initI18n('en')
 
+import App from './App'
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
+  </React.StrictMode>
 )

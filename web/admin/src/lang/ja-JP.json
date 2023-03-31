@@ -1,0 +1,27 @@
+{
+  "navbar": {
+    "welcome": "Glassy Sky Adminへようこそ"
+  },
+  "input-placeholder": {
+    "search": "何かを検索する..."
+  },
+  "common-tips": {
+    "noData": "データなし"
+  },
+  "common-title": {
+    "username": "ユーザー名",
+    "email": "電子メール",
+    "phone": "電話",
+    "createdAt": "作成時間",
+    "action": "アクション",
+    "categoryName": "カテゴリ名"
+  },
+  "common-action": {
+    "edit": "編集",
+    "delete": "削除"
+  },
+  "menu": {
+    "userManagement": "ユーザ管理",
+    "exerciseManagement": "演習管理"
+  }
+}

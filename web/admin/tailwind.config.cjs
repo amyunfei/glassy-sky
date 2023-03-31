@@ -42,6 +42,7 @@ module.exports = {
   plugins: [
     plugin(function ({ addBase, addComponents, theme }) {
       addBase({
+        '.font-barlow': { fontFamily: 'Barlow' },
         '.h-15': { height: '3.75rem !important' }, // 高度
         '.h-30': { height: '7.5rem' },
         '.h-120': { height: '30rem' },

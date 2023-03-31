@@ -7,7 +7,7 @@ module.exports = {
   plugins: ['react', '@typescript-eslint'],
   rules: {
     // 强制在注释中 // 或 /* 使用一致的空格 http://eslint.cn/docs/rules/spaced-comment
-    // 'spaced-comment': [2],
+    'spaced-comment': [2],
     // 强制在 function的左括号之前使用一致的空格  http://eslint.cn/docs/rules/space-before-function-paren
     // 'space-before-function-paren': [2, 'always'],
     // 禁止不规则的空白/允许在模板字面量中出现任何空白字符  http://eslint.cn/docs/rules/no-irregular-whitespace
@@ -44,10 +44,11 @@ module.exports = {
     quotes: [1, 'single'], // 使用单引号
     semi: [2, 'never'], // 结尾不使用分号
     'prefer-const': 0, // 首选const
-    // indent: ['error', 2],
     'indent': ['error', 2, { 'ignoredNodes': ['VariableDeclaration[declarations.length=0]'] }],
     // "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-unused-vars': 0,
+    'jsx-quotes': ['error', 'prefer-double'],
+    'react/self-closing-comp': ['error']
   }
 }

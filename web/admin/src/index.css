@@ -2,8 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 @font-face {
-  font-family: 'Barlow-SemiBold';
+  font-family: 'Barlow';
+  src: url('./assets/font/Barlow-Regular.ttf');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Barlow';
   src: url('./assets/font/Barlow-SemiBold.ttf');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Barlow';
+  src: url('./assets/font/Barlow-Bold.ttf');
+  font-weight: 700;
 }
 @font-face {
   font-family: 'Harmonyos Sans';
@@ -18,9 +29,7 @@
 .simplebar-scrollbar::before {
   background-color: rgba(219, 231, 238, 0.3);
 }
-.font-barlow {
-  font-family: 'Barlow-SemiBold';
-}
+
 html {
   font-size: 16px;
 }
