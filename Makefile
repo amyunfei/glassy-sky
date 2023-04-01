@@ -22,7 +22,10 @@ mock:
 swag:
 	swag init -g cmd/main.go -o ./api
 
+swagtots:
+	npx swagger-typescript-api -p ./api/swagger.json -o ./web/admin/src/api -n dto.ts --no-client
+
 test:
 	go test -v -cover ./...
 
-.PHONY: postgres createdb dropdb migrateup migratedown sqlc mock swag test
+.PHONY: postgres createdb dropdb migrateup migratedown sqlc mock swag test swagtots

@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Form, Input, Button, message } from 'antd'
 import style from './Login.module.less'
-import { loginApi, LoginApiRequest } from '@/api/user'
+import { loginApi } from '@/api/user'
+import { DtoLoginRequest } from '@/api/dto'
 
 const Cube: React.FC = () => {
   return (
@@ -9,7 +10,7 @@ const Cube: React.FC = () => {
       <div>GLASSY</div>
       <div>SKY</div>
       <div>ADMIN</div>
-      <div></div>
+      <div />
     </div>
   )
 }
@@ -17,19 +18,18 @@ const Cube: React.FC = () => {
 const Login: React.FC = () => {
   const [loading, setLoading] = useState(false)
 
-  const onFinish = async (values: LoginApiRequest) => {
+  const onFinish = async (values: DtoLoginRequest) => {
     setLoading(true)
     const [err, res] = await loginApi(values)
     setLoading(false)
     if (err !== null) return
     message.success('登录成功')
-    console.log(res.data)
   }
 
   return (
     <div className={style['page-login']}>
       <Cube />
-      <Form<LoginApiRequest>
+      <Form<DtoLoginRequest>
         onFinish={onFinish}
         className="w-[360px] py-8 px-6 bg-gray-dark absolute z-10 right-1/4 top-1/2 -translate-y-1/2 rounded-lg"
       >
@@ -39,14 +39,14 @@ const Login: React.FC = () => {
           rules={[{ required: true, message: '账号不能为空' }]}
           className="mb-6"
         >
-          <Input placeholder="请输入账号" size="large"></Input>
+          <Input placeholder="请输入账号" size="large" />
         </Form.Item>
         <Form.Item
           name="password"
           rules={[{ required: true, message: '密码不能为空' }]}
           className="mb-6"
         >
-          <Input.Password placeholder="请输入密码" size="large"></Input.Password>
+          <Input.Password placeholder="请输入密码" size="large" />
         </Form.Item>
         <Button loading={loading} type="primary" htmlType="submit" size="large" block>登录</Button>
       </Form>

@@ -1,16 +1,7 @@
 import { request } from '@/utils/http'
+import { DtoLoginRequest, DtoCreateUserResponse } from './dto'
 
-
-export interface LoginApiRequest {
-  username: string,
-  password: string
-}
-export interface LoginApiResponse {
-  code: 0,
-  data: string,
-  message: string
-}
-export const loginApi = (data: LoginApiRequest) => request<LoginApiResponse>({
+export const loginApi = (data: DtoLoginRequest) => request<DtoCreateUserResponse>({
   url: '/user/login',
   method: 'POST',
   data
