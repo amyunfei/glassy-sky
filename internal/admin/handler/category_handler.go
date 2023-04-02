@@ -51,7 +51,7 @@ func (h CategoryHandlers) DeleteCategory(ctx *gin.Context) {
 		response.UnexpectedError(ctx, err.Error())
 		return
 	}
-	response.Success(ctx, nil, "success")
+	response.Success(ctx, "", "success")
 }
 
 // @Tags    分类信息

@@ -50,7 +50,7 @@ func (h LabelHandlers) DeleteLabel(ctx *gin.Context) {
 		response.UnexpectedError(ctx, err.Error())
 		return
 	}
-	response.Success(ctx, nil, "success")
+	response.Success(ctx, "", "success")
 }
 
 // @Tags    标签信息

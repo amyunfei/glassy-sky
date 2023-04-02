@@ -141,6 +141,15 @@ definitions:
         example: success
         type: string
     type: object
+  response.Body-string:
+    properties:
+      code:
+        type: integer
+      data:
+        type: string
+      msg:
+        type: string
+    type: object
 info:
   contact: {}
   title: Glassy Sky API
@@ -374,7 +383,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.CreateUserResponse'
+            $ref: '#/definitions/response.Body-string'
       summary: 登录
       tags:
       - 用户信息

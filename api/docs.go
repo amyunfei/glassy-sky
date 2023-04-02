@@ -351,7 +351,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateUserResponse"
+                            "$ref": "#/definitions/response.Body-string"
                         }
                     }
                 }
@@ -624,6 +624,20 @@ const docTemplate = `{
                 "msg": {
                     "type": "string",
                     "example": "success"
+                }
+            }
+        },
+        "response.Body-string": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "string"
+                },
+                "msg": {
+                    "type": "string"
                 }
             }
         }

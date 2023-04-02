@@ -8,14 +8,14 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-type Body struct {
+type Body[T any] struct {
 	Code    int    `json:"code"`
-	Data    any    `json:"data"`
+	Data    T      `json:"data"`
 	Message string `json:"msg"`
 }
 
-func Success(ctx *gin.Context, data any, message string) {
-	ctx.JSON(http.StatusOK, Body{
+func Success[T any](ctx *gin.Context, data T, message string) {
+	ctx.JSON(http.StatusOK, Body[T]{
 		Code:    0,
 		Data:    data,
 		Message: message,
@@ -23,7 +23,7 @@ func Success(ctx *gin.Context, data any, message string) {
 }
 
 func UnexpectedError(ctx *gin.Context, message string) {
-	ctx.JSON(http.StatusInternalServerError, Body{
+	ctx.JSON(http.StatusInternalServerError, Body[*any]{
 		Code:    -1,
 		Data:    nil,
 		Message: message,
@@ -31,7 +31,7 @@ func UnexpectedError(ctx *gin.Context, message string) {
 }
 
 func RequestError(ctx *gin.Context, message string) {
-	ctx.JSON(http.StatusBadRequest, Body{
+	ctx.JSON(http.StatusBadRequest, Body[*any]{
 		Code:    -1,
 		Data:    nil,
 		Message: message,
