@@ -82,6 +82,24 @@ definitions:
       username:
         type: string
     type: object
+  dto.ListResponse-dto_CreateCategoryResponse:
+    properties:
+      count:
+        type: integer
+      list:
+        items:
+          $ref: '#/definitions/dto.CreateCategoryResponse'
+        type: array
+    type: object
+  dto.ListResponse-dto_CreateLabelResponse:
+    properties:
+      count:
+        type: integer
+      list:
+        items:
+          $ref: '#/definitions/dto.CreateLabelResponse'
+        type: array
+    type: object
   dto.LoginRequest:
     properties:
       password:
@@ -141,6 +159,51 @@ definitions:
         example: success
         type: string
     type: object
+  response.Body-dto_CreateCategoryResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/dto.CreateCategoryResponse'
+      msg:
+        type: string
+    type: object
+  response.Body-dto_CreateLabelResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/dto.CreateLabelResponse'
+      msg:
+        type: string
+    type: object
+  response.Body-dto_CreateUserResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/dto.CreateUserResponse'
+      msg:
+        type: string
+    type: object
+  response.Body-dto_ListResponse-dto_CreateCategoryResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/dto.ListResponse-dto_CreateCategoryResponse'
+      msg:
+        type: string
+    type: object
+  response.Body-dto_ListResponse-dto_CreateLabelResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/dto.ListResponse-dto_CreateLabelResponse'
+      msg:
+        type: string
+    type: object
   response.Body-string:
     properties:
       code:
@@ -172,7 +235,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.CreateCategoryResponse'
+            $ref: '#/definitions/response.Body-dto_ListResponse-dto_CreateCategoryResponse'
       security:
       - ApiKeyAuth: []
       summary: 分页查询分类
@@ -190,7 +253,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.CreateCategoryResponse'
+            $ref: '#/definitions/response.Body-dto_CreateCategoryResponse'
       summary: 创建分类
       tags:
       - 分类信息
@@ -222,7 +285,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.CreateCategoryResponse'
+            $ref: '#/definitions/response.Body-dto_CreateCategoryResponse'
       summary: 修改分类
       tags:
       - 分类信息
@@ -244,7 +307,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.CreateCategoryResponse'
+            $ref: '#/definitions/response.Body-dto_ListResponse-dto_CreateLabelResponse'
       summary: 分页查询标签
       tags:
       - 标签信息
@@ -260,7 +323,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.CreateLabelResponse'
+            $ref: '#/definitions/response.Body-dto_CreateLabelResponse'
       summary: 创建标签
       tags:
       - 标签信息
@@ -292,7 +355,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.CreateLabelResponse'
+            $ref: '#/definitions/response.Body-dto_CreateLabelResponse'
       summary: 修改标签
       tags:
       - 标签信息
@@ -317,7 +380,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.CreateCategoryResponse'
+            $ref: '#/definitions/response.Body-dto_CreateCategoryResponse'
       summary: 分页查询用户
       tags:
       - 用户信息
@@ -334,7 +397,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.CreateUserResponse'
+            $ref: '#/definitions/response.Body-dto_CreateUserResponse'
       summary: 修改用户信息
       tags:
       - 用户信息
@@ -400,7 +463,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.CreateUserResponse'
+            $ref: '#/definitions/response.Body-dto_CreateUserResponse'
       summary: 注册用户
       tags:
       - 用户信息

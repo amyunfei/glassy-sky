@@ -19,7 +19,7 @@ func NewCategoryHandlers(service service.CategoryService) CategoryHandlers {
 // @Tags    分类信息
 // @Summary 创建分类
 // @Param   body      body     dto.CreateCategoryRequest  true "分类信息"
-// @Success 200       {object} dto.CreateCategoryResponse
+// @Success 200       {object} response.Body[dto.CreateCategoryResponse]
 // @Router  /category [POST]
 func (h CategoryHandlers) CreateCategory(ctx *gin.Context) {
 	var req dto.CreateCategoryRequest
@@ -57,7 +57,7 @@ func (h CategoryHandlers) DeleteCategory(ctx *gin.Context) {
 // @Tags    分类信息
 // @Summary 修改分类
 // @Param   body           body     dto.ModifyCategoryRequest  true "分类信息"
-// @Success 200            {object} dto.CreateCategoryResponse
+// @Success 200            {object} response.Body[dto.CreateCategoryResponse]
 // @Router  /category/{id} [PUT]
 func (h CategoryHandlers) ModifyCategory(ctx *gin.Context) {
 	var req dto.ModifyCategoryRequest
@@ -83,7 +83,7 @@ func (h CategoryHandlers) ModifyCategory(ctx *gin.Context) {
 // @Security ApiKeyAuth
 // @Param   pageParams query    dto.ListRequest           true "分页参数"
 // @Param   filter     query    dto.FilterCategoryRequest true "筛选参数"
-// @Success 200        {object} dto.CreateCategoryResponse
+// @Success 200        {object} response.Body[dto.ListResponse[dto.CreateCategoryResponse]]
 // @Router  /category  [GET]
 func (h CategoryHandlers) ListCategory(ctx *gin.Context) {
 	var listReq dto.ListRequest

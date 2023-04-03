@@ -18,7 +18,7 @@ func NewLabelHandlers(service service.LabelService) LabelHandlers {
 // @Tags    标签信息
 // @Summary 创建标签
 // @Param   body    body     dto.CreateLabelRequest  true "标签信息"
-// @Success 200     {object} dto.CreateLabelResponse
+// @Success 200     {object} response.Body[dto.CreateLabelResponse]
 // @Router  /label  [POST]
 func (h LabelHandlers) CreateLabel(ctx *gin.Context) {
 	var req dto.CreateLabelRequest
@@ -56,7 +56,7 @@ func (h LabelHandlers) DeleteLabel(ctx *gin.Context) {
 // @Tags    标签信息
 // @Summary 修改标签
 // @Param   body        body     dto.ModifyLabelRequest  true "标签信息"
-// @Success 200         {object} dto.CreateLabelResponse
+// @Success 200         {object} response.Body[dto.CreateLabelResponse]
 // @Router  /label/{id} [PUT]
 func (h LabelHandlers) ModifyLabel(ctx *gin.Context) {
 	var req dto.ModifyLabelRequest
@@ -80,7 +80,7 @@ func (h LabelHandlers) ModifyLabel(ctx *gin.Context) {
 // @Summary 分页查询标签
 // @Param   pageParams query    dto.ListRequest            true "分页参数"
 // @Param   filter     query    dto.FilterLabelRequest     true "筛选参数"
-// @Success 200        {object} dto.CreateCategoryResponse
+// @Success 200        {object} response.Body[dto.ListResponse[dto.CreateLabelResponse]]
 // @Router  /label     [GET]
 func (h LabelHandlers) ListLabel(ctx *gin.Context) {
 	var listReq dto.ListRequest

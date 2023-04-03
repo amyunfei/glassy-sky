@@ -54,6 +54,16 @@ export interface DtoCreateUserResponse {
   username?: string;
 }
 
+export interface DtoListResponseDtoCreateCategoryResponse {
+  count?: number;
+  list?: DtoCreateCategoryResponse[];
+}
+
+export interface DtoListResponseDtoCreateLabelResponse {
+  count?: number;
+  list?: DtoCreateLabelResponse[];
+}
+
 export interface DtoLoginRequest {
   password: string;
   username: string;
@@ -85,5 +95,41 @@ export interface DtoSuccessEmptyResponse {
   /** @example "" */
   data?: string;
   /** @example "success" */
+  msg?: string;
+}
+
+export interface ResponseBodyDtoCreateCategoryResponse {
+  code?: number;
+  data?: DtoCreateCategoryResponse;
+  msg?: string;
+}
+
+export interface ResponseBodyDtoCreateLabelResponse {
+  code?: number;
+  data?: DtoCreateLabelResponse;
+  msg?: string;
+}
+
+export interface ResponseBodyDtoCreateUserResponse {
+  code?: number;
+  data?: DtoCreateUserResponse;
+  msg?: string;
+}
+
+export interface ResponseBodyDtoListResponseDtoCreateCategoryResponse {
+  code?: number;
+  data?: DtoListResponseDtoCreateCategoryResponse;
+  msg?: string;
+}
+
+export interface ResponseBodyDtoListResponseDtoCreateLabelResponse {
+  code?: number;
+  data?: DtoListResponseDtoCreateLabelResponse;
+  msg?: string;
+}
+
+export interface ResponseBodyString {
+  code?: number;
+  data?: string;
   msg?: string;
 }

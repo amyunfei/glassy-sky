@@ -49,7 +49,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateCategoryResponse"
+                            "$ref": "#/definitions/response.Body-dto_ListResponse-dto_CreateCategoryResponse"
                         }
                     }
                 }
@@ -74,7 +74,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateCategoryResponse"
+                            "$ref": "#/definitions/response.Body-dto_CreateCategoryResponse"
                         }
                     }
                 }
@@ -101,7 +101,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateCategoryResponse"
+                            "$ref": "#/definitions/response.Body-dto_CreateCategoryResponse"
                         }
                     }
                 }
@@ -159,7 +159,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateCategoryResponse"
+                            "$ref": "#/definitions/response.Body-dto_ListResponse-dto_CreateLabelResponse"
                         }
                     }
                 }
@@ -184,7 +184,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateLabelResponse"
+                            "$ref": "#/definitions/response.Body-dto_CreateLabelResponse"
                         }
                     }
                 }
@@ -211,7 +211,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateLabelResponse"
+                            "$ref": "#/definitions/response.Body-dto_CreateLabelResponse"
                         }
                     }
                 }
@@ -274,7 +274,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateCategoryResponse"
+                            "$ref": "#/definitions/response.Body-dto_CreateCategoryResponse"
                         }
                     }
                 }
@@ -378,7 +378,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateUserResponse"
+                            "$ref": "#/definitions/response.Body-dto_CreateUserResponse"
                         }
                     }
                 }
@@ -405,7 +405,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateUserResponse"
+                            "$ref": "#/definitions/response.Body-dto_CreateUserResponse"
                         }
                     }
                 }
@@ -538,6 +538,34 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.ListResponse-dto_CreateCategoryResponse": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.CreateCategoryResponse"
+                    }
+                }
+            }
+        },
+        "dto.ListResponse-dto_CreateLabelResponse": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.CreateLabelResponse"
+                    }
+                }
+            }
+        },
         "dto.LoginRequest": {
             "type": "object",
             "required": [
@@ -624,6 +652,76 @@ const docTemplate = `{
                 "msg": {
                     "type": "string",
                     "example": "success"
+                }
+            }
+        },
+        "response.Body-dto_CreateCategoryResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "$ref": "#/definitions/dto.CreateCategoryResponse"
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.Body-dto_CreateLabelResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "$ref": "#/definitions/dto.CreateLabelResponse"
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.Body-dto_CreateUserResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "$ref": "#/definitions/dto.CreateUserResponse"
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.Body-dto_ListResponse-dto_CreateCategoryResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "$ref": "#/definitions/dto.ListResponse-dto_CreateCategoryResponse"
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.Body-dto_ListResponse-dto_CreateLabelResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "$ref": "#/definitions/dto.ListResponse-dto_CreateLabelResponse"
+                },
+                "msg": {
+                    "type": "string"
                 }
             }
         },

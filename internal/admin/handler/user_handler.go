@@ -18,7 +18,7 @@ func NewUserHandlers(service service.UserService) UserHandlers {
 // @Tags    用户信息
 // @Summary 注册用户
 // @Param   body    body     dto.CreateUserRequest  true "用户注册信息"
-// @Success 200     {object} dto.CreateUserResponse
+// @Success 200     {object} response.Body[dto.CreateUserResponse]
 // @Router  /user/register  [POST]
 func (h UserHandlers) RegisterUser(ctx *gin.Context) {
 	var req dto.CreateUserRequest
@@ -102,7 +102,7 @@ func (h UserHandlers) Login(ctx *gin.Context) {
 // @Tags    用户信息
 // @Summary 修改用户信息
 // @Param   data       body     dto.ModifyUserRequest      true "用户信息"
-// @Success 200        {object} dto.CreateUserResponse
+// @Success 200        {object} response.Body[dto.CreateUserResponse]
 // @Router  /user/{id} [PUT]
 func (h UserHandlers) ModifyUser(ctx *gin.Context) {
 	var req dto.ModifyUserRequest
@@ -126,7 +126,7 @@ func (h UserHandlers) ModifyUser(ctx *gin.Context) {
 // @Summary 分页查询用户
 // @Param   pageParams query    dto.ListRequest            true "分页参数"
 // @Param   filter     query    dto.FilterUserRequest      true "筛选参数"
-// @Success 200        {object} dto.CreateCategoryResponse
+// @Success 200        {object} response.Body[dto.CreateCategoryResponse]
 // @Router  /user      [GET]
 func (h UserHandlers) ListUser(ctx *gin.Context) {
 	var listReq dto.ListRequest

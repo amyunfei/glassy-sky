@@ -20,7 +20,7 @@ mock:
 	mockgen -package mockdb -destination internal/admin/domain/mockdb/db.go github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql Repository
 
 swag:
-	swag init -g ./cmd/main.go -o ./api
+	swag init -d ./cmd,./internal/admin/dto,./internal/admin/infrastructure/response,./internal/admin/handler -o ./api
 
 swagtots:
 	npx swagger-typescript-api -p ./api/swagger.json -o ./web/admin/src/api -n dto.ts --no-client
