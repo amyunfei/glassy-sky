@@ -10,7 +10,7 @@ const { Content: AntContent } = AntLayout
 const Content: React.FC = () => {
   return (
     <AntContent data-simplebar className="layout-content relative p-8">
-      <div className="w-full h-full">
+      <div className="w-full h-full overflow-hidden">
         <ConfigProvider componentSize="large">
           {/* <PageTitle /> */}
           <Outlet />
@@ -27,7 +27,7 @@ const Layout: React.FC = () => {
         <Logo className="bg-gray-dark" />
         <Sidebar />
       </div>
-      <AntLayout className="main bg-gray-darker">
+      <AntLayout className="main bg-gray-darker overflow-hidden">
         <Header />
         <Suspense fallback={ <Progress /> }>
           <Content />

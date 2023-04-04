@@ -126,7 +126,7 @@ func (h UserHandlers) ModifyUser(ctx *gin.Context) {
 // @Summary 分页查询用户
 // @Param   pageParams query    dto.ListRequest            true "分页参数"
 // @Param   filter     query    dto.FilterUserRequest      true "筛选参数"
-// @Success 200        {object} response.Body[dto.CreateCategoryResponse]
+// @Success 200        {object} response.Body[dto.ListResponse[dto.CreateUserResponse]]
 // @Router  /user      [GET]
 func (h UserHandlers) ListUser(ctx *gin.Context) {
 	var listReq dto.ListRequest

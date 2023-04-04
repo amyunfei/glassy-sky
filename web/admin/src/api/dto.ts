@@ -64,6 +64,11 @@ export interface DtoListResponseDtoCreateLabelResponse {
   list?: DtoCreateLabelResponse[];
 }
 
+export interface DtoListResponseDtoCreateUserResponse {
+  count?: number;
+  list?: DtoCreateUserResponse[];
+}
+
 export interface DtoLoginRequest {
   password: string;
   username: string;
@@ -125,6 +130,12 @@ export interface ResponseBodyDtoListResponseDtoCreateCategoryResponse {
 export interface ResponseBodyDtoListResponseDtoCreateLabelResponse {
   code?: number;
   data?: DtoListResponseDtoCreateLabelResponse;
+  msg?: string;
+}
+
+export interface ResponseBodyDtoListResponseDtoCreateUserResponse {
+  code?: number;
+  data?: DtoListResponseDtoCreateUserResponse;
   msg?: string;
 }
 

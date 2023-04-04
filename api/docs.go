@@ -274,7 +274,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Body-dto_CreateCategoryResponse"
+                            "$ref": "#/definitions/response.Body-dto_ListResponse-dto_CreateUserResponse"
                         }
                     }
                 }
@@ -566,6 +566,20 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.ListResponse-dto_CreateUserResponse": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.CreateUserResponse"
+                    }
+                }
+            }
+        },
         "dto.LoginRequest": {
             "type": "object",
             "required": [
@@ -719,6 +733,20 @@ const docTemplate = `{
                 },
                 "data": {
                     "$ref": "#/definitions/dto.ListResponse-dto_CreateLabelResponse"
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.Body-dto_ListResponse-dto_CreateUserResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "$ref": "#/definitions/dto.ListResponse-dto_CreateUserResponse"
                 },
                 "msg": {
                     "type": "string"

@@ -100,6 +100,15 @@ definitions:
           $ref: '#/definitions/dto.CreateLabelResponse'
         type: array
     type: object
+  dto.ListResponse-dto_CreateUserResponse:
+    properties:
+      count:
+        type: integer
+      list:
+        items:
+          $ref: '#/definitions/dto.CreateUserResponse'
+        type: array
+    type: object
   dto.LoginRequest:
     properties:
       password:
@@ -201,6 +210,15 @@ definitions:
         type: integer
       data:
         $ref: '#/definitions/dto.ListResponse-dto_CreateLabelResponse'
+      msg:
+        type: string
+    type: object
+  response.Body-dto_ListResponse-dto_CreateUserResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/dto.ListResponse-dto_CreateUserResponse'
       msg:
         type: string
     type: object
@@ -380,7 +398,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Body-dto_CreateCategoryResponse'
+            $ref: '#/definitions/response.Body-dto_ListResponse-dto_CreateUserResponse'
       summary: 分页查询用户
       tags:
       - 用户信息

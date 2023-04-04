@@ -6,7 +6,6 @@ import (
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/database"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/logger"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/token"
-	"github.com/amyunfei/glassy-sky/internal/admin/middleware"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -35,7 +34,7 @@ func Start() {
 	router.POST("/user/login", userHandlers.Login)
 
 	authRouter := router.Group("/")
-	authRouter.Use(middleware.AuthMiddleware(tokenMaker))
+	// authRouter.Use(middleware.AuthMiddleware(tokenMaker))
 	authRouter.GET("/user", userHandlers.ListUser)
 	authRouter.PUT("/user/:id", userHandlers.ModifyUser)
 
