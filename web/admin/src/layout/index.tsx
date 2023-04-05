@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
 import { ConfigProvider, Layout as AntLayout } from 'antd'
+import style from './layout.module.less'
 import Logo from './Logo'
 import Header from './Header'
 import Sidebar from './Sidebar'
@@ -9,7 +10,7 @@ const { Content: AntContent } = AntLayout
 
 const Content: React.FC = () => {
   return (
-    <AntContent data-simplebar className="layout-content relative p-8">
+    <AntContent data-simplebar className={ `${style['layout-content']} relative p-8` }>
       <div className="w-full h-full overflow-hidden">
         <ConfigProvider componentSize="large">
           {/* <PageTitle /> */}

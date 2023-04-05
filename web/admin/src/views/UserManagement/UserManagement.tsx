@@ -23,9 +23,9 @@ const UserManagement: React.FC = () => {
   useEffect(() => { fetchData() }, [])
   const { t } = useTranslation()
   const columns: ColumnsType<any> = [
-    { title: t('common-title.username'), dataIndex: 'name' },
+    { title: t('common-title.username'), dataIndex: 'username' },
     { title: t('common-title.email'), dataIndex: 'email' },
-    { title: t('common-title.phone'), dataIndex: 'phone' },
+    { title: t('common-title.phone'), dataIndex: 'nickname' },
     { title: t('common-title.createdAt'), dataIndex: 'createdAt' },
     { title: t('common-title.action'), dataIndex: 'action', render: (_, record) => (
       <Space size="large">

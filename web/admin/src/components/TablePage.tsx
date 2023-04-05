@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Table, TableProps, Button } from 'antd'
+import { Table, TableProps, Pagination, Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 
 interface PropsType<T> {
@@ -10,11 +10,16 @@ interface PropsType<T> {
 
 function TablePage<T extends object> (props: PropsType<T>) {
   const tableRef = useRef<HTMLDivElement>(null)
-  const [tableTop, setTableTop] = useState<number>(0)
+  const [contentHeight, setContentHeight] = useState<number>(0)
 
   useEffect(() => {
     if (tableRef.current !== null) {
-      setTableTop(tableRef.current.getBoundingClientRect().top)
+      const thead = tableRef.current.querySelector('.ant-table-thead')
+      if (thead !== null) {
+        setContentHeight(
+          tableRef.current.getBoundingClientRect().height - thead.getBoundingClientRect().height
+        )
+      }
     }
   }, [])
   return (
@@ -24,9 +29,12 @@ function TablePage<T extends object> (props: PropsType<T>) {
       </div>
       <Table
         {...props.tableProps}
+        pagination={false}
         ref={tableRef}
-        scroll={{ y: `calc(100vh - ${tableTop}px - 64px - 55px - 32px)` }}
-        className="flex-grow h-auto" />
+        scroll={{ y: `${contentHeight}px` }}
+        className="flex-grow h-auto"
+      />
+      <Pagination className="text-right p-4 flex-shrink-0" />
       { props.children }
     </div>
   )
