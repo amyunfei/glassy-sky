@@ -74,7 +74,7 @@ export const menuRoutes: AppRoute.Route[] = [
   // }
 ]
 
-export const routes: AppRoute.Route[] = [
+export const staticRoutes: AppRoute.Route[] = [
   {
     path: '/login',
     name: 'Login',
@@ -82,17 +82,20 @@ export const routes: AppRoute.Route[] = [
     meta: { title: 'Login', hidden: true }
   },
   {
+    path: '*',
+    name: 'NotFound',
+    component: NotFound,
+    meta: { title: 'NotFound', hidden: true }
+  }
+]
+
+export const dynamicRoutes: AppRoute.Route[] = [
+  {
     path: '/',
     name: 'Layout',
     component: Layout,
     meta: { title: 'Layout', hidden: true },
     redirect: '/dashboard',
     children: menuRoutes
-  },
-  {
-    path: '*',
-    name: 'NotFound',
-    component: NotFound,
-    meta: { title: 'NotFound', hidden: true }
   }
 ]

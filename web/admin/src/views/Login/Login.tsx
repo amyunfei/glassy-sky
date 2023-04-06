@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Form, Input, Button, message } from 'antd'
 import style from './Login.module.less'
+import { useStore } from '@/store'
 import { loginApi } from '@/api/user'
 import { DtoLoginRequest } from '@/api/dto'
 
@@ -17,12 +18,14 @@ const Cube: React.FC = () => {
 
 const Login: React.FC = () => {
   const [loading, setLoading] = useState(false)
+  const { auth } = useStore()
 
   const onFinish = async (values: DtoLoginRequest) => {
     setLoading(true)
     const [err, res] = await loginApi(values)
     setLoading(false)
     if (err !== null) return
+    auth.setToken(res.data || '')
     message.success('登录成功')
   }
 

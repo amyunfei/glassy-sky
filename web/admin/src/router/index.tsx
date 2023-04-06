@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
-import { routes } from './routes' 
+import { staticRoutes, dynamicRoutes } from './routes' 
 
 
 function generateRoutes (routes: AppRoute.Route[]): (JSX.Element | undefined)[] {
@@ -35,10 +35,14 @@ function generateRoutes (routes: AppRoute.Route[]): (JSX.Element | undefined)[] 
 }
 
 export const Router: React.FC = () => {
+  const token = localStorage.getItem('token')
   return (
     <BrowserRouter>
       <Routes>
-        { generateRoutes(routes)}
+        {
+          token ? generateRoutes(dynamicRoutes) : <Route path="*" element={<Navigate to="/login" />} />
+        }
+        { generateRoutes(staticRoutes) }
       </Routes>
     </BrowserRouter>
   )

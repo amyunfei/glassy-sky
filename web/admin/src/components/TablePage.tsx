@@ -14,6 +14,7 @@ function TablePage<T extends object> (props: PropsType<T>) {
 
   useEffect(() => {
     if (tableRef.current !== null) {
+      console.log(tableRef.current.getBoundingClientRect().height)
       const thead = tableRef.current.querySelector('.ant-table-thead')
       if (thead !== null) {
         setContentHeight(

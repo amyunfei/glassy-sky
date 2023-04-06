@@ -1,7 +1,7 @@
 import { request } from '@/utils/http'
-import { DtoLoginRequest, DtoCreateUserResponse, ResponseBodyDtoListResponseDtoCreateUserResponse } from './dto'
+import { DtoLoginRequest, DtoCreateUserResponse, ResponseBodyDtoListResponseDtoCreateUserResponse, ResponseBodyString } from './dto'
 
-export const loginApi = (data: DtoLoginRequest) => request<DtoCreateUserResponse>({
+export const loginApi = (data: DtoLoginRequest) => request<ResponseBodyString>({
   url: '/user/login',
   method: 'POST',
   data
