@@ -1,7 +1,8 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Form, Input, Button, message } from 'antd'
 import style from './Login.module.less'
-import { useStore } from '@/store'
+import { useAuthStore } from '@/store'
 import { loginApi } from '@/api/user'
 import { DtoLoginRequest } from '@/api/dto'
 
@@ -18,21 +19,24 @@ const Cube: React.FC = () => {
 
 const Login: React.FC = () => {
   const [loading, setLoading] = useState(false)
-  const { auth } = useStore()
+  const navigate = useNavigate()
 
   const onFinish = async (values: DtoLoginRequest) => {
     setLoading(true)
     const [err, res] = await loginApi(values)
     setLoading(false)
     if (err !== null) return
-    auth.setToken(res.data || '')
+    const authStore = useAuthStore()
+    authStore.setToken(res.data || '')
     message.success('登录成功')
+    navigate('/dashboard')
   }
 
   return (
     <div className={style['page-login']}>
       <Cube />
       <Form<DtoLoginRequest>
+        initialValues={{ username: 'arglm', password: 'ljvcmtluapsiwgjxueof' }}
         onFinish={onFinish}
         className="w-[360px] py-8 px-6 bg-gray-dark absolute z-10 right-1/4 top-1/2 -translate-y-1/2 rounded-lg"
       >

@@ -1,4 +1,7 @@
 {
+  "network": {
+    "unAuthorized": "登录超时，请重新登录"
+  },
   "navbar": {
     "welcome": "欢迎使用 Glassy Sky Admin"
   },

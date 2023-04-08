@@ -1,5 +1,7 @@
 import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig, AxiosError } from 'axios'
 import { message } from 'antd'
+import i18n from 'i18next'
+import { HttpStatusCode } from './http-status-code'
 
 interface RequestConfig {
   url: string,
@@ -13,7 +15,8 @@ export default class HttpRequest {
 
     this.instance.interceptors.request.use(
       config => {
-        config.signal
+        const token = localStorage.getItem('token')
+        config.headers.Authorization = `Bearer ${token}`
         return config
       },
       error => {
@@ -26,6 +29,11 @@ export default class HttpRequest {
         return response
       },
       err => {
+        const errResponse = (err as AxiosError).response
+        if (errResponse && errResponse.status === HttpStatusCode.UNAUTHORIZED) {
+          message.error(i18n.t('network.unAuthorized'))
+          localStorage.removeItem('token')
+        }
         return Promise.reject(err)
       }
     )
@@ -40,7 +48,6 @@ export default class HttpRequest {
     return this.instance<T>(config)
       .then<[null, T]>(res => [null, res.data])
       .catch<[AxiosError, undefined]>(err => {
-        message.error(err.response.data.msg || err.message)
         return [err, undefined]
       })
   }

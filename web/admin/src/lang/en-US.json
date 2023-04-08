@@ -1,4 +1,7 @@
 {
+  "network": {
+    "unAuthorized": "Login timeout, please login again"
+  },
   "navbar": {
     "welcome": "Welcome to Glassy Sky Admin"
   },

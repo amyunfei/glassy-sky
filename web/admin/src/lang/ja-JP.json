@@ -1,4 +1,7 @@
 {
+  "network": {
+    "unAuthorized": "ログインタイムアウト、もう一度ログインしてください"
+  },
   "navbar": {
     "welcome": "Glassy Sky Adminへようこそ"
   },

@@ -14,12 +14,12 @@ function TablePage<T extends object> (props: PropsType<T>) {
 
   useEffect(() => {
     if (tableRef.current !== null) {
-      console.log(tableRef.current.getBoundingClientRect().height)
       const thead = tableRef.current.querySelector('.ant-table-thead')
-      if (thead !== null) {
-        setContentHeight(
-          tableRef.current.getBoundingClientRect().height - thead.getBoundingClientRect().height
-        )
+      const tablePlaceholder = tableRef.current.querySelector<HTMLElement>('.ant-table-placeholder')
+      if (thead !== null && tablePlaceholder !== null) {
+        const contentHeight = tableRef.current.getBoundingClientRect().height - thead.getBoundingClientRect().height
+        tablePlaceholder.style.height = `${contentHeight}px`
+        setContentHeight(contentHeight)
       }
     }
   }, [])
@@ -35,7 +35,7 @@ function TablePage<T extends object> (props: PropsType<T>) {
         scroll={{ y: `${contentHeight}px` }}
         className="flex-grow h-auto"
       />
-      <Pagination className="text-right p-4 flex-shrink-0" />
+      <Pagination className="text-right pt-4 flex-shrink-0" />
       { props.children }
     </div>
   )

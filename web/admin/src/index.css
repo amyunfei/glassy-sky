@@ -79,17 +79,16 @@ code {
 }
 
 /* antd table scrollbar */
+/* .ant-table-body {
+  overflow: auto !important;
+} */
 .ant-table-body::-webkit-scrollbar {
   width: 10px;
   /* height: 1px; */
 }
 .ant-table-body::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
-  @apply rounded-br-md;
+  @apply rounded-br-md bg-opacity-30 bg-white;
 }
 .ant-table-body::-webkit-scrollbar-track {
-  -webkit-box-shadow: none;
-  @apply rounded-br-md;
-  background: rgba(255, 255, 255, 0.1);
-  -webkit-box-shadow: none;
+  @apply rounded-br-md shadow-none bg-opacity-10 bg-white;
 }

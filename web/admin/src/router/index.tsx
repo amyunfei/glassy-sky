@@ -1,6 +1,8 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
-import { staticRoutes, dynamicRoutes } from './routes' 
+import { observer } from 'mobx-react-lite'
+import { useAuthStore, AuthStore } from '@/store'
+import { staticRoutes, dynamicRoutes } from './routes'
 
 
 function generateRoutes (routes: AppRoute.Route[]): (JSX.Element | undefined)[] {
@@ -34,16 +36,25 @@ function generateRoutes (routes: AppRoute.Route[]): (JSX.Element | undefined)[] 
   })
 }
 
+interface AuthRoutesProps {
+  authStore: AuthStore
+}
+const AuthRoutes: React.FC<AuthRoutesProps> = observer(({ authStore }) => {
+  return (
+    <Routes>
+      {
+        authStore.token ? generateRoutes(dynamicRoutes) : <Route path="*" element={<Navigate to="/login" />} />
+      }
+      { generateRoutes(staticRoutes) }
+    </Routes>
+  )
+})
+
 export const Router: React.FC = () => {
-  const token = localStorage.getItem('token')
+  const authStore = useAuthStore()
   return (
     <BrowserRouter>
-      <Routes>
-        {
-          token ? generateRoutes(dynamicRoutes) : <Route path="*" element={<Navigate to="/login" />} />
-        }
-        { generateRoutes(staticRoutes) }
-      </Routes>
+      <AuthRoutes authStore={authStore} />
     </BrowserRouter>
   )
 }

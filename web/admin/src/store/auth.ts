@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 
-class AuthStore {
-  token = ''
+export class AuthStore {
+  token = localStorage.getItem('token') || ''
 
   constructor() {
     makeAutoObservable(this)
@@ -9,7 +9,9 @@ class AuthStore {
 
   setToken(token: string) {
     this.token = token
+    localStorage.setItem('token', token)
   }
 }
 
-export default AuthStore
+const authStore = new AuthStore()
+export const useAuthStore = () => authStore
