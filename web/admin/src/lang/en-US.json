@@ -12,10 +12,13 @@
     "noData": "No Data"
   },
   "common-title": {
-    "username": "UserName",
+    "username": "User Name",
     "email": "Email",
     "phone": "Phone",
-    "createdAt": "Creation Time",
+    "labelName": "Label Name",
+    "color": "Color",
+    "createdAt": "Created Time",
+    "updatedAt": "Updated Time",
     "action": "Action",
     "categoryName": "Category Name"
   },

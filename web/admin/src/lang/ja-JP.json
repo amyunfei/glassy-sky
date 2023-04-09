@@ -15,7 +15,10 @@
     "username": "ユーザー名",
     "email": "電子メール",
     "phone": "電話",
+    "labelName": "ラベル名",
+    "color": "カラー",
     "createdAt": "作成時間",
+    "updatedAt": "更新時間",
     "action": "アクション",
     "categoryName": "カテゴリ名"
   },

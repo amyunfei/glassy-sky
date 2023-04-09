@@ -15,7 +15,10 @@
     "username": "用户名称",
     "email": "电子邮箱",
     "phone": "电话号码",
+    "labelName": "标签名称",
+    "color": "颜色",
     "createdAt": "创建时间",
+    "updatedAt": "更新时间",
     "action": "操作",
     "categoryName": "分类名称"
   },
