@@ -1,6 +1,7 @@
 {
   "network": {
-    "unAuthorized": "登录超时，请重新登录"
+    "unAuthorized": "登录超时，请重新登录",
+    "internalServerError": "服务异常，请稍后重试"
   },
   "navbar": {
     "welcome": "欢迎使用 Glassy Sky Admin"

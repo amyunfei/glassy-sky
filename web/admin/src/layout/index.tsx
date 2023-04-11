@@ -1,5 +1,6 @@
-import React, { Suspense } from 'react'
-import { Outlet } from 'react-router-dom'
+import React, { Suspense, CSSProperties } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
+import { useTransition, animated } from '@react-spring/web'
 import { ConfigProvider, Layout as AntLayout } from 'antd'
 import style from './layout.module.less'
 import Logo from './Logo'
@@ -8,17 +9,20 @@ import Sidebar from './Sidebar'
 import Progress from '@/components/Progress'
 const { Content: AntContent } = AntLayout
 
-const Content: React.FC = () => {
-  return (
-    <AntContent data-simplebar className={ `${style['layout-content']} relative p-8` }>
-      <div className="w-full h-full overflow-hidden">
-        <ConfigProvider componentSize="large">
-          {/* <PageTitle /> */}
-          <Outlet />
-        </ConfigProvider>
-      </div>
-    </AntContent>
-  )
+interface TransitionProps {
+  children: React.ReactNode
+}
+const Transition: React.FC<TransitionProps> = ({ children }) => {
+  const location = useLocation()
+  const transitions = useTransition<string, CSSProperties>(location.pathname, {
+    from: { opacity: 0, transform: 'translate3d(100%, 0, 0)' },
+    enter: { opacity: 1, transform: 'translate3d(0%, 0, 0)' },
+  })
+  return transitions((style, item) => (
+    <animated.div style={ style } key={ item } className="h-full w-full">
+      { children }
+    </animated.div>
+  ))
 }
 
 const Layout: React.FC = () => {
@@ -31,7 +35,15 @@ const Layout: React.FC = () => {
       <AntLayout className="main bg-gray-darker overflow-hidden">
         <Header />
         <Suspense fallback={ <Progress /> }>
-          <Content />
+          <AntContent data-simplebar className={ `${style['layout-content']} relative p-8` }>
+            <div className="w-full h-full overflow-hidden">
+              <ConfigProvider componentSize="large">
+                <Transition>
+                  <Outlet />
+                </Transition>
+              </ConfigProvider>
+            </div>
+          </AntContent>
         </Suspense>
       </AntLayout>
     </AntLayout>

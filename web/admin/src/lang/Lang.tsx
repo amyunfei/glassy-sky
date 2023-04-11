@@ -13,19 +13,19 @@ const LangItems: ItemType[] = languages.map(language => {
   return {
     key: language.key,
     label: language.label,
-    icon: <SvgIcon name={language.icon} className="rounded mr-2"></SvgIcon>
+    icon: <SvgIcon name={language.icon} className="rounded mr-2" />
   }
 })
 
 const Lang: React.FC = () => {
-  const [langIcon, setLangIcon] = useState<string>('flag_cn')
+  const [langIcon, setLangIcon] = useState<string>('flag_en')
   const onClick: MenuProps['onClick'] = ({ key }) => {
     changeLanguage(key)
     setLangIcon('flag_' + key)
   }
   return (
     <Dropdown menu={{ items: LangItems, onClick }} placement="bottom">
-      <SvgIcon name={langIcon} className="text-2xl rounded cursor-pointer"></SvgIcon>
+      <SvgIcon name={langIcon} className="text-2xl rounded cursor-pointer" />
     </Dropdown>
   )
 }

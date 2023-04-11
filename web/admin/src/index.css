@@ -79,9 +79,9 @@ code {
 }
 
 /* antd table scrollbar */
-/* .ant-table-body {
+.ant-table-body {
   overflow: auto !important;
-} */
+}
 .ant-table-body::-webkit-scrollbar {
   width: 10px;
   /* height: 1px; */

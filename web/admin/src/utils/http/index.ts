@@ -34,6 +34,9 @@ export default class HttpRequest {
           message.error(i18n.t('network.unAuthorized'))
           localStorage.removeItem('token')
         }
+        if (errResponse && errResponse.status === HttpStatusCode.INTERNAL_SERVER_ERROR) {
+          message.error(i18n.t('network.internalServerError'))
+        }
         return Promise.reject(err)
       }
     )
