@@ -18,3 +18,8 @@ export const queryLabelListApi = (data: QueryLabelListParams) => request<Respons
   method: 'GET',
   data
 })
+
+export const queryLabelDetailApi = (id: string) => request<Response<Label>>({
+  url: `/label/${id}`,
+  method: 'GET',
+})

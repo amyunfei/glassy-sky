@@ -15,6 +15,7 @@ type LabelService interface {
 	DeleteLabel(ctx context.Context, data dto.UriIdRequest) error
 	ModifyLabel(ctx context.Context, data dto.ModifyLabelRequest) (*dto.CreateLabelResponse, error)
 	ListLabel(ctx context.Context, listData dto.ListRequest, filterData dto.FilterLabelRequest) (*dto.ListResponse[dto.CreateLabelResponse], error)
+	GetLabel(ctx context.Context, data dto.UriIdRequest) (*dto.CreateLabelResponse, error)
 }
 
 type DefaultLabelService struct {
@@ -128,6 +129,22 @@ func (s DefaultLabelService) ListLabel(
 		logger.Error(err.Error())
 		return nil, err
 	}
+	return &result, nil
+}
+
+func (s DefaultLabelService) GetLabel(ctx context.Context, data dto.UriIdRequest) (*dto.CreateLabelResponse, error) {
+	id, err := strconv.ParseInt(data.ID, 10, 64)
+	if err != nil {
+		logger.Error(err.Error())
+		return nil, err
+	}
+	label, err := s.repo.GetLabel(ctx, id)
+	if err != nil {
+		logger.Error(err.Error())
+		return nil, err
+	}
+	var result dto.CreateLabelResponse
+	result.Transform(label)
 	return &result, nil
 }
 

@@ -40,6 +40,7 @@ interface AuthRoutesProps {
   authStore: AuthStore
 }
 const AuthRoutes: React.FC<AuthRoutesProps> = observer(({ authStore }) => {
+  console.log(authStore.token, 'token')
   return (
     <Routes>
       {
@@ -52,6 +53,7 @@ const AuthRoutes: React.FC<AuthRoutesProps> = observer(({ authStore }) => {
 
 export const Router: React.FC = () => {
   const authStore = useAuthStore()
+  console.log('router render')
   return (
     <BrowserRouter>
       <AuthRoutes authStore={authStore} />

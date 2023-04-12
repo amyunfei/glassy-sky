@@ -92,3 +92,8 @@ code {
 .ant-table-body::-webkit-scrollbar-track {
   @apply rounded-br-md shadow-none bg-opacity-10 bg-white;
 }
+
+/* antd form */
+.ant-form .ant-form-item:last-child {
+  margin-bottom: 0;
+}

@@ -100,3 +100,22 @@ func (h LabelHandlers) ListLabel(ctx *gin.Context) {
 	}
 	response.Success(ctx, res, "success")
 }
+
+// @Tags    标签信息
+// @Summary 获取标签
+// @Param   id          path     string                   true "标签id"
+// @Success 200         {object} response.Body[dto.CreateLabelResponse]
+// @Router  /label/{id} [GET]
+func (h LabelHandlers) GetLabel(ctx *gin.Context) {
+	var req dto.UriIdRequest
+	if err := ctx.ShouldBindUri(&req); err != nil {
+		response.ValidationError(ctx, req, err)
+		return
+	}
+	res, err := h.Service.GetLabel(ctx, req)
+	if err != nil {
+		response.UnexpectedError(ctx, err.Error())
+		return
+	}
+	response.Success(ctx, res, "success")
+}

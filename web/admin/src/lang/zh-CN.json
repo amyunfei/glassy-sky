@@ -7,7 +7,8 @@
     "welcome": "欢迎使用 Glassy Sky Admin"
   },
   "input-placeholder": {
-    "search": "搜索..."
+    "search": "搜索...",
+    "input": "请输入"
   },
   "common-tips": {
     "noData": "暂无数据"
@@ -25,10 +26,23 @@
   },
   "common-action": {
     "edit": "编辑",
-    "delete": "删除"
+    "delete": "删除",
+    "submit": "提交",
+    "cancel": "取消"
   },
   "menu": {
     "userManagement": "用户管理",
     "exerciseManagement": "习题管理"
+  },
+  "module": {
+    "label": {
+      "title": "标签管理",
+      "name": "标签名称",
+      "color": "标签颜色",
+      "addLabel": "添加标签",
+      "editLabel": "编辑标签",
+      "deleteLabel": "删除标签",
+      "deleteLabelTips": "确定删除该标签吗？"
+    }
   }
 }

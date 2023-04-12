@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   FundProjectionScreenOutlined, TagOutlined, AppstoreOutlined, BookOutlined, UnorderedListOutlined, CompassOutlined,
-  AuditOutlined, CoffeeOutlined
+  UserOutlined, CoffeeOutlined
 } from '@ant-design/icons'
 import Login from '@/views/Login'
 import Layout from '@/layout'
@@ -18,7 +18,7 @@ export const menuRoutes: AppRoute.Route[] = [
     path: 'user-management',
     name: 'UserManagement',
     component: React.lazy(() => import('@/views/UserManagement')),
-    meta: { title: 'User-Management', icon: AuditOutlined, breadcrumb: true }
+    meta: { title: 'User-Management', icon: UserOutlined, breadcrumb: true }
   },
   {
     path: 'label-management',

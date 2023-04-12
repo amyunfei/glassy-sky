@@ -181,6 +181,29 @@
             }
         },
         "/label/{id}": {
+            "get": {
+                "tags": [
+                    "标签信息"
+                ],
+                "summary": "获取标签",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "标签id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Body-dto_CreateLabelResponse"
+                        }
+                    }
+                }
+            },
             "put": {
                 "tags": [
                     "标签信息"

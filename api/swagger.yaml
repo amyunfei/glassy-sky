@@ -361,6 +361,21 @@ paths:
       summary: 删除标签
       tags:
       - 标签信息
+    get:
+      parameters:
+      - description: 标签id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Body-dto_CreateLabelResponse'
+      summary: 获取标签
+      tags:
+      - 标签信息
     put:
       parameters:
       - description: 标签信息

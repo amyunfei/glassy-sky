@@ -50,6 +50,7 @@ func Start() {
 	authRouter.DELETE("/label/:id", labelHandlers.DeleteLabel)
 	authRouter.PUT("/label/:id", labelHandlers.ModifyLabel)
 	authRouter.GET("/label", labelHandlers.ListLabel)
+	authRouter.GET("/label/:id", labelHandlers.GetLabel)
 
 	router.Run(":9999")
 	logger.Info("glassy-sky running on port 9999 ...")

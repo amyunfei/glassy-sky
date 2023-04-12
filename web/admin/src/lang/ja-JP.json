@@ -7,7 +7,8 @@
     "welcome": "Glassy Sky Adminへようこそ"
   },
   "input-placeholder": {
-    "search": "何かを検索する..."
+    "search": "何かを検索する...",
+    "input": "入力してください"
   },
   "common-tips": {
     "noData": "データなし"
@@ -25,10 +26,23 @@
   },
   "common-action": {
     "edit": "編集",
-    "delete": "削除"
+    "delete": "削除",
+    "submit": "送信",
+    "cancel": "キャンセル"
   },
   "menu": {
     "userManagement": "ユーザ管理",
     "exerciseManagement": "演習管理"
+  },
+  "module": {
+    "label": {
+      "title": "ラベル管理",
+      "name": "ラベル名",
+      "color": "ラベルカラー",
+      "addLabel": "ラベル追加",
+      "editLabel": "ラベル編集",
+      "deleteLabel": "ラベル削除",
+      "deleteLabelTips": "ラベルを削除しますか？"
+    }
   }
 }

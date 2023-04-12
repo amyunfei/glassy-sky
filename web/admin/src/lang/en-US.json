@@ -7,7 +7,8 @@
     "welcome": "Welcome to Glassy Sky Admin"
   },
   "input-placeholder": {
-    "search": "Search for something..."
+    "search": "Search for something...",
+    "input": "Please input"
   },
   "common-tips": {
     "noData": "No Data"
@@ -25,10 +26,23 @@
   },
   "common-action": {
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "submit": "Submit",
+    "cancel": "Cancel"
   },
   "menu": {
     "userManagement": "User-Management",
     "exerciseManagement": "Exercise-Management"
+  },
+  "module": {
+    "label": {
+      "title": "Label",
+      "name": "Label Name",
+      "color": "Label Color",
+      "addLabel": "Add Label",
+      "editLabel": "Edit Label",
+      "deleteLabel": "Delete Label",
+      "deleteLabelTips": "Are you sure to delete this label?"
+    }
   }
 }
