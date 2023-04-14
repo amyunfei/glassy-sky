@@ -25,13 +25,12 @@ const LabelEditor = forwardRef<LabelEditorInstance, {}>((_, ref) => {
   return (
     <Dialog open={visible} width={664} title={t('module.label.addLabel')} onClose={onClose}>
       <Form form={form} layout="vertical">
-        <Form.Item label={t('module.label.name')} name="layout">
+        <Form.Item label={t('module.label.name')} name="name">
           <Input placeholder={t('input-placeholder.input')} />
         </Form.Item>
         <Form.Item label={t('module.label.color')} name="color">
-          <div className="flex">
-            <RgbColorPicker />
-          </div>
+          <RgbColorPicker className="w-full" />
+          <div className="w-full h-6 bg-indigo-50 rounded mt-3" />
         </Form.Item>
       </Form>
     </Dialog>

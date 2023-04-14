@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"strconv"
 
 	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
@@ -25,6 +26,11 @@ type DefaultLabelService struct {
 func (s DefaultLabelService) CreateLabel(
 	ctx context.Context, data dto.CreateLabelRequest,
 ) (*dto.CreateLabelResponse, error) {
+	if data.Name == "" {
+		err := errors.New("name is empty")
+		logger.Error(err.Error())
+		return nil, err
+	}
 	color, err := strconv.ParseInt(data.Color, 16, 32)
 	if err != nil {
 		logger.Error(err.Error())
