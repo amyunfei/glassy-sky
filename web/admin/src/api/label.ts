@@ -9,11 +9,8 @@ interface QueryLabelListParams {
   current: number
   size: number
 }
-interface QueryLabelListResponse {
-  list: Label[]
-  count: number
-}
-export const queryLabelListApi = (data: QueryLabelListParams) => request<Response<QueryLabelListResponse>>({
+
+export const queryLabelListApi = (data: QueryLabelListParams) => request<ResponseList<Label>>({
   url: '/label',
   method: 'GET',
   data

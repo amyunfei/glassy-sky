@@ -2,6 +2,7 @@ import axios, { AxiosInstance, CreateAxiosDefaults, AxiosRequestConfig, AxiosErr
 import { message } from 'antd'
 import i18n from 'i18next'
 import { HttpStatusCode } from './http-status-code'
+import { history } from '@/router'
 
 interface RequestConfig {
   url: string,
@@ -33,6 +34,7 @@ export default class HttpRequest {
         if (errResponse && errResponse.status === HttpStatusCode.UNAUTHORIZED) {
           message.error(i18n.t('network.unAuthorized'))
           localStorage.removeItem('token')
+          history.replace('/login')
         }
         if (errResponse && errResponse.status === HttpStatusCode.INTERNAL_SERVER_ERROR) {
           message.error(i18n.t('network.internalServerError'))

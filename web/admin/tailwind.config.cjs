@@ -4,7 +4,7 @@ const plugin = require('tailwindcss/plugin')
 module.exports = {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   corePlugins: {
-    preflight: false
+    // preflight: false
   },
   theme: {
     extend: {},

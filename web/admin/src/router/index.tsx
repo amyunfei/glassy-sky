@@ -1,5 +1,6 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
+import { unstable_HistoryRouter as HistoryRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
 import { observer } from 'mobx-react-lite'
 import { useAuthStore, AuthStore } from '@/store'
 import { staticRoutes, dynamicRoutes } from './routes'
@@ -51,12 +52,14 @@ const AuthRoutes: React.FC<AuthRoutesProps> = observer(({ authStore }) => {
   )
 })
 
+export const history = createBrowserHistory()
 export const Router: React.FC = () => {
   const authStore = useAuthStore()
   console.log('router render')
   return (
-    <BrowserRouter>
+    // @ts-expect-error
+    <HistoryRouter history={history}>
       <AuthRoutes authStore={authStore} />
-    </BrowserRouter>
+    </HistoryRouter>
   )
 }
