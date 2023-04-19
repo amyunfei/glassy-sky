@@ -11,7 +11,9 @@
     "input": "Please input"
   },
   "common-tips": {
-    "noData": "No Data"
+    "noData": "No Data",
+    "deleteConfirm": "Are you sure to delete this item?",
+    "deleteSuccess": "Delete successfully"
   },
   "common-title": {
     "username": "User Name",
@@ -28,7 +30,8 @@
     "edit": "Edit",
     "delete": "Delete",
     "submit": "Submit",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   },
   "menu": {
     "userManagement": "User-Management",

@@ -8,6 +8,7 @@ interface RequestConfig {
   url: string,
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   data?: any,
+  headers?: any,
 }
 export default class HttpRequest {
   instance: AxiosInstance
@@ -16,8 +17,10 @@ export default class HttpRequest {
 
     this.instance.interceptors.request.use(
       config => {
-        const token = localStorage.getItem('token')
-        config.headers.Authorization = `Bearer ${token}`
+        if (!config.headers.Authorization) {
+          const token = localStorage.getItem('token')
+          config.headers.Authorization = `Bearer ${token}`
+        }
         return config
       },
       error => {

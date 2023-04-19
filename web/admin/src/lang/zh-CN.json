@@ -11,7 +11,9 @@
     "input": "请输入"
   },
   "common-tips": {
-    "noData": "暂无数据"
+    "noData": "暂无数据",
+    "deleteConfirm": "确定删除吗？",
+    "deleteSuccess": "删除成功"
   },
   "common-title": {
     "username": "用户名称",
@@ -28,7 +30,8 @@
     "edit": "编辑",
     "delete": "删除",
     "submit": "提交",
-    "cancel": "取消"
+    "cancel": "取消",
+    "confirm": "确定"
   },
   "menu": {
     "userManagement": "用户管理",

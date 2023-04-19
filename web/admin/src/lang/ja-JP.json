@@ -11,7 +11,9 @@
     "input": "入力してください"
   },
   "common-tips": {
-    "noData": "データなし"
+    "noData": "データなし",
+    "deleteConfirm": "削除しますか？",
+    "deleteSuccess": "削除成功"
   },
   "common-title": {
     "username": "ユーザー名",
@@ -28,7 +30,8 @@
     "edit": "編集",
     "delete": "削除",
     "submit": "送信",
-    "cancel": "キャンセル"
+    "cancel": "キャンセル",
+    "confirm": "確認"
   },
   "menu": {
     "userManagement": "ユーザ管理",

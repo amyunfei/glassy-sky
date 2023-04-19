@@ -20,3 +20,8 @@ export const queryLabelDetailApi = (id: string) => request<Response<Label>>({
   url: `/label/${id}`,
   method: 'GET',
 })
+
+export const removeLabelApi = (id: string) => request<Response<null>>({
+  url: `/label/${id}`,
+  method: 'DELETE',
+})

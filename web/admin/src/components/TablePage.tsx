@@ -7,6 +7,7 @@ interface PropsType<T> {
   handleAdd?: () => void,
   tableProps: TableProps<T>
   children?: React.ReactNode
+  total: number
 }
 
 function TablePage<T extends object> (props: PropsType<T>) {
@@ -41,7 +42,7 @@ function TablePage<T extends object> (props: PropsType<T>) {
         scroll={{ y: `${contentHeight}px` }}
         className="flex-grow h-auto overflow-hidden"
       />
-      <Pagination className="text-right pt-4 flex-shrink-0" />
+      <Pagination total={props.total} className="text-right pt-4 flex-shrink-0" />
       { props.children }
     </div>
   )

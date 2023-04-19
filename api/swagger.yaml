@@ -466,6 +466,12 @@ paths:
       summary: 验证邮箱可用
       tags:
       - 用户信息
+  /user/github-contributions:
+    post:
+      responses: {}
+      summary: 获取用户Gitub贡献信息
+      tags:
+      - 用户信息
   /user/login:
     post:
       parameters:
