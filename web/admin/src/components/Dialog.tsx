@@ -12,6 +12,7 @@ interface DialogProps extends ModalFuncProps {
   children: React.ReactNode
   onClose?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
   onConfirm?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
+  loading?: boolean
 }
 const Dialog: React.FC<DialogProps> = props => {
   const { t } = useTranslation()
@@ -36,7 +37,7 @@ const Dialog: React.FC<DialogProps> = props => {
       </div>
       {/* footer */}
       <div className="px-8 py-5 flex justify-end bg-black bg-opacity-25">
-        <Button type="primary" icon={<CheckOutlined />} className="mr-3" onClick={props.onConfirm}>
+        <Button type="primary" loading={props.loading} icon={<CheckOutlined />} className="mr-3" onClick={props.onConfirm}>
           { t('common-action.submit') }
         </Button>
         <Button type="primary" ghost icon={<CloseOutlined />} onClick={props.onClose}>

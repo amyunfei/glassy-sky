@@ -11,22 +11,34 @@ import LabelEditor, { LabelEditorInstance } from './LabelEditor'
 const UserManagement: React.FC = () => {
   const { t } = useTranslation()
   const [loading, setLoading] = useState<boolean>(false)
+  const [listQuery, setListQuery] = useState<{ size: number, current: number }>({ size: 10, current: 1 })
   const [dataSource, setDataSource] = useState<Label[]>([])
   const [total, setTotal] = useState<number>(0)
   const editorRef = useRef<LabelEditorInstance | null>(null)
 
   const fetchData = async () => {
     setLoading(true)
-    const [err, res] = await queryLabelListApi({ size: 10, current: 1 })
+    const [err, res] = await queryLabelListApi(listQuery)
     setLoading(false)
     if (err !== null) return
     setDataSource(res.data.list)
     setTotal(res.data.count)
   }
   useEffect(() => { fetchData() }, [])
-  const handleEdit = (id: string) => {
+  useEffect(() => { fetchData() }, [listQuery])
+
+  const handlePageChange = (current: number, size: number) => {
+    setListQuery({ size, current })
+  }
+  const handleEdit = async (id?: string) => {
+    let info: Label | undefined
+    if (id) {
+      const [err, res] = await queryLabelDetailApi(id)
+      if (err !== null) return
+      info = res.data
+    }
     if (editorRef.current === null) return
-    editorRef.current.open()
+    editorRef.current.open(info)
   }
   const handleDelete = (id: string) => {
     deleteConfirm(async () => {
@@ -54,7 +66,12 @@ const UserManagement: React.FC = () => {
 
   return (
     <TablePage<Label>
-      tableProps={{ columns, dataSource, loading, rowKey: 'id' }} total={total}
+      tableProps={{ columns, dataSource, loading, rowKey: 'id' }}
+      current={listQuery.current}
+      pageSize={listQuery.size}
+      total={total}
+      pageChange={handlePageChange}
+      handleAdd={() => handleEdit()}
     >
       <LabelEditor ref={editorRef} />
     </TablePage>

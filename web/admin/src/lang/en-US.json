@@ -13,7 +13,9 @@
   "common-tips": {
     "noData": "No Data",
     "deleteConfirm": "Are you sure to delete this item?",
-    "deleteSuccess": "Delete successfully"
+    "deleteSuccess": "Delete successfully",
+    "createSuccess": "Create successfully",
+    "updateSuccess": "Update successfully"
   },
   "common-title": {
     "username": "User Name",
@@ -41,6 +43,7 @@
     "label": {
       "title": "Label",
       "name": "Label Name",
+      "nameRequired": "Please input label name",
       "color": "Label Color",
       "addLabel": "Add Label",
       "editLabel": "Edit Label",

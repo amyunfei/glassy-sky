@@ -13,7 +13,9 @@
   "common-tips": {
     "noData": "暂无数据",
     "deleteConfirm": "确定删除吗？",
-    "deleteSuccess": "删除成功"
+    "deleteSuccess": "删除成功",
+    "createSuccess": "创建成功",
+    "updateSuccess": "更新成功"
   },
   "common-title": {
     "username": "用户名称",
@@ -41,6 +43,7 @@
     "label": {
       "title": "标签管理",
       "name": "标签名称",
+      "nameRequired": "请输入标签名称",
       "color": "标签颜色",
       "addLabel": "添加标签",
       "editLabel": "编辑标签",

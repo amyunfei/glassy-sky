@@ -4,10 +4,13 @@ import { PlusOutlined } from '@ant-design/icons'
 import { useEventListener } from '@/hooks'
 
 interface PropsType<T> {
-  handleAdd?: () => void,
   tableProps: TableProps<T>
   children?: React.ReactNode
   total: number
+  current: number
+  pageSize: number
+  handleAdd?: () => void
+  pageChange?: (page: number, pageSize: number) => void
 }
 
 function TablePage<T extends object> (props: PropsType<T>) {
@@ -42,7 +45,13 @@ function TablePage<T extends object> (props: PropsType<T>) {
         scroll={{ y: `${contentHeight}px` }}
         className="flex-grow h-auto overflow-hidden"
       />
-      <Pagination total={props.total} className="text-right pt-4 flex-shrink-0" />
+      <Pagination
+        current={props.current}
+        pageSize={props.pageSize}
+        total={props.total}
+        className="text-right pt-4 flex-shrink-0"
+        onChange={props.pageChange}
+      />
       { props.children }
     </div>
   )

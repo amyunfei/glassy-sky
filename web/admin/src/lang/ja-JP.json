@@ -13,7 +13,9 @@
   "common-tips": {
     "noData": "データなし",
     "deleteConfirm": "削除しますか？",
-    "deleteSuccess": "削除成功"
+    "deleteSuccess": "削除成功",
+    "createSuccess": "作成成功",
+    "updateSuccess": "更新成功"
   },
   "common-title": {
     "username": "ユーザー名",
@@ -41,6 +43,7 @@
     "label": {
       "title": "ラベル管理",
       "name": "ラベル名",
+      "nameRequired": "ラベル名を入力してください",
       "color": "ラベルカラー",
       "addLabel": "ラベル追加",
       "editLabel": "ラベル編集",
