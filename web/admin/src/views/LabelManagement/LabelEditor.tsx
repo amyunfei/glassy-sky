@@ -52,6 +52,7 @@ const LabelEditor = forwardRef<LabelEditorInstance, {}>((_, ref) => {
   const onClose = () => {
     setVisible(false)
     form.resetFields()
+    setColor('#000000')
   }
 
   const { t } = useTranslation()

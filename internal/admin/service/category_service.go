@@ -8,6 +8,7 @@ import (
 	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
 	"github.com/amyunfei/glassy-sky/internal/admin/dto"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/logger"
+	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/utils"
 )
 
 type CategoryService interface {
@@ -27,7 +28,6 @@ func (s DefaultCategoryService) CreateCategory(
 	data dto.CreateCategoryRequest,
 ) (*dto.CreateCategoryResponse, error) {
 	var parentId int64
-	var color int64
 	var err error
 	if data.ParentId == "" {
 		parentId = 0
@@ -41,9 +41,8 @@ func (s DefaultCategoryService) CreateCategory(
 		logger.Error(err.Error())
 		return nil, err
 	}
-	if data.Color == "" {
-		color = 0
-	} else if color, err = strconv.ParseInt(data.Color, 16, 32); err != nil {
+	color, err := utils.HexColorToInt[int32](data.Color)
+	if err != nil {
 		logger.Error(err.Error())
 		return nil, err
 	}
@@ -51,7 +50,7 @@ func (s DefaultCategoryService) CreateCategory(
 	arg := postgresql.CreateCategoryParams{
 		Name:     data.Name,
 		ParentID: parentId,
-		Color:    int32(color),
+		Color:    color,
 	}
 	category, err := s.repo.CreateCategory(ctx, arg)
 	if err != nil {
@@ -96,11 +95,11 @@ func (s DefaultCategoryService) ModifyCategory(
 	}
 	color := sql.NullInt32{}
 	if data.Color != "" {
-		num, err := strconv.ParseInt(data.Color, 16, 32)
+		num, err := utils.HexColorToInt[int32](data.Color)
 		if err != nil {
 			return nil, err
 		}
-		color.Int32 = int32(num)
+		color.Int32 = num
 		color.Valid = true
 	}
 	arg := postgresql.UpdateCategoryParams{

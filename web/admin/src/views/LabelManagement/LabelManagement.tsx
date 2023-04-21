@@ -52,7 +52,7 @@ const UserManagement: React.FC = () => {
   const columns: ColumnsType<Label> = [
     { title: t('common-title.labelName'), dataIndex: 'name' },
     { title: t('common-title.color'), dataIndex: 'color', render: (_, { color }) => (
-      <div className="w-10 h-6 rounded-md" style={{ backgroundColor: `#${color}` }} />
+      <div className="w-10 h-6 rounded-md" style={{ backgroundColor: color }} />
     ) },
     { title: t('common-title.updatedAt'), dataIndex: 'updatedAt' },
     { title: t('common-title.createdAt'), dataIndex: 'createdAt' },

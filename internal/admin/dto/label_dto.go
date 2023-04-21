@@ -5,6 +5,7 @@ import (
 
 	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/response"
+	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/utils"
 )
 
 type CreateLabelRequest struct {
@@ -30,7 +31,7 @@ type CreateLabelResponse struct {
 func (r *CreateLabelResponse) Transform(modal postgresql.Label) {
 	r.ID = strconv.FormatInt(modal.ID, 10)
 	r.Name = modal.Name
-	r.Color = strconv.FormatInt(int64(modal.Color), 16)
+	r.Color = utils.IntToHexColor(modal.Color)
 	r.CreatedAt = modal.CreatedAt.Format("2006-01-02 15:04:05")
 	r.UpdatedAt = modal.UpdatedAt.Format("2006-01-02 15:04:05")
 }

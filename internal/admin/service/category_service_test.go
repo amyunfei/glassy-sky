@@ -39,7 +39,7 @@ func TestCreateCategory(t *testing.T) {
 	arg := postgresql.CreateCategoryParams{
 		Name:     category.Name,
 		ParentID: 0,
-		Color:    0,
+		Color:    category.Color,
 	}
 	repo.EXPECT().
 		CreateCategory(gomock.Any(), arg).
@@ -50,7 +50,7 @@ func TestCreateCategory(t *testing.T) {
 	req := dto.CreateCategoryRequest{
 		Name:     category.Name,
 		ParentId: "",
-		Color:    "",
+		Color:    utils.IntToHexColor(category.Color),
 	}
 	res, err := service.CreateCategory(context.Background(), req)
 	require.NoError(t, err)

@@ -52,7 +52,7 @@ func TestCreateLabel(t *testing.T) {
 			checkResponse: func(res *dto.CreateLabelResponse, err error) {
 				require.NoError(t, err)
 				require.Equal(t, label.Name, res.Name)
-				require.Equal(t, strconv.FormatInt(int64(label.Color), 16), res.Color)
+				require.Equal(t, utils.IntToHexColor(label.Color), res.Color)
 			},
 		},
 		{

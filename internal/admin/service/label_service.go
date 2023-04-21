@@ -9,6 +9,7 @@ import (
 	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
 	"github.com/amyunfei/glassy-sky/internal/admin/dto"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/logger"
+	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/utils"
 )
 
 type LabelService interface {
@@ -31,14 +32,14 @@ func (s DefaultLabelService) CreateLabel(
 		logger.Error(err.Error())
 		return nil, err
 	}
-	color, err := strconv.ParseInt(data.Color, 16, 32)
+	color, err := utils.HexColorToInt[int32](data.Color)
 	if err != nil {
 		logger.Error(err.Error())
 		return nil, err
 	}
 	arg := postgresql.CreateLabelParams{
 		Name:  data.Name,
-		Color: int32(color),
+		Color: color,
 	}
 	label, err := s.repo.CreateLabel(ctx, arg)
 	if err != nil {
@@ -79,12 +80,12 @@ func (s DefaultLabelService) ModifyLabel(
 	}
 	color := sql.NullInt32{}
 	if data.Color != "" {
-		num, err := strconv.ParseInt(data.Color, 16, 32)
+		num, err := utils.HexColorToInt[int32](data.Color)
 		if err != nil {
 			logger.Error(err.Error())
 			return nil, err
 		}
-		color.Int32 = int32(num)
+		color.Int32 = num
 		color.Valid = true
 	}
 	arg := postgresql.UpdateLabelParams{
