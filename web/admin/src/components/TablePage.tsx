@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { Table, TableProps, Pagination, Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { useEventListener } from '@/hooks'
+import { useTranslation } from 'react-i18next'
 
 interface PropsType<T> {
   tableProps: TableProps<T>
@@ -16,6 +17,7 @@ interface PropsType<T> {
 function TablePage<T extends object> (props: PropsType<T>) {
   const tableRef = useRef<HTMLDivElement>(null)
   const [contentHeight, setContentHeight] = useState<number>(0)
+  const { t } = useTranslation()
 
   const computedTableHeight = useCallback(() => {
     if (tableRef.current !== null) {
@@ -49,6 +51,8 @@ function TablePage<T extends object> (props: PropsType<T>) {
         current={props.current}
         pageSize={props.pageSize}
         total={props.total}
+        showTotal={ total => t('common-tips.total', { total }) }
+        showSizeChanger={false}
         className="text-right pt-4 flex-shrink-0"
         onChange={props.pageChange}
       />

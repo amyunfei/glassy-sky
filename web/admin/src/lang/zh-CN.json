@@ -12,6 +12,7 @@
   },
   "common-tips": {
     "noData": "暂无数据",
+    "total": "共 {{total}} 条",
     "deleteConfirm": "确定删除吗？",
     "deleteSuccess": "删除成功",
     "createSuccess": "创建成功",

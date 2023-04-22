@@ -12,6 +12,7 @@
   },
   "common-tips": {
     "noData": "No Data",
+    "total": "Total {{total}} items",
     "deleteConfirm": "Are you sure to delete this item?",
     "deleteSuccess": "Delete successfully",
     "createSuccess": "Create successfully",

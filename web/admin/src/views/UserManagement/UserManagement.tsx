@@ -36,11 +36,12 @@ const UserManagement: React.FC = () => {
   ]
 
   return (
-    <TablePage<any>
-      tableProps={{ columns, dataSource, pagination, loading, rowKey: 'id' }}
-    >
-      {/*  */}
-    </TablePage>
+    <></>
+    // <TablePage<any>
+    //   tableProps={{ columns, dataSource, pagination, loading, rowKey: 'id' }}
+    // >
+    //   {/*  */}
+    // </TablePage>
   )
 }
 

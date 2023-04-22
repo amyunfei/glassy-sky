@@ -12,6 +12,7 @@
   },
   "common-tips": {
     "noData": "データなし",
+    "total": "合計 {{total}} ページ",
     "deleteConfirm": "削除しますか？",
     "deleteSuccess": "削除成功",
     "createSuccess": "作成成功",
