@@ -24,9 +24,11 @@ function TablePage<T extends object> (props: PropsType<T>) {
       const thead = tableRef.current.querySelector('.ant-table-thead')
       const tablePlaceholder = tableRef.current.querySelector<HTMLElement>('.ant-table-placeholder')
       setTimeout(() => {
-        if (thead !== null && tablePlaceholder !== null && tableRef.current !== null) {
+        if (thead !== null && tableRef.current !== null) {
           const contentHeight = tableRef.current.getBoundingClientRect().height - thead.getBoundingClientRect().height
-          tablePlaceholder.style.height = `${contentHeight}px`
+          if (tablePlaceholder !== null ) {
+            tablePlaceholder.style.height = `${contentHeight}px`
+          }
           setContentHeight(contentHeight)
         }
       }, 30)

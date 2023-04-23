@@ -31,30 +31,126 @@ func randomCategory() postgresql.Category {
 }
 
 func TestCreateCategory(t *testing.T) {
+	parentCategory := randomCategory()
 	category := randomCategory()
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
+	category.ParentID = parentCategory.ID
 
-	repo := mockdb.NewMockRepository(ctrl)
-	arg := postgresql.CreateCategoryParams{
-		Name:     category.Name,
-		ParentID: 0,
-		Color:    category.Color,
+	testCases := []struct {
+		name          string
+		body          dto.CreateCategoryRequest
+		buildStubs    func(*mockdb.MockRepository)
+		checkResponse func(*dto.CreateCategoryResponse, error)
+	}{
+		{
+			name: "success_create_root_category",
+			body: dto.CreateCategoryRequest{
+				Name:     category.Name,
+				Color:    utils.IntToHexColor(category.Color),
+				ParentId: "",
+			},
+			buildStubs: func(repo *mockdb.MockRepository) {
+				repo.EXPECT().GetCategory(gomock.Any(), gomock.Any()).Times(0)
+				repo.EXPECT().
+					CreateCategory(gomock.Any(), gomock.Any()).
+					Times(1).
+					Return(category, nil)
+			},
+			checkResponse: func(res *dto.CreateCategoryResponse, err error) {
+				require.NoError(t, err)
+				require.Equal(t, category.Name, res.Name)
+				require.Equal(t, utils.IntToHexColor(category.Color), res.Color)
+			},
+		},
+		{
+			name: "success_create_sub_category",
+			body: dto.CreateCategoryRequest{
+				Name:     category.Name,
+				Color:    utils.IntToHexColor(category.Color),
+				ParentId: strconv.FormatInt(category.ParentID, 10),
+			},
+			buildStubs: func(repo *mockdb.MockRepository) {
+				repo.EXPECT().
+					GetCategory(gomock.Any(), gomock.Eq(category.ParentID)).
+					Times(1).
+					Return(parentCategory, nil)
+				repo.EXPECT().
+					CreateCategory(gomock.Any(), gomock.Any()).
+					Times(1).
+					Return(category, nil)
+			},
+			checkResponse: func(res *dto.CreateCategoryResponse, err error) {
+				require.NoError(t, err)
+				require.Equal(t, category.Name, res.Name)
+				require.Equal(t, utils.IntToHexColor(category.Color), res.Color)
+			},
+		},
+		{
+			name: "fail_create_sub_category_with_invalid_parent_id",
+			body: dto.CreateCategoryRequest{
+				Name:     category.Name,
+				Color:    utils.IntToHexColor(category.Color),
+				ParentId: "invalid",
+			},
+			buildStubs: func(repo *mockdb.MockRepository) {
+				repo.EXPECT().
+					GetCategory(gomock.Any(), gomock.Eq(category.ParentID)).
+					Times(0)
+			},
+			checkResponse: func(res *dto.CreateCategoryResponse, err error) {
+				_, err1 := strconv.ParseInt("invalid", 10, 64)
+				require.Error(t, err)
+				require.EqualError(t, err, err1.Error())
+			},
+		},
+		{
+			name: "fail_create_sub_category_with_no-existed_parent_id",
+			body: dto.CreateCategoryRequest{
+				Name:     category.Name,
+				Color:    utils.IntToHexColor(category.Color),
+				ParentId: strconv.FormatInt(category.ParentID, 10),
+			},
+			buildStubs: func(repo *mockdb.MockRepository) {
+				repo.EXPECT().
+					GetCategory(gomock.Any(), gomock.Eq(category.ParentID)).
+					Times(1).
+					Return(postgresql.Category{}, sql.ErrNoRows)
+			},
+			checkResponse: func(res *dto.CreateCategoryResponse, err error) {
+				require.Error(t, err)
+				require.Equal(t, err, sql.ErrNoRows)
+			},
+		},
+		{
+			name: "fail_create_sub_category_with_invalid_color",
+			body: dto.CreateCategoryRequest{
+				Name:     category.Name,
+				Color:    "invalid",
+				ParentId: "",
+			},
+			buildStubs: func(repo *mockdb.MockRepository) {
+				repo.EXPECT().GetCategory(gomock.Any(), gomock.Any()).Times(0)
+				repo.EXPECT().CreateCategory(gomock.Any(), gomock.Any()).Times(0)
+			},
+			checkResponse: func(res *dto.CreateCategoryResponse, err error) {
+				_, err1 := utils.HexColorToInt[int32]("invalid")
+				require.Error(t, err)
+				require.EqualError(t, err, err1.Error())
+			},
+		},
 	}
-	repo.EXPECT().
-		CreateCategory(gomock.Any(), arg).
-		Times(1).
-		Return(category, nil)
 
-	service := NewCategoryService(repo)
-	req := dto.CreateCategoryRequest{
-		Name:     category.Name,
-		ParentId: "",
-		Color:    utils.IntToHexColor(category.Color),
+	for _, testCase := range testCases {
+		t.Run(testCase.name, func(t *testing.T) {
+			ctrl := gomock.NewController(t)
+			defer ctrl.Finish()
+
+			repo := mockdb.NewMockRepository(ctrl)
+			testCase.buildStubs(repo)
+
+			service := NewCategoryService(repo)
+			testCase.checkResponse(service.CreateCategory(context.Background(), testCase.body))
+		})
 	}
-	res, err := service.CreateCategory(context.Background(), req)
-	require.NoError(t, err)
-	require.Equal(t, req.Name, res.Name)
 }
 
 func TestGetCategory(t *testing.T) {

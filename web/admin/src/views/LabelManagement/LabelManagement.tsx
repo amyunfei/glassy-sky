@@ -8,7 +8,7 @@ import TablePage from '@/components/TablePage'
 import LabelEditor, { LabelEditorInstance } from './LabelEditor'
 
 
-const UserManagement: React.FC = () => {
+const LabelManagement: React.FC = () => {
   const { t } = useTranslation()
   const [loading, setLoading] = useState<boolean>(false)
   const [listQuery, setListQuery] = useState<{ size: number, current: number }>({ size: 10, current: 1 })
@@ -78,4 +78,4 @@ const UserManagement: React.FC = () => {
   )
 }
 
-export default UserManagement
+export default LabelManagement
