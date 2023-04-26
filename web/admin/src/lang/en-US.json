@@ -41,6 +41,15 @@
     "exerciseManagement": "Exercise-Management"
   },
   "module": {
+    "category": {
+      "title": "Category",
+      "name": "Category Name",
+      "nameRequired": "Please input category name",
+      "addCategory": "Add Category",
+      "editCategory": "Edit Category",
+      "deleteCategory": "Delete Category",
+      "deleteCategoryTips": "Are you sure to delete this category?"
+    },
     "label": {
       "title": "Label",
       "name": "Label Name",

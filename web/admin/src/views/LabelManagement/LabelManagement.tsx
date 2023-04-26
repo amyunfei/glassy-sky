@@ -24,7 +24,6 @@ const LabelManagement: React.FC = () => {
     setDataSource(res.data.list)
     setTotal(res.data.count)
   }
-  useEffect(() => { fetchData() }, [])
   useEffect(() => { fetchData() }, [listQuery])
 
   const handlePageChange = (current: number, size: number) => {

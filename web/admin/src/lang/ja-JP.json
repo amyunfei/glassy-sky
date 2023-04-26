@@ -41,6 +41,15 @@
     "exerciseManagement": "演習管理"
   },
   "module": {
+    "category": {
+      "title": "カテゴリ管理",
+      "name": "カテゴリ名",
+      "nameRequired": "カテゴリ名を入力してください",
+      "addCategory": "カテゴリ追加",
+      "editCategory": "カテゴリ編集",
+      "deleteCategory": "カテゴリ削除",
+      "deleteCategoryTips": "カテゴリを削除しますか？"
+    },
     "label": {
       "title": "ラベル管理",
       "name": "ラベル名",

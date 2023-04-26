@@ -153,6 +153,70 @@ func TestCreateCategory(t *testing.T) {
 	}
 }
 
+func TestDeleteCategory(t *testing.T) {
+	category := randomCategory()
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	// build stubs
+	repo := mockdb.NewMockRepository(ctrl)
+	repo.EXPECT().
+		DeleteCategory(gomock.Any(), gomock.Eq(category.ID)).
+		Times(1).
+		Return(nil)
+
+	service := NewCategoryService(repo)
+	arg := dto.UriIdRequest{
+		ID: strconv.FormatInt(category.ID, 10),
+	}
+	err := service.DeleteCategory(context.Background(), arg)
+	require.NoError(t, err)
+}
+
+func TestModifyCategory(t *testing.T) {
+	category := randomCategory()
+	testCases := []struct {
+		name          string
+		body          dto.ModifyCategoryRequest
+		buildStubs    func(repo *mockdb.MockRepository)
+		checkResponse func(res *dto.CreateCategoryResponse, err error)
+	}{
+		{
+			name: "success_modify_category",
+			body: dto.ModifyCategoryRequest{
+				ID:       strconv.FormatInt(category.ID, 10),
+				Name:     category.Name,
+				Color:    utils.IntToHexColor(category.Color),
+				ParentId: "",
+			},
+			buildStubs: func(repo *mockdb.MockRepository) {
+				repo.EXPECT().
+					UpdateCategory(gomock.Any(), gomock.Any()).
+					Times(1).
+					Return(category, nil)
+			},
+			checkResponse: func(res *dto.CreateCategoryResponse, err error) {
+				require.NoError(t, err)
+				require.Equal(t, category.Name, res.Name)
+				require.Equal(t, utils.IntToHexColor(category.Color), res.Color)
+			},
+		},
+	}
+
+	for _, testCase := range testCases {
+		t.Run(testCase.name, func(t *testing.T) {
+			ctrl := gomock.NewController(t)
+			defer ctrl.Finish()
+
+			repo := mockdb.NewMockRepository(ctrl)
+			testCase.buildStubs(repo)
+
+			service := NewCategoryService(repo)
+			testCase.checkResponse(service.ModifyCategory(context.Background(), testCase.body))
+		})
+	}
+}
+
 func TestGetCategory(t *testing.T) {
 	category := randomCategory()
 	ctrl := gomock.NewController(t)

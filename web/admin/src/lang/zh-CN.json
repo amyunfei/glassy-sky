@@ -41,6 +41,15 @@
     "exerciseManagement": "习题管理"
   },
   "module": {
+    "category": {
+      "title": "分类管理",
+      "name": "分类名称",
+      "nameRequired": "请输入分类名称",
+      "addCategory": "添加分类",
+      "editCategory": "编辑分类",
+      "deleteCategory": "删除分类",
+      "deleteCategoryTips": "确定删除该分类吗？"
+    },
     "label": {
       "title": "标签管理",
       "name": "标签名称",

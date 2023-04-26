@@ -21,6 +21,12 @@ export const menuRoutes: AppRoute.Route[] = [
     meta: { title: 'User-Management', icon: UserOutlined, breadcrumb: true }
   },
   {
+    path: 'category-management',
+    name: 'CategoryManagement',
+    component: React.lazy(() => import('@/views/CategoryManagement')),
+    meta: { title: 'Category-Management', icon: AppstoreOutlined, breadcrumb: true }
+  },
+  {
     path: 'label-management',
     name: 'LabelManagement',
     component: React.lazy(() => import('@/views/LabelManagement')),
