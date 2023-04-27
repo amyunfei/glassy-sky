@@ -10,10 +10,12 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func createRandomCategory(t *testing.T) Category {
+const DEFAULT_PARENT_ID = 0
+
+func createRandomCategory(t *testing.T, parentId int64) Category {
 	arg := CreateCategoryParams{
 		Name:     utils.RandomString(6),
-		ParentID: 0,
+		ParentID: parentId,
 		Color:    utils.RandomColorInt(),
 	}
 	currentTime := time.Now()
@@ -36,11 +38,11 @@ func createRandomCategory(t *testing.T) Category {
 }
 
 func TestCreateCategory(t *testing.T) {
-	createRandomCategory(t)
+	createRandomCategory(t, DEFAULT_PARENT_ID)
 }
 
 func TestGetCategory(t *testing.T) {
-	category1 := createRandomCategory(t)
+	category1 := createRandomCategory(t, DEFAULT_PARENT_ID)
 	category2, err := testQueries.GetCategory(context.Background(), category1.ID)
 	require.NoError(t, err)
 	require.NotEmpty(t, category2)
@@ -54,7 +56,7 @@ func TestGetCategory(t *testing.T) {
 }
 
 func TestUpdateCategory(t *testing.T) {
-	category1 := createRandomCategory(t)
+	category1 := createRandomCategory(t, DEFAULT_PARENT_ID)
 	arg := UpdateCategoryParams{
 		ID: category1.ID,
 		Name: sql.NullString{
@@ -84,7 +86,7 @@ func TestUpdateCategory(t *testing.T) {
 func TestCountCategory(t *testing.T) {
 	count1, err := testQueries.CountCategory(context.Background(), "")
 	require.NoError(t, err)
-	createRandomCategory(t)
+	createRandomCategory(t, DEFAULT_PARENT_ID)
 	count2, err := testQueries.CountCategory(context.Background(), "")
 	require.NoError(t, err)
 	require.Equal(t, count1+1, count2)
@@ -92,7 +94,7 @@ func TestCountCategory(t *testing.T) {
 
 func TestListCategory(t *testing.T) {
 	for i := 0; i < 10; i++ {
-		createRandomCategory(t)
+		createRandomCategory(t, DEFAULT_PARENT_ID)
 	}
 	arg := ListCategoryParams{
 		Limit:  5,
@@ -104,5 +106,27 @@ func TestListCategory(t *testing.T) {
 	require.Len(t, categories, 5)
 	for _, category := range categories {
 		require.NotEmpty(t, category)
+	}
+}
+
+func TestTreeCategory(t *testing.T) {
+	var parentId int64 = DEFAULT_PARENT_ID
+	for i := 0; i < 10; i++ {
+		category := createRandomCategory(t, parentId)
+		parentId = category.ID
+	}
+	categories, err := testQueries.TreeCategory(context.Background())
+	require.NoError(t, err)
+	require.NotEmpty(t, categories)
+	for _, category := range categories {
+		require.NotEmpty(t, category)
+		require.NotEmpty(t, category.Level)
+		if category.Level > 1 {
+			require.NotEmpty(t, category.ParentID)
+			parentCategory, err := testQueries.GetCategory(context.Background(), category.ParentID)
+			require.NoError(t, err)
+			require.NotEmpty(t, parentCategory)
+			require.Equal(t, parentCategory.ID, category.ParentID)
+		}
 	}
 }

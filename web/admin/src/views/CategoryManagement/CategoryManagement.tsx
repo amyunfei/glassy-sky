@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Button, Space } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { useTranslation } from 'react-i18next'
 import { Category, queryCategoryListApi } from '@/api/category'
@@ -24,6 +25,12 @@ const CategoryManagement: React.FC = () => {
   const handlePageChange = (current: number, size: number) => {
     setListQuery({ size, current })
   }
+  const handleEdit = async (id?: string) => {
+    // 
+  }
+  const handleDelete = (id: string) => {
+    // 
+  }
 
   useEffect(() => { fetchData() }, [listQuery])
 
@@ -33,7 +40,13 @@ const CategoryManagement: React.FC = () => {
       <div className="w-10 h-6 rounded-md" style={{ backgroundColor: color }} />
     ) },
     { title: t('common-title.updatedAt'), dataIndex: 'updatedAt' },
-    { title: t('common-title.createdAt'), dataIndex: 'createdAt' }
+    { title: t('common-title.createdAt'), dataIndex: 'createdAt' },
+    { title: t('common-title.action'), dataIndex: 'action', render: (_, record) => (
+      <Space size="large">
+        <Button type="link" className="p-0" onClick={() => handleEdit(record.id)}>{t('common-action.edit')}</Button>
+        <Button type="link" className="p-0" onClick={() => handleDelete(record.id)}>{t('common-action.delete')}</Button>
+      </Space>
+    ) }
   ]
 
   return (

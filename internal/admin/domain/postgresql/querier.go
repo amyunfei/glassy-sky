@@ -26,6 +26,7 @@ type Querier interface {
 	ListCategory(ctx context.Context, arg ListCategoryParams) ([]Category, error)
 	ListLabel(ctx context.Context, arg ListLabelParams) ([]Label, error)
 	ListUser(ctx context.Context, arg ListUserParams) ([]User, error)
+	TreeCategory(ctx context.Context) ([]TreeCategoryRow, error)
 	UpdateCategory(ctx context.Context, arg UpdateCategoryParams) (Category, error)
 	UpdateLabel(ctx context.Context, arg UpdateLabelParams) (Label, error)
 	UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error)

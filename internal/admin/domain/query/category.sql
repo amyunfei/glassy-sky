@@ -33,3 +33,14 @@ WHERE (@name::text = '' OR name LIKE '%' || @name || '%')
 ORDER BY id
 LIMIT $1
 OFFSET $2;
+
+-- name: TreeCategory :many
+WITH RECURSIVE categoryTree AS (
+  SELECT id, name, parent_id, color, 1::SMALLINT AS level
+  FROM categories
+  WHERE parent_id = 0
+  UNION ALL
+  SELECT c.id, c.name, c.parent_id, c.color, t.level::SMALLINT + 1::SMALLINT
+  FROM categories c
+  JOIN categoryTree t ON c.parent_id = t.id
+) SELECT * FROM categoryTree;

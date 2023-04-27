@@ -128,6 +128,55 @@ func (q *Queries) ListCategory(ctx context.Context, arg ListCategoryParams) ([]C
 	return items, nil
 }
 
+const treeCategory = `-- name: TreeCategory :many
+WITH RECURSIVE categoryTree AS (
+  SELECT id, name, parent_id, color, 1::SMALLINT AS level
+  FROM categories
+  WHERE parent_id = 0
+  UNION ALL
+  SELECT c.id, c.name, c.parent_id, c.color, t.level::SMALLINT + 1::SMALLINT
+  FROM categories c
+  JOIN categoryTree t ON c.parent_id = t.id
+) SELECT id, name, parent_id, color, level FROM categoryTree
+`
+
+type TreeCategoryRow struct {
+	ID       int64
+	Name     string
+	ParentID int64
+	Color    int32
+	Level    int16
+}
+
+func (q *Queries) TreeCategory(ctx context.Context) ([]TreeCategoryRow, error) {
+	rows, err := q.db.QueryContext(ctx, treeCategory)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []TreeCategoryRow{}
+	for rows.Next() {
+		var i TreeCategoryRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.ParentID,
+			&i.Color,
+			&i.Level,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateCategory = `-- name: UpdateCategory :one
 UPDATE categories SET
 name = COALESCE($2, name),

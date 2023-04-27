@@ -301,6 +301,21 @@ func (mr *MockRepositoryMockRecorder) ListUser(arg0, arg1 interface{}) *gomock.C
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListUser", reflect.TypeOf((*MockRepository)(nil).ListUser), arg0, arg1)
 }
 
+// TreeCategory mocks base method.
+func (m *MockRepository) TreeCategory(arg0 context.Context) ([]postgresql.TreeCategoryRow, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "TreeCategory", arg0)
+	ret0, _ := ret[0].([]postgresql.TreeCategoryRow)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// TreeCategory indicates an expected call of TreeCategory.
+func (mr *MockRepositoryMockRecorder) TreeCategory(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TreeCategory", reflect.TypeOf((*MockRepository)(nil).TreeCategory), arg0)
+}
+
 // UpdateCategory mocks base method.
 func (m *MockRepository) UpdateCategory(arg0 context.Context, arg1 postgresql.UpdateCategoryParams) (postgresql.Category, error) {
 	m.ctrl.T.Helper()
