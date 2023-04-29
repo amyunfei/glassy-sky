@@ -3,27 +3,19 @@ import { Button, Space } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { useTranslation } from 'react-i18next'
 import { Category, queryCategoryListApi } from '@/api/category'
+import useAntTable from '@/hooks/use-ant-table'
 import TablePage from '@/components/TablePage'
 
 
 
 const CategoryManagement: React.FC = () => {
   const { t } = useTranslation()
-  const [loading, setLoading] = useState<boolean>(false)
   const [listQuery, setListQuery] = useState<{ size: number, current: number }>({ size: 10, current: 1 })
-  const [dataSource, setDataSource] = useState<Category[]>()
   const [total, setTotal] = useState<number>(0)
+  const { tableProps } = useAntTable(queryCategoryListApi, { size: 10, current: 1 })
 
-  const fetchData = async () => {
-    setLoading(true)
-    const [err, res] = await queryCategoryListApi(listQuery)
-    setLoading(false)
-    if (err !== null) return
-    setDataSource(res.data.list)
-    setTotal(res.data.count)
-  }
   const handlePageChange = (current: number, size: number) => {
-    setListQuery({ size, current })
+    // setListQuery({ size, current })
   }
   const handleEdit = async (id?: string) => {
     // 
@@ -31,8 +23,6 @@ const CategoryManagement: React.FC = () => {
   const handleDelete = (id: string) => {
     // 
   }
-
-  useEffect(() => { fetchData() }, [listQuery])
 
   const columns: ColumnsType<Category> = [
     { title: t('module.category.name'), dataIndex: 'name' },
@@ -51,7 +41,7 @@ const CategoryManagement: React.FC = () => {
 
   return (
     <TablePage<Category>
-      tableProps={{ columns, dataSource, loading, rowKey: 'id' }}   
+      tableProps={{ columns, rowKey: 'id', loading: tableProps.loading, dataSource: tableProps.dataSource }}   
       current={listQuery.current}
       pageSize={listQuery.size}
       total={total}
