@@ -155,22 +155,53 @@ func TestCreateCategory(t *testing.T) {
 
 func TestDeleteCategory(t *testing.T) {
 	category := randomCategory()
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
-	// build stubs
-	repo := mockdb.NewMockRepository(ctrl)
-	repo.EXPECT().
-		DeleteCategory(gomock.Any(), gomock.Eq(category.ID)).
-		Times(1).
-		Return(nil)
-
-	service := NewCategoryService(repo)
-	arg := dto.UriIdRequest{
-		ID: strconv.FormatInt(category.ID, 10),
+	testCases := []struct {
+		name          string
+		body          dto.UriIdRequest
+		buidStubs     func(*mockdb.MockRepository)
+		checkResponse func(error)
+	}{
+		{
+			name: "success_delete_category",
+			body: dto.UriIdRequest{
+				ID: strconv.FormatInt(category.ID, 10),
+			},
+			buidStubs: func(repo *mockdb.MockRepository) {
+				repo.EXPECT().
+					DeleteCategory(gomock.Any(), gomock.Eq(category.ID)).
+					Times(1).
+					Return(nil)
+			},
+			checkResponse: func(err error) {
+				require.NoError(t, err)
+			},
+		},
+		{
+			name: "fail_delete_category_with_invalid_id",
+			body: dto.UriIdRequest{
+				ID: "invalid",
+			},
+			buidStubs: func(repo *mockdb.MockRepository) {
+				repo.EXPECT().DeleteCategory(gomock.Any(), gomock.Any()).Times(0)
+			},
+			checkResponse: func(err error) {
+				_, err1 := strconv.ParseInt("invalid", 10, 64)
+				require.Error(t, err)
+				require.EqualError(t, err, err1.Error())
+			},
+		},
 	}
-	err := service.DeleteCategory(context.Background(), arg)
-	require.NoError(t, err)
+	for _, testCase := range testCases {
+		t.Run(testCase.name, func(t *testing.T) {
+			ctrl := gomock.NewController(t)
+			defer ctrl.Finish()
+			repo := mockdb.NewMockRepository(ctrl)
+			testCase.buidStubs(repo)
+
+			service := NewCategoryService(repo)
+			testCase.checkResponse(service.DeleteCategory(context.Background(), testCase.body))
+		})
+	}
 }
 
 func TestModifyCategory(t *testing.T) {
@@ -182,7 +213,7 @@ func TestModifyCategory(t *testing.T) {
 		checkResponse func(res *dto.CreateCategoryResponse, err error)
 	}{
 		{
-			name: "success_modify_category",
+			name: "success_modify_category_with_empty_parent_id",
 			body: dto.ModifyCategoryRequest{
 				ID:       strconv.FormatInt(category.ID, 10),
 				Name:     category.Name,
@@ -199,6 +230,77 @@ func TestModifyCategory(t *testing.T) {
 				require.NoError(t, err)
 				require.Equal(t, category.Name, res.Name)
 				require.Equal(t, utils.IntToHexColor(category.Color), res.Color)
+			},
+		},
+		{
+			name: "success_modify_category_with_parent_id",
+			body: dto.ModifyCategoryRequest{
+				ID:       strconv.FormatInt(category.ID, 10),
+				Name:     category.Name,
+				Color:    utils.IntToHexColor(category.Color),
+				ParentId: strconv.FormatInt(1, 10),
+			},
+			buildStubs: func(repo *mockdb.MockRepository) {
+				repo.EXPECT().
+					UpdateCategory(gomock.Any(), gomock.Any()).
+					Times(1).
+					Return(category, nil)
+			},
+			checkResponse: func(res *dto.CreateCategoryResponse, err error) {
+				require.NoError(t, err)
+				require.Equal(t, category.Name, res.Name)
+				require.Equal(t, utils.IntToHexColor(category.Color), res.Color)
+			},
+		},
+		{
+			name: "fail_modify_category_with_invalid_parent_id",
+			body: dto.ModifyCategoryRequest{
+				ID:       strconv.FormatInt(category.ID, 10),
+				Name:     category.Name,
+				Color:    utils.IntToHexColor(category.Color),
+				ParentId: "invalid",
+			},
+			buildStubs: func(repo *mockdb.MockRepository) {
+				repo.EXPECT().UpdateCategory(gomock.Any(), gomock.Any()).Times(0)
+			},
+			checkResponse: func(res *dto.CreateCategoryResponse, err error) {
+				_, err1 := strconv.ParseInt("invalid", 10, 64)
+				require.Error(t, err)
+				require.EqualError(t, err, err1.Error())
+			},
+		},
+		{
+			name: "fail_modify_category_with_invalid_id",
+			body: dto.ModifyCategoryRequest{
+				ID:       "invalid",
+				Name:     category.Name,
+				Color:    utils.IntToHexColor(category.Color),
+				ParentId: "",
+			},
+			buildStubs: func(repo *mockdb.MockRepository) {
+				repo.EXPECT().UpdateCategory(gomock.Any(), gomock.Any()).Times(0)
+			},
+			checkResponse: func(res *dto.CreateCategoryResponse, err error) {
+				_, err1 := strconv.ParseInt("invalid", 10, 64)
+				require.Error(t, err)
+				require.EqualError(t, err, err1.Error())
+			},
+		},
+		{
+			name: "fail_modify_category_with_invalid_color",
+			body: dto.ModifyCategoryRequest{
+				ID:       strconv.FormatInt(category.ID, 10),
+				Name:     category.Name,
+				Color:    "invalid",
+				ParentId: "",
+			},
+			buildStubs: func(repo *mockdb.MockRepository) {
+				repo.EXPECT().UpdateCategory(gomock.Any(), gomock.Any()).Times(0)
+			},
+			checkResponse: func(res *dto.CreateCategoryResponse, err error) {
+				_, err1 := utils.HexColorToInt[int32]("invalid")
+				require.Error(t, err)
+				require.EqualError(t, err, err1.Error())
 			},
 		},
 	}
@@ -219,30 +321,116 @@ func TestModifyCategory(t *testing.T) {
 
 func TestGetCategory(t *testing.T) {
 	category := randomCategory()
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
-	// build stubs
-	repo := mockdb.NewMockRepository(ctrl)
-	repo.EXPECT().
-		GetCategory(gomock.Any(), gomock.Eq(category.ID)).
-		Times(1).
-		Return(category, nil)
-
-	service := NewCategoryService(repo)
-	arg := dto.UriIdRequest{
-		ID: strconv.FormatInt(category.ID, 10),
+	testCases := []struct {
+		name          string
+		body          dto.UriIdRequest
+		buildStubs    func(repo *mockdb.MockRepository)
+		checkResponse func(res *dto.CreateCategoryResponse, err error)
+	}{
+		{
+			name: "success_get_category",
+			body: dto.UriIdRequest{
+				ID: strconv.FormatInt(category.ID, 10),
+			},
+			buildStubs: func(repo *mockdb.MockRepository) {
+				repo.EXPECT().
+					GetCategory(gomock.Any(), gomock.Eq(category.ID)).
+					Times(1).
+					Return(category, nil)
+			},
+			checkResponse: func(res *dto.CreateCategoryResponse, err error) {
+				require.NoError(t, err)
+				require.Equal(t, category.Name, res.Name)
+				require.Equal(t, utils.IntToHexColor(category.Color), res.Color)
+			},
+		},
+		{
+			name: "fail_get_category_with_invalid_id",
+			body: dto.UriIdRequest{
+				ID: "invalid",
+			},
+			buildStubs: func(repo *mockdb.MockRepository) {
+				repo.EXPECT().GetCategory(gomock.Any(), gomock.Any()).Times(0)
+			},
+			checkResponse: func(res *dto.CreateCategoryResponse, err error) {
+				_, err1 := strconv.ParseInt("invalid", 10, 64)
+				require.Error(t, err)
+				require.EqualError(t, err, err1.Error())
+			},
+		},
 	}
-	var res1 dto.CreateCategoryResponse
-	res1.Transform(category)
-	res2, err := service.GetCategory(context.Background(), arg)
 
-	require.NoError(t, err)
-	require.NotEmpty(t, res2)
-	require.Equal(t, res1, *res2)
+	for _, testCase := range testCases {
+		t.Run(testCase.name, func(t *testing.T) {
+			ctrl := gomock.NewController(t)
+			defer ctrl.Finish()
+
+			repo := mockdb.NewMockRepository(ctrl)
+			testCase.buildStubs(repo)
+
+			service := NewCategoryService(repo)
+			testCase.checkResponse(service.GetCategory(context.Background(), testCase.body))
+		})
+	}
 }
 
 func TestListCategory(t *testing.T) {
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
+	categories := make([]postgresql.Category, 0)
+	for i := 0; i < 10; i++ {
+		categories = append(categories, randomCategory())
+	}
+
+	testCases := []struct {
+		name          string
+		body          dto.ListRequest
+		filterData    dto.FilterCategoryRequest
+		buildStubs    func(repo *mockdb.MockRepository)
+		checkResponse func(res *dto.ListResponse[dto.CreateCategoryResponse], err error)
+	}{
+		{
+			name: "success_list_category",
+			body: dto.ListRequest{
+				Size:    10,
+				Current: 1,
+			},
+			filterData: dto.FilterCategoryRequest{
+				Name: "",
+			},
+			buildStubs: func(repo *mockdb.MockRepository) {
+				repo.EXPECT().
+					ExecTx(gomock.Any(), gomock.Any()).
+					Do(func(_ context.Context, fn func(postgresql.Querier) error) {
+						repo.EXPECT().
+							CountCategory(gomock.Any(), gomock.Any()).
+							Times(1).
+							Return(int64(len(categories)), nil)
+
+						repo.EXPECT().
+							ListCategory(gomock.Any(), gomock.Any()).
+							Times(1).
+							Return(categories, nil)
+						fn(repo)
+					}).Return(nil)
+			},
+			checkResponse: func(res *dto.ListResponse[dto.CreateCategoryResponse], err error) {
+				require.NoError(t, err)
+				require.NotNil(t, res)
+				require.Equal(t, int64(len(categories)), res.Count)
+				require.Len(t, res.List, len(categories))
+			},
+		},
+	}
+
+	for _, testCase := range testCases {
+		t.Run(testCase.name, func(t *testing.T) {
+			ctrl := gomock.NewController(t)
+			defer ctrl.Finish()
+
+			repo := mockdb.NewMockRepository(ctrl)
+			testCase.buildStubs(repo)
+
+			service := NewCategoryService(repo)
+			testCase.checkResponse(service.ListCategory(context.Background(), testCase.body, testCase.filterData))
+		})
+	}
 }
