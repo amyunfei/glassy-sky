@@ -1,6 +1,8 @@
 package app
 
 import (
+	"context"
+
 	_ "github.com/amyunfei/glassy-sky/api"
 	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/database"
@@ -29,6 +31,7 @@ func Start() {
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	userHandlers := InitializeUserHandlers(queries, tokenMaker)
+	userHandlers.Service.CreateSuperAdmin(context.Background())
 	router.GET("/user/email-verify/:email", userHandlers.VerifyEmail)
 	router.GET("/user/email-code/:email", userHandlers.SendEmailCode)
 	router.POST("/user/register", userHandlers.RegisterUser)
