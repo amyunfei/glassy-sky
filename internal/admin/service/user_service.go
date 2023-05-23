@@ -56,9 +56,14 @@ func (s DefaultUserService) CheckEmailCode(ctx context.Context, data dto.CheckEm
 }
 
 func (s DefaultUserService) CreateUser(ctx context.Context, data dto.CreateUserRequest) (*dto.CreateUserResponse, error) {
+	password, err := utils.HashPassword(data.Password)
+	if err != nil {
+		logger.Error(err.Error())
+		return nil, err
+	}
 	arg := postgresql.CreateUserParams{
 		Username: data.Username,
-		Password: data.Password,
+		Password: password,
 		Email:    data.Email,
 		Nickname: data.Nickname,
 	}
@@ -94,8 +99,8 @@ func (s DefaultUserService) Login(ctx context.Context, data dto.LoginRequest) (t
 		logger.Error(err.Error())
 		return "", errors.New("username or password incorrect")
 	}
-	// password := utils.GetMD5(data.Password, "avalon", 5)
-	if data.Password != user.Password {
+	err = utils.CheckPassword(data.Password, user.Password)
+	if err != nil {
 		return "", errors.New("username or password incorrect")
 	}
 	token, err = s.tokenMaker.CreateToken(user.Username, time.Minute)
