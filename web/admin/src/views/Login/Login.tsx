@@ -36,7 +36,7 @@ const Login: React.FC = () => {
     <div className={style['page-login']}>
       <Cube />
       <Form<DtoLoginRequest>
-        initialValues={{ username: 'arglm', password: 'ljvcmtluapsiwgjxueof' }}
+        initialValues={{ username: 'admin', password: 'a123456' }}
         onFinish={onFinish}
         className="w-[360px] py-8 px-6 bg-gray-dark absolute z-10 right-1/4 top-1/2 -translate-y-1/2 rounded-lg"
       >

@@ -9,8 +9,8 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func GetDB() *sql.DB {
-	conn, err := sql.Open("postgres", "postgresql://root:secret@localhost:5432/glassy_sky?sslmode=disable")
+func GetDB(dbDriver string, dbSource string) *sql.DB {
+	conn, err := sql.Open(dbDriver, dbSource)
 	if err != nil {
 		logger.Panic(err.Error())
 	}

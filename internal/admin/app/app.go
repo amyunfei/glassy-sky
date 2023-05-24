@@ -2,8 +2,10 @@ package app
 
 import (
 	"context"
+	"fmt"
 
 	_ "github.com/amyunfei/glassy-sky/api"
+	"github.com/amyunfei/glassy-sky/cmd/config"
 	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/database"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/logger"
@@ -14,11 +16,11 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-func Start() {
+func Start(config config.Config) {
 	logger.Init()
 	defer logger.Sync()
 
-	db := database.GetDB()
+	db := database.GetDB(config.DBDriver, config.DBSource)
 	queries := postgresql.NewStore(db)
 	tokenMaker, err := token.NewJWTMaker("secret")
 	if err != nil {
@@ -55,6 +57,6 @@ func Start() {
 	authRouter.GET("/label", labelHandlers.ListLabel)
 	authRouter.GET("/label/:id", labelHandlers.GetLabel)
 
-	router.Run(":9999")
-	logger.Info("glassy-sky running on port 9999 ...")
+	router.Run(config.ServerAddress)
+	logger.Info(fmt.Sprintf("glassy-sky running on %s ...", config.ServerAddress))
 }
