@@ -83,7 +83,6 @@ func (s DefaultUserService) CreateSuperAdmin(ctx context.Context) error {
 	count, err := s.repo.CountUser(ctx, postgresql.CountUserParams{
 		Username: "admin",
 	})
-	fmt.Println(count, err)
 	if err != nil {
 		logger.Error(err.Error())
 		return err
