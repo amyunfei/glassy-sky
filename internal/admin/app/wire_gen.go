@@ -7,6 +7,7 @@
 package app
 
 import (
+	"github.com/amyunfei/glassy-sky/cmd/config"
 	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
 	"github.com/amyunfei/glassy-sky/internal/admin/handler"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/token"
@@ -20,8 +21,8 @@ import (
 // Injectors from wire.go:
 
 // user handlers
-func InitializeUserHandlers(repo postgresql.Repository, tokenMaker token.Maker) handler.UserHandlers {
-	userService := service.NewUserService(repo, tokenMaker)
+func InitializeUserHandlers(repo postgresql.Repository, tokenMaker token.Maker, config2 *config.Config) handler.UserHandlers {
+	userService := service.NewUserService(repo, tokenMaker, config2)
 	userHandlers := handler.NewUserHandlers(userService)
 	return userHandlers
 }

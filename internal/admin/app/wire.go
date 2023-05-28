@@ -4,6 +4,7 @@
 package app
 
 import (
+	"github.com/amyunfei/glassy-sky/cmd/config"
 	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
 	"github.com/amyunfei/glassy-sky/internal/admin/handler"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/token"
@@ -12,7 +13,7 @@ import (
 )
 
 // user handlers
-func InitializeUserHandlers(repo postgresql.Repository, tokenMaker token.Maker) handler.UserHandlers {
+func InitializeUserHandlers(repo postgresql.Repository, tokenMaker token.Maker, config *config.Config) handler.UserHandlers {
 	wire.Build(
 		handler.NewUserHandlers,
 		service.NewUserService,

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/amyunfei/glassy-sky/cmd/config"
@@ -14,9 +13,8 @@ import (
 // @name authorization
 func main() {
 	config, err := config.LoadConfig("./cmd")
-	fmt.Println(config)
 	if err != nil {
 		log.Fatal("cannot load config:", err)
 	}
-	app.Start(config)
+	app.Start(&config)
 }

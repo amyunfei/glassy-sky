@@ -16,13 +16,13 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-func Start(config config.Config) {
+func Start(config *config.Config) {
 	logger.Init()
 	defer logger.Sync()
 
 	db := database.GetDB(config.DBDriver, config.DBSource)
 	queries := postgresql.NewStore(db)
-	tokenMaker, err := token.NewJWTMaker("secret")
+	tokenMaker, err := token.NewJWTMaker(config.JWT_SECRET)
 	if err != nil {
 		logger.Panic(err.Error())
 		return
@@ -32,7 +32,7 @@ func Start(config config.Config) {
 	// swagger
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	userHandlers := InitializeUserHandlers(queries, tokenMaker)
+	userHandlers := InitializeUserHandlers(queries, tokenMaker, config)
 	userHandlers.Service.CreateSuperAdmin(context.Background())
 	router.GET("/user/email-verify/:email", userHandlers.VerifyEmail)
 	router.GET("/user/email-code/:email", userHandlers.SendEmailCode)

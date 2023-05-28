@@ -10,13 +10,7 @@ import TablePage from '@/components/TablePage'
 
 const CategoryManagement: React.FC = () => {
   const { t } = useTranslation()
-  const [listQuery, setListQuery] = useState<{ size: number, current: number }>({ size: 10, current: 1 })
-  const [total, setTotal] = useState<number>(0)
-  const { tableProps } = useAntTable(queryCategoryListApi, { size: 10, current: 1 })
-
-  const handlePageChange = (current: number, size: number) => {
-    // setListQuery({ size, current })
-  }
+  const { dataSource, loading, pagination, onPageChange } = useAntTable(queryCategoryListApi, { size: 10, current: 1 })
   const handleEdit = async (id?: string) => {
     // 
   }
@@ -41,11 +35,11 @@ const CategoryManagement: React.FC = () => {
 
   return (
     <TablePage<Category>
-      tableProps={{ columns, rowKey: 'id', loading: tableProps.loading, dataSource: tableProps.dataSource }}   
-      current={listQuery.current}
-      pageSize={listQuery.size}
-      total={total}
-      pageChange={handlePageChange}
+      tableProps={{ columns, rowKey: 'id', loading, dataSource }}   
+      current={pagination.current}
+      pageSize={pagination.pageSize}
+      total={pagination.total}
+      pageChange={onPageChange}
     >
       {/*  */}
     </TablePage>

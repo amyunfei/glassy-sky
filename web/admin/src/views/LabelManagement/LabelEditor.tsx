@@ -51,6 +51,8 @@ const LabelEditor = forwardRef<LabelEditorInstance, {}>((_, ref) => {
   }
   const onClose = () => {
     setVisible(false)
+  }
+  const afterClose = () => {
     form.resetFields()
     setColor('#000000')
   }
@@ -64,6 +66,7 @@ const LabelEditor = forwardRef<LabelEditorInstance, {}>((_, ref) => {
       loading={loading}
       onConfirm={onConfirm}
       onClose={onClose}
+      afterClose={afterClose}
     >
       <Form form={form} layout="vertical">
         <Form.Item name="name" label={t('module.label.name')} rules={[{ required: true, message: t('module.label.nameRequired') }]}>

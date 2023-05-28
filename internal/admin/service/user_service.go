@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/amyunfei/glassy-sky/cmd/config"
 	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
 	"github.com/amyunfei/glassy-sky/internal/admin/dto"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/email"
@@ -35,6 +36,7 @@ type UserService interface {
 type DefaultUserService struct {
 	repo       postgresql.Repository
 	tokenMaker token.Maker
+	config     *config.Config
 }
 
 func (s DefaultUserService) SendEmailCode(ctx context.Context, data dto.SendEmailCodeRequest) error {
@@ -136,7 +138,7 @@ func (s DefaultUserService) Login(ctx context.Context, data dto.LoginRequest) (t
 	if err != nil {
 		return "", errors.New("username or password incorrect")
 	}
-	token, err = s.tokenMaker.CreateToken(user.Username, time.Minute)
+	token, err = s.tokenMaker.CreateToken(user.Username, time.Minute*time.Duration(s.config.TokenExpirationMinutes))
 	if err != nil {
 		logger.Error(err.Error())
 		return "", err
@@ -222,6 +224,6 @@ func (s DefaultUserService) ListUser(
 	return &result, nil
 }
 
-func NewUserService(repo postgresql.Repository, tokenMaker token.Maker) UserService {
-	return DefaultUserService{repo, tokenMaker}
+func NewUserService(repo postgresql.Repository, tokenMaker token.Maker, config *config.Config) UserService {
+	return DefaultUserService{repo, tokenMaker, config}
 }
