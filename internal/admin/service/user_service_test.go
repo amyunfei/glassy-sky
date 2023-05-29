@@ -55,7 +55,7 @@ func TestCreateUser(t *testing.T) {
 				repo.EXPECT().
 					CreateUser(gomock.Any(), gomock.Any()).
 					Times(1).
-					Return(user, nil, nil)
+					Return(user, nil)
 			},
 			checkResponse: func(res *dto.CreateUserResponse, err error) {
 				require.NoError(t, err)
@@ -74,7 +74,7 @@ func TestCreateUser(t *testing.T) {
 			repo := mockdb.NewMockRepository(ctrl)
 			testCase.buildStubs(repo)
 
-			service := NewUserService(repo, nil, nil)
+			service := NewUserService(repo, nil, testConfig)
 			testCase.checkResponse(service.CreateUser(context.Background(), testCase.body))
 		})
 	}
@@ -126,7 +126,7 @@ func TestCreateSuperAdmin(t *testing.T) {
 			repo := mockdb.NewMockRepository(ctrl)
 			testCase.buildStubs(repo)
 
-			service := NewUserService(repo, nil, nil)
+			service := NewUserService(repo, nil, testConfig)
 			testCase.checkResponse(service.CreateSuperAdmin(context.Background()))
 		})
 	}
@@ -182,7 +182,7 @@ func TestVerifyEmail(t *testing.T) {
 			repo := mockdb.NewMockRepository(ctrl)
 			testCase.buildStubs(repo)
 
-			service := NewUserService(repo, nil, nil)
+			service := NewUserService(repo, nil, testConfig)
 			testCase.checkResponse(service.VerifyEmail(context.Background(), testCase.body))
 		})
 	}
@@ -246,7 +246,7 @@ func TestModifyUser(t *testing.T) {
 			repo := mockdb.NewMockRepository(ctrl)
 			testCase.buildStubs(repo)
 
-			service := NewUserService(repo, nil, nil)
+			service := NewUserService(repo, nil, testConfig)
 			testCase.checkResponse(service.ModifyUser(context.Background(), testCase.body))
 		})
 	}
@@ -308,7 +308,7 @@ func TestListUser(t *testing.T) {
 			repo := mockdb.NewMockRepository(ctrl)
 			testCase.buildStubs(repo)
 
-			service := NewUserService(repo, nil, nil)
+			service := NewUserService(repo, nil, testConfig)
 			testCase.checkResponse(service.ListUser(context.Background(), testCase.body, testCase.filterData))
 		})
 	}
