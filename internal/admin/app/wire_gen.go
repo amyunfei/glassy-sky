@@ -28,8 +28,8 @@ func InitializeUserHandlers(repo postgresql.Repository, tokenMaker token.Maker, 
 }
 
 // category handlers
-func InitializeCategoryHandlers(repo postgresql.Repository) handler.CategoryHandlers {
-	categoryService := service.NewCategoryService(repo)
+func InitializeCategoryHandlers(repo postgresql.Repository, options service.CategoryOptions) handler.CategoryHandlers {
+	categoryService := service.NewCategoryService(repo, options)
 	categoryHandlers := handler.NewCategoryHandlers(categoryService)
 	return categoryHandlers
 }

@@ -10,6 +10,7 @@ type Config struct {
 	ServerAddress          string `mapstructure:"SERVER_ADDRESS"`
 	TokenExpirationMinutes int    `mapstructure:"TOKEN_EXPIRATION_MINUTES"`
 	JWT_SECRET             string `mapstructure:"JWT_SECRET"`
+	TimeZone               string `mapstructure:"TIME_ZONE"`
 }
 
 func LoadConfig(path string) (config Config, err error) {

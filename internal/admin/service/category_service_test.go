@@ -147,7 +147,7 @@ func TestCreateCategory(t *testing.T) {
 			repo := mockdb.NewMockRepository(ctrl)
 			testCase.buildStubs(repo)
 
-			service := NewCategoryService(repo)
+			service := NewCategoryService(repo, testAppOptions)
 			testCase.checkResponse(service.CreateCategory(context.Background(), testCase.body))
 		})
 	}
@@ -198,7 +198,7 @@ func TestDeleteCategory(t *testing.T) {
 			repo := mockdb.NewMockRepository(ctrl)
 			testCase.buidStubs(repo)
 
-			service := NewCategoryService(repo)
+			service := NewCategoryService(repo, testAppOptions)
 			testCase.checkResponse(service.DeleteCategory(context.Background(), testCase.body))
 		})
 	}
@@ -313,7 +313,7 @@ func TestModifyCategory(t *testing.T) {
 			repo := mockdb.NewMockRepository(ctrl)
 			testCase.buildStubs(repo)
 
-			service := NewCategoryService(repo)
+			service := NewCategoryService(repo, testAppOptions)
 			testCase.checkResponse(service.ModifyCategory(context.Background(), testCase.body))
 		})
 	}
@@ -368,7 +368,7 @@ func TestGetCategory(t *testing.T) {
 			repo := mockdb.NewMockRepository(ctrl)
 			testCase.buildStubs(repo)
 
-			service := NewCategoryService(repo)
+			service := NewCategoryService(repo, testAppOptions)
 			testCase.checkResponse(service.GetCategory(context.Background(), testCase.body))
 		})
 	}
@@ -429,7 +429,7 @@ func TestListCategory(t *testing.T) {
 			repo := mockdb.NewMockRepository(ctrl)
 			testCase.buildStubs(repo)
 
-			service := NewCategoryService(repo)
+			service := NewCategoryService(repo, testAppOptions)
 			testCase.checkResponse(service.ListCategory(context.Background(), testCase.body, testCase.filterData))
 		})
 	}

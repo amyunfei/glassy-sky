@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"strconv"
+	"time"
 
 	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
 	"github.com/amyunfei/glassy-sky/internal/admin/dto"
@@ -19,8 +20,12 @@ type CategoryService interface {
 	GetCategory(ctx context.Context, data dto.UriIdRequest) (*dto.CreateCategoryResponse, error)
 }
 
+type CategoryOptions interface {
+	GetTimeZone() *time.Location
+}
 type DefaultCategoryService struct {
-	repo postgresql.Repository
+	repo    postgresql.Repository
+	options CategoryOptions
 }
 
 func (s DefaultCategoryService) CreateCategory(
@@ -58,7 +63,7 @@ func (s DefaultCategoryService) CreateCategory(
 		return nil, err
 	}
 	var result dto.CreateCategoryResponse
-	result.Transform(category)
+	result.Transform(category, s.options.GetTimeZone())
 	return &result, nil
 }
 
@@ -113,7 +118,7 @@ func (s DefaultCategoryService) ModifyCategory(
 		return nil, err
 	}
 	var result dto.CreateCategoryResponse
-	result.Transform(category)
+	result.Transform(category, s.options.GetTimeZone())
 	return &result, nil
 }
 
@@ -139,7 +144,7 @@ func (s DefaultCategoryService) ListCategory(
 		list := make([]dto.CreateCategoryResponse, 0)
 		for _, category := range categories {
 			var item dto.CreateCategoryResponse
-			item.Transform(category)
+			item.Transform(category, s.options.GetTimeZone())
 			list = append(list, item)
 		}
 		result.Count = count
@@ -167,10 +172,10 @@ func (s DefaultCategoryService) GetCategory(
 		return nil, err
 	}
 	var result dto.CreateCategoryResponse
-	result.Transform(category)
+	result.Transform(category, s.options.GetTimeZone())
 	return &result, nil
 }
 
-func NewCategoryService(repo postgresql.Repository) CategoryService {
-	return DefaultCategoryService{repo}
+func NewCategoryService(repo postgresql.Repository, options CategoryOptions) CategoryService {
+	return DefaultCategoryService{repo, options}
 }

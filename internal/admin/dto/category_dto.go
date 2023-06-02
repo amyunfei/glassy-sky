@@ -2,6 +2,7 @@ package dto
 
 import (
 	"strconv"
+	"time"
 
 	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/response"
@@ -30,7 +31,7 @@ type CreateCategoryResponse struct {
 	UpdatedAt string `json:"updatedAt"`
 }
 
-func (r *CreateCategoryResponse) Transform(modal postgresql.Category) {
+func (r *CreateCategoryResponse) Transform(modal postgresql.Category, tz *time.Location) {
 	r.ID = strconv.FormatInt(modal.ID, 10)
 	r.Name = modal.Name
 	r.ParentId = strconv.FormatInt(modal.ParentID, 10)

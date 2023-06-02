@@ -6,10 +6,10 @@ import (
 
 	_ "github.com/amyunfei/glassy-sky/api"
 	"github.com/amyunfei/glassy-sky/cmd/config"
+	"github.com/amyunfei/glassy-sky/internal/admin/app/options"
 	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/database"
 	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/logger"
-	"github.com/amyunfei/glassy-sky/internal/admin/infrastructure/token"
 	"github.com/amyunfei/glassy-sky/internal/admin/middleware"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -22,7 +22,8 @@ func Start(config *config.Config) {
 
 	db := database.GetDB(config.DBDriver, config.DBSource)
 	queries := postgresql.NewStore(db)
-	tokenMaker, err := token.NewJWTMaker(config.JWT_SECRET)
+
+	appOptions, err := options.NewAppOptions(config)
 	if err != nil {
 		logger.Panic(err.Error())
 		return
@@ -32,7 +33,7 @@ func Start(config *config.Config) {
 	// swagger
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	userHandlers := InitializeUserHandlers(queries, tokenMaker, config)
+	userHandlers := InitializeUserHandlers(queries, appOptions.GetTokenMaker(), config)
 	userHandlers.Service.CreateSuperAdmin(context.Background())
 	router.GET("/user/email-verify/:email", userHandlers.VerifyEmail)
 	router.GET("/user/email-code/:email", userHandlers.SendEmailCode)
@@ -40,11 +41,11 @@ func Start(config *config.Config) {
 	router.POST("/user/login", userHandlers.Login)
 
 	authRouter := router.Group("/")
-	authRouter.Use(middleware.AuthMiddleware(tokenMaker))
+	authRouter.Use(middleware.AuthMiddleware(appOptions.GetTokenMaker()))
 	authRouter.GET("/user", userHandlers.ListUser)
 	authRouter.PUT("/user/:id", userHandlers.ModifyUser)
 
-	categoryHandlers := InitializeCategoryHandlers(queries)
+	categoryHandlers := InitializeCategoryHandlers(queries, appOptions)
 	authRouter.POST("/category", categoryHandlers.CreateCategory)
 	authRouter.DELETE("/category/:id", categoryHandlers.DeleteCategory)
 	authRouter.PUT("/category/:id", categoryHandlers.ModifyCategory)

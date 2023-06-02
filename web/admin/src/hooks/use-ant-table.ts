@@ -24,7 +24,7 @@ const useAntTable = <T, U>(request: Request<T, U>, defaultParams: U): TableProps
   })
   const fetchData = async () => {
     setLoading(true)
-    const [err, res] = await request(defaultParams)
+    const [err, res] = await request({ ...defaultParams, current: pagination.current, pageSize: pagination.pageSize })
     setLoading(false)
     if (err !== null) return
     setData(res.data.list)
@@ -33,6 +33,7 @@ const useAntTable = <T, U>(request: Request<T, U>, defaultParams: U): TableProps
   const onPageChange: OnPageChange = (current, pageSize) => {
     console.log(current, pageSize)
     setPagination({ ...pagination, current, pageSize })
+    console.log(pagination.current, pagination.pageSize)
   }
 
   useEffect(() => {
