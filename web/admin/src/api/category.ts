@@ -19,3 +19,8 @@ export const queryCategoryListApi = (data: QueryCategoryListParams) => request<R
   method: 'GET',
   data
 })
+
+export const removeCategoryApi = (id: string) => request<Response<null>>({
+  url: `/category/${id}`,
+  method: 'DELETE',
+})

@@ -51,7 +51,7 @@ func Start(config *config.Config) {
 	authRouter.PUT("/category/:id", categoryHandlers.ModifyCategory)
 	authRouter.GET("/category", categoryHandlers.ListCategory)
 
-	labelHandlers := InitializeLabelHandlers(queries)
+	labelHandlers := InitializeLabelHandlers(queries, appOptions)
 	authRouter.POST("/label", labelHandlers.CreateLabel)
 	authRouter.DELETE("/label/:id", labelHandlers.DeleteLabel)
 	authRouter.PUT("/label/:id", labelHandlers.ModifyLabel)

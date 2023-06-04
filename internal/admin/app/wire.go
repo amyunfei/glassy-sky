@@ -31,7 +31,7 @@ func InitializeCategoryHandlers(repo postgresql.Repository, options service.Cate
 }
 
 // label handlers
-func InitializeLabelHandlers(repo postgresql.Repository) handler.LabelHandlers {
+func InitializeLabelHandlers(repo postgresql.Repository, options service.LabelOptions) handler.LabelHandlers {
 	wire.Build(
 		handler.NewLabelHandlers,
 		service.NewLabelService,

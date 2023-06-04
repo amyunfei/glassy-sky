@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"strconv"
+	"time"
 
 	"github.com/amyunfei/glassy-sky/internal/admin/domain/postgresql"
 	"github.com/amyunfei/glassy-sky/internal/admin/dto"
@@ -20,8 +21,12 @@ type LabelService interface {
 	GetLabel(ctx context.Context, data dto.UriIdRequest) (*dto.CreateLabelResponse, error)
 }
 
+type LabelOptions interface {
+	GetTimeZone() *time.Location
+}
 type DefaultLabelService struct {
-	repo postgresql.Repository
+	repo    postgresql.Repository
+	options LabelOptions
 }
 
 func (s DefaultLabelService) CreateLabel(
@@ -47,7 +52,7 @@ func (s DefaultLabelService) CreateLabel(
 		return nil, err
 	}
 	var result dto.CreateLabelResponse
-	result.Transform(label)
+	result.Transform(label, s.options.GetTimeZone())
 	return &result, nil
 }
 
@@ -99,7 +104,7 @@ func (s DefaultLabelService) ModifyLabel(
 		return nil, err
 	}
 	var result dto.CreateLabelResponse
-	result.Transform(label)
+	result.Transform(label, s.options.GetTimeZone())
 	return &result, nil
 }
 
@@ -125,7 +130,7 @@ func (s DefaultLabelService) ListLabel(
 		list := make([]dto.CreateLabelResponse, 0)
 		for _, label := range labels {
 			var item dto.CreateLabelResponse
-			item.Transform(label)
+			item.Transform(label, s.options.GetTimeZone())
 			list = append(list, item)
 		}
 		result.Count = count
@@ -151,10 +156,10 @@ func (s DefaultLabelService) GetLabel(ctx context.Context, data dto.UriIdRequest
 		return nil, err
 	}
 	var result dto.CreateLabelResponse
-	result.Transform(label)
+	result.Transform(label, s.options.GetTimeZone())
 	return &result, nil
 }
 
-func NewLabelService(repo postgresql.Repository) LabelService {
-	return DefaultLabelService{repo}
+func NewLabelService(repo postgresql.Repository, options LabelOptions) LabelService {
+	return DefaultLabelService{repo, options}
 }

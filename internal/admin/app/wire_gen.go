@@ -35,8 +35,8 @@ func InitializeCategoryHandlers(repo postgresql.Repository, options service.Cate
 }
 
 // label handlers
-func InitializeLabelHandlers(repo postgresql.Repository) handler.LabelHandlers {
-	labelService := service.NewLabelService(repo)
+func InitializeLabelHandlers(repo postgresql.Repository, options service.LabelOptions) handler.LabelHandlers {
+	labelService := service.NewLabelService(repo, options)
 	labelHandlers := handler.NewLabelHandlers(labelService)
 	return labelHandlers
 }

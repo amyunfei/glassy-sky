@@ -36,8 +36,8 @@ func (r *CreateCategoryResponse) Transform(modal postgresql.Category, tz *time.L
 	r.Name = modal.Name
 	r.ParentId = strconv.FormatInt(modal.ParentID, 10)
 	r.Color = utils.IntToHexColor(modal.Color)
-	r.CreatedAt = modal.CreatedAt.Format("2006-01-02 15:04:05")
-	r.UpdatedAt = modal.UpdatedAt.Format("2006-01-02 15:04:05")
+	r.CreatedAt = utils.FormatTime(modal.CreatedAt, tz)
+	r.UpdatedAt = utils.FormatTime(modal.UpdatedAt, tz)
 }
 
 type ModifyCategoryRequest struct {

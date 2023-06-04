@@ -9,6 +9,7 @@ interface PaginationProps {
   total: number
 }
 interface TableProps<T> {
+  fetchData: () => Promise<void>
   dataSource: T[]
   loading: boolean
   pagination: PaginationProps
@@ -41,6 +42,7 @@ const useAntTable = <T, U>(request: Request<T, U>, defaultParams: U): TableProps
   }, [pagination.current, pagination.pageSize])
 
   return {
+    fetchData,
     dataSource: data,
     loading,
     pagination: pagination,

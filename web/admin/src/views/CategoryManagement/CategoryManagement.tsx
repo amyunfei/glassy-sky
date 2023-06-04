@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Space } from 'antd'
+import { Button, Space, message } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { useTranslation } from 'react-i18next'
-import { Category, queryCategoryListApi } from '@/api/category'
+import { deleteConfirm } from '@/utils/prompt'
+import { Category, queryCategoryListApi, removeCategoryApi } from '@/api/category'
 import useAntTable from '@/hooks/use-ant-table'
 import TablePage from '@/components/TablePage'
 
@@ -10,12 +11,18 @@ import TablePage from '@/components/TablePage'
 
 const CategoryManagement: React.FC = () => {
   const { t } = useTranslation()
-  const { dataSource, loading, pagination, onPageChange } = useAntTable(queryCategoryListApi, { size: 10, current: 1 })
+  const { fetchData, dataSource, loading, pagination, onPageChange } = useAntTable(queryCategoryListApi, { size: 10, current: 1 })
   const handleEdit = async (id?: string) => {
     // 
   }
   const handleDelete = (id: string) => {
-    // 
+    deleteConfirm(async () => {
+      const [err] = await removeCategoryApi(id)
+      if (err === null) {
+        message.success(t('common-tips.deleteSuccess'))
+        fetchData()
+      }
+    })
   }
 
   const columns: ColumnsType<Category> = [

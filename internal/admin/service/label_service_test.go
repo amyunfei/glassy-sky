@@ -97,7 +97,7 @@ func TestCreateLabel(t *testing.T) {
 			repo := mockdb.NewMockRepository(ctrl)
 			testCase.buildStubs(repo)
 
-			service := NewLabelService(repo)
+			service := NewLabelService(repo, testAppOptions)
 			testCase.checkResponse(service.CreateLabel(context.Background(), testCase.body))
 		})
 	}
@@ -169,7 +169,7 @@ func TestGetLabel(t *testing.T) {
 			repo := mockdb.NewMockRepository(ctrl)
 			testCase.buildStubs(repo)
 
-			service := NewLabelService(repo)
+			service := NewLabelService(repo, testAppOptions)
 			testCase.checkResponse(service.GetLabel(context.Background(), testCase.body))
 		})
 	}
@@ -221,7 +221,7 @@ func TestDeleteLabel(t *testing.T) {
 			repo := mockdb.NewMockRepository(ctrl)
 			testCase.buildStubs(repo)
 
-			service := NewLabelService(repo)
+			service := NewLabelService(repo, testAppOptions)
 			testCase.checkResponse(service.DeleteLabel(context.Background(), testCase.body))
 		})
 	}
@@ -298,7 +298,7 @@ func TestModifyLabel(t *testing.T) {
 			repo := mockdb.NewMockRepository(ctrl)
 			testCase.buildStubs(repo)
 
-			service := NewLabelService(repo)
+			service := NewLabelService(repo, testAppOptions)
 			testCase.checkResponse(service.ModifyLabel(context.Background(), testCase.body))
 		})
 	}
