@@ -58,3 +58,50 @@ CREATE TABLE "users" (
   "deleted_at" timestamptz
 );
 CREATE TRIGGER update_users_update_at BEFORE UPDATE ON users FOR EACH ROW EXECUTE PROCEDURE update_modified_column();
+
+CREATE TABLE "articles" (
+  "id" bigint PRIMARY KEY NOT NULL DEFAULT (id_generator()),
+  "title" varchar(255) NOT NULL,
+  "excerpt" text NOT NULL,
+  "content" text NOT NULL,
+  "user_id" bigint NOT NULL,
+  "status" varchar(20) NOT NULL DEFAULT 'draft',
+  "created_at" timestamptz NOT NULL DEFAULT (now()),
+  "updated_at" timestamptz NOT NULL DEFAULT (now()),
+  "deleted_at" timestamptz
+);
+COMMENT ON COLUMN articles.status IS 'draft, published, archived';
+CREATE TRIGGER update_articles_update_at BEFORE UPDATE ON articles FOR EACH ROW EXECUTE PROCEDURE update_modified_column();
+
+CREATE OR REPLACE FUNCTION update_article_on_relation_update()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF (TG_OP = 'INSERT') THEN
+    UPDATE articles SET updated_at = now() WHERE id = NEW.article_id;
+    RETURN NEW;
+  ELSIF (TG_OP = 'DELETE') THEN
+    UPDATE articles SET updated_at = now() WHERE id = OLD.article_id;
+    RETURN OLD;
+  END IF;
+END;
+$$ language 'plpgsql';
+
+CREATE TABLE "articles_categories" (
+  "article_id" bigint NOT NULL,
+  "category_id" bigint NOT NULL,
+  PRIMARY KEY ("article_id", "category_id")
+);
+CREATE TRIGGER update_article_on_categories_change
+AFTER INSERT OR DELETE ON articles_categories
+FOR EACH ROW EXECUTE PROCEDURE update_article_on_relation_update();
+
+CREATE TABLE "articles_labels" (
+  "article_id" bigint NOT NULL,
+  "label_id" bigint NOT NULL,
+  PRIMARY KEY ("article_id", "label_id")
+);
+CREATE TRIGGER update_article_on_labels_change
+AFTER INSERT OR DELETE ON articles_labels
+FOR EACH ROW EXECUTE PROCEDURE update_article_on_relation_update();
+
+ALTER TABLE "articles" ADD CONSTRAINT "fk_articles_user_id_users" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
