@@ -110,6 +110,36 @@ func (mr *MockRepositoryMockRecorder) CreateArticle(arg0, arg1 interface{}) *gom
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateArticle", reflect.TypeOf((*MockRepository)(nil).CreateArticle), arg0, arg1)
 }
 
+// CreateArticleCategory mocks base method.
+func (m *MockRepository) CreateArticleCategory(arg0 context.Context, arg1 postgresql.CreateArticleCategoryParams) (postgresql.ArticlesCategory, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateArticleCategory", arg0, arg1)
+	ret0, _ := ret[0].(postgresql.ArticlesCategory)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateArticleCategory indicates an expected call of CreateArticleCategory.
+func (mr *MockRepositoryMockRecorder) CreateArticleCategory(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateArticleCategory", reflect.TypeOf((*MockRepository)(nil).CreateArticleCategory), arg0, arg1)
+}
+
+// CreateArticleLabel mocks base method.
+func (m *MockRepository) CreateArticleLabel(arg0 context.Context, arg1 postgresql.CreateArticleLabelParams) (postgresql.ArticlesLabel, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateArticleLabel", arg0, arg1)
+	ret0, _ := ret[0].(postgresql.ArticlesLabel)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateArticleLabel indicates an expected call of CreateArticleLabel.
+func (mr *MockRepositoryMockRecorder) CreateArticleLabel(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateArticleLabel", reflect.TypeOf((*MockRepository)(nil).CreateArticleLabel), arg0, arg1)
+}
+
 // CreateCategory mocks base method.
 func (m *MockRepository) CreateCategory(arg0 context.Context, arg1 postgresql.CreateCategoryParams) (postgresql.Category, error) {
 	m.ctrl.T.Helper()
@@ -167,6 +197,34 @@ func (m *MockRepository) DeleteArticle(arg0 context.Context, arg1 int64) error {
 func (mr *MockRepositoryMockRecorder) DeleteArticle(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteArticle", reflect.TypeOf((*MockRepository)(nil).DeleteArticle), arg0, arg1)
+}
+
+// DeleteArticleCategory mocks base method.
+func (m *MockRepository) DeleteArticleCategory(arg0 context.Context, arg1 postgresql.DeleteArticleCategoryParams) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteArticleCategory", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteArticleCategory indicates an expected call of DeleteArticleCategory.
+func (mr *MockRepositoryMockRecorder) DeleteArticleCategory(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteArticleCategory", reflect.TypeOf((*MockRepository)(nil).DeleteArticleCategory), arg0, arg1)
+}
+
+// DeleteArticleLabel mocks base method.
+func (m *MockRepository) DeleteArticleLabel(arg0 context.Context, arg1 postgresql.DeleteArticleLabelParams) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteArticleLabel", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteArticleLabel indicates an expected call of DeleteArticleLabel.
+func (mr *MockRepositoryMockRecorder) DeleteArticleLabel(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteArticleLabel", reflect.TypeOf((*MockRepository)(nil).DeleteArticleLabel), arg0, arg1)
 }
 
 // DeleteCategory mocks base method.
@@ -240,6 +298,81 @@ func (mr *MockRepositoryMockRecorder) GetArticle(arg0, arg1 interface{}) *gomock
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetArticle", reflect.TypeOf((*MockRepository)(nil).GetArticle), arg0, arg1)
 }
 
+// GetArticleCategory mocks base method.
+func (m *MockRepository) GetArticleCategory(arg0 context.Context, arg1 postgresql.GetArticleCategoryParams) (postgresql.ArticlesCategory, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetArticleCategory", arg0, arg1)
+	ret0, _ := ret[0].(postgresql.ArticlesCategory)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetArticleCategory indicates an expected call of GetArticleCategory.
+func (mr *MockRepositoryMockRecorder) GetArticleCategory(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetArticleCategory", reflect.TypeOf((*MockRepository)(nil).GetArticleCategory), arg0, arg1)
+}
+
+// GetArticleLabel mocks base method.
+func (m *MockRepository) GetArticleLabel(arg0 context.Context, arg1 postgresql.GetArticleLabelParams) (postgresql.ArticlesLabel, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetArticleLabel", arg0, arg1)
+	ret0, _ := ret[0].(postgresql.ArticlesLabel)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetArticleLabel indicates an expected call of GetArticleLabel.
+func (mr *MockRepositoryMockRecorder) GetArticleLabel(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetArticleLabel", reflect.TypeOf((*MockRepository)(nil).GetArticleLabel), arg0, arg1)
+}
+
+// GetArticlesByCategoryID mocks base method.
+func (m *MockRepository) GetArticlesByCategoryID(arg0 context.Context, arg1 int64) ([]postgresql.ArticlesCategory, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetArticlesByCategoryID", arg0, arg1)
+	ret0, _ := ret[0].([]postgresql.ArticlesCategory)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetArticlesByCategoryID indicates an expected call of GetArticlesByCategoryID.
+func (mr *MockRepositoryMockRecorder) GetArticlesByCategoryID(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetArticlesByCategoryID", reflect.TypeOf((*MockRepository)(nil).GetArticlesByCategoryID), arg0, arg1)
+}
+
+// GetArticlesByLabelID mocks base method.
+func (m *MockRepository) GetArticlesByLabelID(arg0 context.Context, arg1 int64) ([]postgresql.ArticlesLabel, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetArticlesByLabelID", arg0, arg1)
+	ret0, _ := ret[0].([]postgresql.ArticlesLabel)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetArticlesByLabelID indicates an expected call of GetArticlesByLabelID.
+func (mr *MockRepositoryMockRecorder) GetArticlesByLabelID(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetArticlesByLabelID", reflect.TypeOf((*MockRepository)(nil).GetArticlesByLabelID), arg0, arg1)
+}
+
+// GetCategoriesByArticleID mocks base method.
+func (m *MockRepository) GetCategoriesByArticleID(arg0 context.Context, arg1 int64) ([]postgresql.ArticlesCategory, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetCategoriesByArticleID", arg0, arg1)
+	ret0, _ := ret[0].([]postgresql.ArticlesCategory)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetCategoriesByArticleID indicates an expected call of GetCategoriesByArticleID.
+func (mr *MockRepositoryMockRecorder) GetCategoriesByArticleID(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCategoriesByArticleID", reflect.TypeOf((*MockRepository)(nil).GetCategoriesByArticleID), arg0, arg1)
+}
+
 // GetCategory mocks base method.
 func (m *MockRepository) GetCategory(arg0 context.Context, arg1 int64) (postgresql.Category, error) {
 	m.ctrl.T.Helper()
@@ -268,6 +401,21 @@ func (m *MockRepository) GetLabel(arg0 context.Context, arg1 int64) (postgresql.
 func (mr *MockRepositoryMockRecorder) GetLabel(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLabel", reflect.TypeOf((*MockRepository)(nil).GetLabel), arg0, arg1)
+}
+
+// GetLabelsByArticleID mocks base method.
+func (m *MockRepository) GetLabelsByArticleID(arg0 context.Context, arg1 int64) ([]postgresql.ArticlesLabel, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetLabelsByArticleID", arg0, arg1)
+	ret0, _ := ret[0].([]postgresql.ArticlesLabel)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetLabelsByArticleID indicates an expected call of GetLabelsByArticleID.
+func (mr *MockRepositoryMockRecorder) GetLabelsByArticleID(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLabelsByArticleID", reflect.TypeOf((*MockRepository)(nil).GetLabelsByArticleID), arg0, arg1)
 }
 
 // GetUser mocks base method.

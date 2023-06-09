@@ -14,16 +14,26 @@ type Querier interface {
 	CountLabel(ctx context.Context, name string) (int64, error)
 	CountUser(ctx context.Context, arg CountUserParams) (int64, error)
 	CreateArticle(ctx context.Context, arg CreateArticleParams) (Article, error)
+	CreateArticleCategory(ctx context.Context, arg CreateArticleCategoryParams) (ArticlesCategory, error)
+	CreateArticleLabel(ctx context.Context, arg CreateArticleLabelParams) (ArticlesLabel, error)
 	CreateCategory(ctx context.Context, arg CreateCategoryParams) (Category, error)
 	CreateLabel(ctx context.Context, arg CreateLabelParams) (Label, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
 	DeleteArticle(ctx context.Context, id int64) error
+	DeleteArticleCategory(ctx context.Context, arg DeleteArticleCategoryParams) error
+	DeleteArticleLabel(ctx context.Context, arg DeleteArticleLabelParams) error
 	DeleteCategory(ctx context.Context, id int64) error
 	DeleteLabel(ctx context.Context, id int64) error
 	DeleteUser(ctx context.Context, id int64) error
 	GetArticle(ctx context.Context, id int64) (Article, error)
+	GetArticleCategory(ctx context.Context, arg GetArticleCategoryParams) (ArticlesCategory, error)
+	GetArticleLabel(ctx context.Context, arg GetArticleLabelParams) (ArticlesLabel, error)
+	GetArticlesByCategoryID(ctx context.Context, categoryID int64) ([]ArticlesCategory, error)
+	GetArticlesByLabelID(ctx context.Context, labelID int64) ([]ArticlesLabel, error)
+	GetCategoriesByArticleID(ctx context.Context, articleID int64) ([]ArticlesCategory, error)
 	GetCategory(ctx context.Context, id int64) (Category, error)
 	GetLabel(ctx context.Context, id int64) (Label, error)
+	GetLabelsByArticleID(ctx context.Context, articleID int64) ([]ArticlesLabel, error)
 	GetUser(ctx context.Context, id int64) (User, error)
 	GetUserByEmail(ctx context.Context, email string) (User, error)
 	GetUserByUsername(ctx context.Context, username string) (User, error)
