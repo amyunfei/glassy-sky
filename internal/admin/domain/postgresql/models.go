@@ -9,6 +9,29 @@ import (
 	"time"
 )
 
+type Article struct {
+	ID      int64
+	Title   string
+	Excerpt string
+	Content string
+	UserID  int64
+	// draft, published, archived
+	Status    string
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt sql.NullTime
+}
+
+type ArticlesCategory struct {
+	ArticleID  int64
+	CategoryID int64
+}
+
+type ArticlesLabel struct {
+	ArticleID int64
+	LabelID   int64
+}
+
 type Category struct {
 	ID        int64
 	Name      string

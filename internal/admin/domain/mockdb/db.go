@@ -35,6 +35,21 @@ func (m *MockRepository) EXPECT() *MockRepositoryMockRecorder {
 	return m.recorder
 }
 
+// CountArticle mocks base method.
+func (m *MockRepository) CountArticle(arg0 context.Context, arg1 string) (int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CountArticle", arg0, arg1)
+	ret0, _ := ret[0].(int64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CountArticle indicates an expected call of CountArticle.
+func (mr *MockRepositoryMockRecorder) CountArticle(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountArticle", reflect.TypeOf((*MockRepository)(nil).CountArticle), arg0, arg1)
+}
+
 // CountCategory mocks base method.
 func (m *MockRepository) CountCategory(arg0 context.Context, arg1 string) (int64, error) {
 	m.ctrl.T.Helper()
@@ -80,6 +95,21 @@ func (mr *MockRepositoryMockRecorder) CountUser(arg0, arg1 interface{}) *gomock.
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountUser", reflect.TypeOf((*MockRepository)(nil).CountUser), arg0, arg1)
 }
 
+// CreateArticle mocks base method.
+func (m *MockRepository) CreateArticle(arg0 context.Context, arg1 postgresql.CreateArticleParams) (postgresql.Article, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateArticle", arg0, arg1)
+	ret0, _ := ret[0].(postgresql.Article)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateArticle indicates an expected call of CreateArticle.
+func (mr *MockRepositoryMockRecorder) CreateArticle(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateArticle", reflect.TypeOf((*MockRepository)(nil).CreateArticle), arg0, arg1)
+}
+
 // CreateCategory mocks base method.
 func (m *MockRepository) CreateCategory(arg0 context.Context, arg1 postgresql.CreateCategoryParams) (postgresql.Category, error) {
 	m.ctrl.T.Helper()
@@ -123,6 +153,20 @@ func (m *MockRepository) CreateUser(arg0 context.Context, arg1 postgresql.Create
 func (mr *MockRepositoryMockRecorder) CreateUser(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockRepository)(nil).CreateUser), arg0, arg1)
+}
+
+// DeleteArticle mocks base method.
+func (m *MockRepository) DeleteArticle(arg0 context.Context, arg1 int64) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteArticle", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteArticle indicates an expected call of DeleteArticle.
+func (mr *MockRepositoryMockRecorder) DeleteArticle(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteArticle", reflect.TypeOf((*MockRepository)(nil).DeleteArticle), arg0, arg1)
 }
 
 // DeleteCategory mocks base method.
@@ -179,6 +223,21 @@ func (m *MockRepository) ExecTx(arg0 context.Context, arg1 func(postgresql.Queri
 func (mr *MockRepositoryMockRecorder) ExecTx(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExecTx", reflect.TypeOf((*MockRepository)(nil).ExecTx), arg0, arg1)
+}
+
+// GetArticle mocks base method.
+func (m *MockRepository) GetArticle(arg0 context.Context, arg1 int64) (postgresql.Article, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetArticle", arg0, arg1)
+	ret0, _ := ret[0].(postgresql.Article)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetArticle indicates an expected call of GetArticle.
+func (mr *MockRepositoryMockRecorder) GetArticle(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetArticle", reflect.TypeOf((*MockRepository)(nil).GetArticle), arg0, arg1)
 }
 
 // GetCategory mocks base method.
@@ -254,6 +313,21 @@ func (m *MockRepository) GetUserByUsername(arg0 context.Context, arg1 string) (p
 func (mr *MockRepositoryMockRecorder) GetUserByUsername(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByUsername", reflect.TypeOf((*MockRepository)(nil).GetUserByUsername), arg0, arg1)
+}
+
+// ListArticle mocks base method.
+func (m *MockRepository) ListArticle(arg0 context.Context, arg1 postgresql.ListArticleParams) ([]postgresql.Article, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListArticle", arg0, arg1)
+	ret0, _ := ret[0].([]postgresql.Article)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListArticle indicates an expected call of ListArticle.
+func (mr *MockRepositoryMockRecorder) ListArticle(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListArticle", reflect.TypeOf((*MockRepository)(nil).ListArticle), arg0, arg1)
 }
 
 // ListCategory mocks base method.
