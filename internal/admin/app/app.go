@@ -44,6 +44,7 @@ func Start(config *config.Config) {
 	authRouter.Use(middleware.AuthMiddleware(appOptions.GetTokenMaker()))
 	authRouter.GET("/user", userHandlers.ListUser)
 	authRouter.PUT("/user/:id", userHandlers.ModifyUser)
+	authRouter.DELETE("/user/:id", userHandlers.DeleteUser)
 
 	categoryHandlers := InitializeCategoryHandlers(queries, appOptions)
 	authRouter.POST("/category", categoryHandlers.CreateCategory)

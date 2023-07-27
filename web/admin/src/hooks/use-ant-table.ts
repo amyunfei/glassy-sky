@@ -32,9 +32,7 @@ const useAntTable = <T, U>(request: Request<T, U>, defaultParams: U): TableProps
     setPagination({ ...pagination, total: res.data.count })
   }
   const onPageChange: OnPageChange = (current, pageSize) => {
-    console.log(current, pageSize)
     setPagination({ ...pagination, current, pageSize })
-    console.log(pagination.current, pagination.pageSize)
   }
 
   useEffect(() => {

@@ -20,6 +20,7 @@
   },
   "common-title": {
     "username": "User Name",
+    "nickname": "Nickname",
     "email": "Email",
     "phone": "Phone",
     "labelName": "Label Name",

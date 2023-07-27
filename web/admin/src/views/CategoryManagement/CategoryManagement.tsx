@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
 import { Button, Space, message } from 'antd'
+import useAntTable from '@/hooks/use-ant-table'
 import type { ColumnsType } from 'antd/es/table'
 import { useTranslation } from 'react-i18next'
 import { deleteConfirm } from '@/utils/prompt'
-import { Category, queryCategoryListApi, removeCategoryApi } from '@/api/category'
-import useAntTable from '@/hooks/use-ant-table'
 import TablePage from '@/components/TablePage'
+import { Category, queryCategoryListApi, removeCategoryApi } from '@/api/category'
 
 
 

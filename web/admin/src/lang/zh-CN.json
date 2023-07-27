@@ -20,6 +20,7 @@
   },
   "common-title": {
     "username": "用户名称",
+    "nickname": "昵称",
     "email": "电子邮箱",
     "phone": "电话号码",
     "labelName": "标签名称",

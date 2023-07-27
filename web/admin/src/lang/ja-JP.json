@@ -20,6 +20,7 @@
   },
   "common-title": {
     "username": "ユーザー名",
+    "nickname": "ニックネーム",
     "email": "電子メール",
     "phone": "電話",
     "labelName": "ラベル名",

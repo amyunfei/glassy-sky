@@ -31,6 +31,7 @@ type UserService interface {
 	ModifyUser(
 		ctx context.Context, data dto.ModifyUserRequest,
 	) (*dto.CreateUserResponse, error)
+	DeleteUser(ctx context.Context, data dto.UriIdRequest) error
 }
 
 type DefaultUserService struct {
@@ -181,6 +182,20 @@ func (s DefaultUserService) ModifyUser(
 	var result dto.CreateUserResponse
 	result.Transform(user)
 	return &result, nil
+}
+
+func (s DefaultUserService) DeleteUser(ctx context.Context, data dto.UriIdRequest) error {
+	var err error
+	id, err := strconv.ParseInt(data.ID, 10, 64)
+	if err != nil {
+		logger.Error(err.Error())
+		return err
+	}
+	err = s.repo.DeleteUser(ctx, id)
+	if err != nil {
+		logger.Error(err.Error())
+	}
+	return err
 }
 
 func (s DefaultUserService) ListUser(

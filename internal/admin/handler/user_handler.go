@@ -123,6 +123,25 @@ func (h UserHandlers) ModifyUser(ctx *gin.Context) {
 }
 
 // @Tags    用户信息
+// @Summary 删除用户
+// @Param   id          path     string                   true "用户id"
+// @Success 200         {object} dto.SuccessEmptyResponse
+// @Router  /user/{id}  [DELETE]
+func (h UserHandlers) DeleteUser(ctx *gin.Context) {
+	var req dto.UriIdRequest
+	if err := ctx.ShouldBindUri(&req); err != nil {
+		response.ValidationError(ctx, req, err)
+		return
+	}
+	err := h.Service.DeleteUser(ctx, req)
+	if err != nil {
+		response.UnexpectedError(ctx, err.Error())
+		return
+	}
+	response.Success(ctx, "", "success")
+}
+
+// @Tags    用户信息
 // @Summary 分页查询用户
 // @Param   pageParams query    dto.ListRequest            true "分页参数"
 // @Param   filter     query    dto.FilterUserRequest      true "筛选参数"

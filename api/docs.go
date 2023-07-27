@@ -353,15 +353,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/github-contributions": {
-            "post": {
-                "tags": [
-                    "用户信息"
-                ],
-                "summary": "获取用户Gitub贡献信息",
-                "responses": {}
-            }
-        },
         "/user/login": {
             "post": {
                 "tags": [
@@ -438,6 +429,29 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/response.Body-dto_CreateUserResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "用户信息"
+                ],
+                "summary": "删除用户",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SuccessEmptyResponse"
                         }
                     }
                 }

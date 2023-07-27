@@ -252,6 +252,59 @@ func TestModifyUser(t *testing.T) {
 	}
 }
 
+func TestDeleteUser(t *testing.T) {
+	user := randomUser()
+	testCases := []struct {
+		name          string
+		body          dto.UriIdRequest
+		buildStubs    func(repo *mockdb.MockRepository)
+		checkResponse func(err error)
+	}{
+		{
+			name: "success_delete_user",
+			body: dto.UriIdRequest{
+				ID: strconv.FormatInt(user.ID, 10),
+			},
+			buildStubs: func(repo *mockdb.MockRepository) {
+				repo.EXPECT().
+					DeleteUser(gomock.Any(), gomock.Any()).
+					Times(1).
+					Return(nil)
+			},
+			checkResponse: func(err error) {
+				require.NoError(t, err)
+			},
+		},
+		{
+			name: "fail_delete_user_with_invalid_id",
+			body: dto.UriIdRequest{
+				ID: "invalid",
+			},
+			buildStubs: func(repo *mockdb.MockRepository) {
+				repo.EXPECT().
+					DeleteLabel(gomock.Any(), gomock.Any()).
+					Times(0)
+			},
+			checkResponse: func(err error) {
+				require.Error(t, err)
+			},
+		},
+	}
+
+	for _, testCase := range testCases {
+		t.Run(testCase.name, func(t *testing.T) {
+			ctrl := gomock.NewController(t)
+			defer ctrl.Finish()
+
+			repo := mockdb.NewMockRepository(ctrl)
+			testCase.buildStubs(repo)
+
+			service := NewUserService(repo, nil, testConfig)
+			testCase.checkResponse(service.DeleteUser(context.Background(), testCase.body))
+		})
+	}
+}
+
 func TestListUser(t *testing.T) {
 	users := make([]postgresql.User, 0)
 	for i := 0; i < 10; i++ {
