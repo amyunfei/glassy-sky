@@ -28,6 +28,7 @@ type UserService interface {
 	ListUser(
 		ctx context.Context, listData dto.ListRequest, filterData dto.FilterUserRequest,
 	) (*dto.ListResponse[dto.CreateUserResponse], error)
+	GetUser(ctx context.Context, data dto.UriIdRequest) (*dto.CreateUserResponse, error)
 	ModifyUser(
 		ctx context.Context, data dto.ModifyUserRequest,
 	) (*dto.CreateUserResponse, error)
@@ -145,6 +146,23 @@ func (s DefaultUserService) Login(ctx context.Context, data dto.LoginRequest) (t
 		return "", err
 	}
 	return token, nil
+}
+
+func (s DefaultUserService) GetUser(ctx context.Context, data dto.UriIdRequest) (*dto.CreateUserResponse, error) {
+	var err error
+	id, err := strconv.ParseInt(data.ID, 10, 64)
+	if err != nil {
+		logger.Error(err.Error())
+		return nil, err
+	}
+	user, err := s.repo.GetUser(ctx, id)
+	if err != nil {
+		logger.Error(err.Error())
+		return nil, err
+	}
+	var result dto.CreateUserResponse
+	result.Transform(user)
+	return &result, nil
 }
 
 func (s DefaultUserService) ModifyUser(

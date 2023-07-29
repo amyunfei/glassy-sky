@@ -1,20 +1,27 @@
-import type { ColumnsType, TablePaginationConfig } from 'antd/es/table'
+import { useRef } from 'react'
+import type { ColumnsType } from 'antd/es/table'
 import useAntTable from '@/hooks/use-ant-table'
-import { User, queryUserListApi, removeUserApi } from '@/api/user'
+import { User, queryUserListApi, queryUserApi, removeUserApi } from '@/api/user'
 import { useTranslation } from 'react-i18next'
 import { Button, Space, message } from 'antd'
+import UserEditor, { UserEditorInstance } from './UserEditor'
 import TablePage from '@/components/TablePage'
 import { deleteConfirm } from '@/utils/prompt'
 
 
 const UserManagement: React.FC = () => {
+  const editorRef = useRef<UserEditorInstance | null>(null)
   const { t } = useTranslation()
   const {
     fetchData, dataSource, loading, pagination, onPageChange
   } = useAntTable(queryUserListApi, { current: 1, size: 10 })
 
-  const handleEdit = (id: string) => {
-
+  const handleEdit = (id?: string) => {
+    if (editorRef.current === null) return
+    if (id !== undefined) {
+      queryUserApi(id)
+    }
+    // editorRef.current.open()
   }
 
   const handleDelete = (id: string) => {
@@ -49,7 +56,10 @@ const UserManagement: React.FC = () => {
       pageSize={pagination.pageSize}
       current={pagination.current}
       pageChange={onPageChange}
-    />
+      handleAdd={() => handleEdit()}
+    >
+      <UserEditor ref={editorRef} />
+    </TablePage>
   )
 }
 

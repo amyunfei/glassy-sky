@@ -188,6 +188,63 @@ func TestVerifyEmail(t *testing.T) {
 	}
 }
 
+func TestGetUser(t *testing.T) {
+	user := randomUser()
+	testCases := []struct {
+		name          string
+		body          dto.UriIdRequest
+		buildStubs    func(repo *mockdb.MockRepository)
+		checkResponse func(res *dto.CreateUserResponse, err error)
+	}{
+		{
+			name: "success_get_user",
+			body: dto.UriIdRequest{
+				ID: strconv.FormatInt(user.ID, 10),
+			},
+			buildStubs: func(repo *mockdb.MockRepository) {
+				repo.EXPECT().
+					GetUser(gomock.Any(), gomock.Any()).
+					Times(1).
+					Return(user, nil)
+			},
+			checkResponse: func(res *dto.CreateUserResponse, err error) {
+				require.NoError(t, err)
+				require.Equal(t, user.Username, res.Username)
+				require.Equal(t, user.Email, res.Email)
+				require.Equal(t, user.Nickname, res.Nickname)
+			},
+		},
+		{
+			name: "fail_get_user_with_invalid_id",
+			body: dto.UriIdRequest{
+				ID: "invalid",
+			},
+			buildStubs: func(repo *mockdb.MockRepository) {
+				repo.EXPECT().
+					GetUser(gomock.Any(), gomock.Any()).
+					Times(0)
+			},
+			checkResponse: func(res *dto.CreateUserResponse, err error) {
+				require.Error(t, err)
+				require.Empty(t, res)
+			},
+		},
+	}
+
+	for _, testCase := range testCases {
+		t.Run(testCase.name, func(t *testing.T) {
+			ctrl := gomock.NewController(t)
+			defer ctrl.Finish()
+
+			repo := mockdb.NewMockRepository(ctrl)
+			testCase.buildStubs(repo)
+
+			service := NewUserService(repo, nil, testConfig)
+			testCase.checkResponse(service.GetUser(context.Background(), testCase.body))
+		})
+	}
+}
+
 func TestModifyUser(t *testing.T) {
 	user := randomUser()
 	testCases := []struct {

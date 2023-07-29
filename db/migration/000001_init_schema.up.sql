@@ -64,7 +64,7 @@ CREATE TABLE "articles" (
   "title" varchar(255) NOT NULL,
   "excerpt" text NOT NULL,
   "content" text NOT NULL,
-  "user_id" bigint NOT NULL,
+  "user_id" bigint NOT NULL REFERENCES "users" (id),
   "status" varchar(20) NOT NULL DEFAULT 'draft',
   "created_at" timestamptz NOT NULL DEFAULT (now()),
   "updated_at" timestamptz NOT NULL DEFAULT (now()),

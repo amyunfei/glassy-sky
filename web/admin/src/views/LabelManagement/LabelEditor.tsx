@@ -76,7 +76,7 @@ const LabelEditor = forwardRef<LabelEditorInstance, {}>((_, ref) => {
           <div>
             <HexColorPicker color={color} onChange={setColor} style={{ width: '100%' }} />
             <div className="w-full h-6 flex items-center justify-end mt-3 pr-4 font-bold rounded" style={{ background: color }}>
-              { color.toUpperCase() }
+              {color.toUpperCase()}
             </div>
           </div>
         </Form.Item>

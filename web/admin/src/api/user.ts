@@ -1,15 +1,15 @@
 import { request } from '@/utils/http'
-import { DtoLoginRequest, DtoCreateUserResponse, DtoListResponseDtoCreateUserResponse, ResponseBodyString } from './dto'
+import { DtoLoginRequest, ResponseBodyString } from './dto'
 
 export interface User {
-  createdAt: string;
-  email: string;
   id: string;
-  nickname: string;
-  updatedAt: string;
+  email: string;
   username: string;
+  nickname: string;
+  createdAt: string;
+  updatedAt: string;
 }
-
+export type CreateUserParams = Omit<User, 'id' | 'createdAt' | 'updatedAt'> & { password: string }
 
 export const loginApi = (data: DtoLoginRequest) => request<ResponseBodyString>({
   url: '/user/login',
@@ -26,4 +26,15 @@ export const queryUserListApi = (data: any) => request<ResponseList<User>>({
 export const removeUserApi = (id: string) => request<ResponseBodyString>({
   url: `/user/${id}`,
   method: 'DELETE'
+})
+
+export const createUserApi = (data: CreateUserParams) => request<Response<User>>({
+  url: '/user',
+  method: 'POST',
+  data
+})
+
+export const queryUserApi = (id: string) => request<Response<User>>({
+  url: `/user/${id}`,
+  method: 'GET'
 })

@@ -23,11 +23,28 @@ type CheckEmailCodeRequest struct {
 	Code  string `json:"code" binding:"required"`
 }
 
-type CreateUserRequest struct {
+type RegisterUserRequest struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
 	Email    string `json:"email" binding:"required,email"`
 	Code     string `json:"code" binding:"required"`
+	Nickname string `json:"nickname"`
+}
+
+func (c RegisterUserRequest) GetValidateMessage() response.ErrorMessages {
+	return response.ErrorMessages{
+		"Username.required": "用户名不能为空",
+		"Password.required": "用户密码不能为空",
+		"Email.required":    "邮箱地址不能为空",
+		"Email.email":       "邮箱地址不正确",
+		"Code.required":     "验证码不能为空",
+	}
+}
+
+type CreateUserRequest struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+	Email    string `json:"email" binding:"required,email"`
 	Nickname string `json:"nickname"`
 }
 
@@ -37,7 +54,6 @@ func (c CreateUserRequest) GetValidateMessage() response.ErrorMessages {
 		"Password.required": "用户密码不能为空",
 		"Email.required":    "邮箱地址不能为空",
 		"Email.email":       "邮箱地址不正确",
-		"Code.required":     "验证码不能为空",
 	}
 }
 

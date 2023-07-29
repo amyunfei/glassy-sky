@@ -49,6 +49,6 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-unused-vars': 0,
     'jsx-quotes': ['error', 'prefer-double'],
-    'react/self-closing-comp': ['error']
+    'react/self-closing-comp': ['error'],
   }
 }

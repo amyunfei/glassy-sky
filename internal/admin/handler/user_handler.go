@@ -17,11 +17,11 @@ func NewUserHandlers(service service.UserService) UserHandlers {
 
 // @Tags    用户信息
 // @Summary 注册用户
-// @Param   body    body     dto.CreateUserRequest  true "用户注册信息"
+// @Param   body    body     dto.RegisterUserRequest  true "用户注册信息"
 // @Success 200     {object} response.Body[dto.CreateUserResponse]
 // @Router  /user/register  [POST]
 func (h UserHandlers) RegisterUser(ctx *gin.Context) {
-	var req dto.CreateUserRequest
+	var req dto.RegisterUserRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		response.ValidationError(ctx, req, err)
 		return
@@ -34,7 +34,12 @@ func (h UserHandlers) RegisterUser(ctx *gin.Context) {
 		response.RequestError(ctx, "邮箱验证失败")
 		return
 	}
-	res, err := h.Service.CreateUser(ctx, req)
+	res, err := h.Service.CreateUser(ctx, dto.CreateUserRequest{
+		Username: req.Username,
+		Password: req.Password,
+		Email:    req.Email,
+		Nickname: req.Email,
+	})
 	if err != nil {
 		response.UnexpectedError(ctx, err.Error())
 		return
@@ -81,6 +86,25 @@ func (h UserHandlers) SendEmailCode(ctx *gin.Context) {
 }
 
 // @Tags    用户信息
+// @Summary 创建用户
+// @Param   data     body     dto.CreateUserRequest                true "用户信息"
+// @Success 200     {object} response.Body[dto.CreateUserResponse]
+// @Router  /user   [POST]
+func (h UserHandlers) CreateUser(ctx *gin.Context) {
+	var req dto.CreateUserRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		response.ValidationError(ctx, req, err)
+		return
+	}
+	user, err := h.Service.CreateUser(ctx, req)
+	if err != nil {
+		response.UnexpectedError(ctx, err.Error())
+		return
+	}
+	response.Success(ctx, user, "success")
+}
+
+// @Tags    用户信息
 // @Summary 登录
 // @Param   data        body     dto.LoginRequest       true "登录信息"
 // @Success 200         {object} response.Body[string]
@@ -97,6 +121,25 @@ func (h UserHandlers) Login(ctx *gin.Context) {
 		return
 	}
 	response.Success(ctx, token, "success")
+}
+
+// @Tags    用户信息
+// @Summary 查询用户
+// @Param   id          path     string                   true "用户id"
+// @Success 200         {object} response.Body[dto.CreateUserResponse]
+// @Router  /user/{id}  [GET]
+func (h UserHandlers) GetUser(ctx *gin.Context) {
+	var req dto.UriIdRequest
+	if err := ctx.ShouldBindUri(&req); err != nil {
+		response.ValidationError(ctx, req, err)
+		return
+	}
+	user, err := h.Service.GetUser(ctx, req)
+	if err != nil {
+		response.UnexpectedError(ctx, err.Error())
+		return
+	}
+	response.Success(ctx, user, "success")
 }
 
 // @Tags    用户信息

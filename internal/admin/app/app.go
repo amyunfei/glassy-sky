@@ -42,7 +42,9 @@ func Start(config *config.Config) {
 
 	authRouter := router.Group("/")
 	authRouter.Use(middleware.AuthMiddleware(appOptions.GetTokenMaker()))
+	authRouter.POST("/user", userHandlers.CreateUser)
 	authRouter.GET("/user", userHandlers.ListUser)
+	authRouter.GET("/user/:id", userHandlers.GetUser)
 	authRouter.PUT("/user/:id", userHandlers.ModifyUser)
 	authRouter.DELETE("/user/:id", userHandlers.DeleteUser)
 

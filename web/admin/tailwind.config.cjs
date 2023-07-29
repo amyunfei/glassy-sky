@@ -48,6 +48,7 @@ module.exports = {
         '.h-120': { height: '30rem' },
         '.w-70': { width: '17.5rem' },
         '.pt-15': { paddingTop: '3.75rem' },
+        '.pb-full': { paddingBottom: '100%' },
         '.y-center': {
           top: '50%',
           transform: 'translateY(-50%)'
