@@ -60,6 +60,10 @@
       "editLabel": "ラベル編集",
       "deleteLabel": "ラベル削除",
       "deleteLabelTips": "ラベルを削除しますか？"
+    },
+    "user": {
+      "addUser": "ユーザー追加",
+      "editUser": "ユーザー編集"
     }
   }
 }

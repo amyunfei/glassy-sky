@@ -130,7 +130,7 @@ func (s DefaultUserService) VerifyEmail(ctx context.Context, data dto.SendEmailC
 	return
 }
 
-func (s DefaultUserService) Login(ctx context.Context, data dto.LoginRequest) (token string, err error) {
+func (s DefaultUserService) Login(ctx context.Context, data dto.LoginRequest) (tokenStr string, err error) {
 	user, err := s.repo.GetUserByUsername(ctx, data.Username)
 	if err != nil {
 		logger.Error(err.Error())
@@ -140,12 +140,15 @@ func (s DefaultUserService) Login(ctx context.Context, data dto.LoginRequest) (t
 	if err != nil {
 		return "", errors.New("username or password incorrect")
 	}
-	token, err = s.tokenMaker.CreateToken(user.Username, time.Minute*time.Duration(s.config.TokenExpirationMinutes))
+	tokenStr, err = s.tokenMaker.CreateToken(token.UserInfo{
+		Username: user.Username,
+		UserId:   user.ID,
+	}, time.Minute*time.Duration(s.config.TokenExpirationMinutes))
 	if err != nil {
 		logger.Error(err.Error())
 		return "", err
 	}
-	return token, nil
+	return tokenStr, nil
 }
 
 func (s DefaultUserService) GetUser(ctx context.Context, data dto.UriIdRequest) (*dto.CreateUserResponse, error) {

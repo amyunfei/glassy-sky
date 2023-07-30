@@ -60,6 +60,10 @@
       "editLabel": "Edit Label",
       "deleteLabel": "Delete Label",
       "deleteLabelTips": "Are you sure to delete this label?"
+    },
+    "user": {
+      "addUser": "Add User",
+      "editUser": "Edit User"
     }
   }
 }

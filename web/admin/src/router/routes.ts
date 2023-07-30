@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   FundProjectionScreenOutlined, TagOutlined, AppstoreOutlined, BookOutlined, UnorderedListOutlined, CompassOutlined,
-  UserOutlined, CoffeeOutlined
+  UserOutlined, FileTextOutlined
 } from '@ant-design/icons'
 import Login from '@/views/Login'
 import Layout from '@/layout'
@@ -31,6 +31,12 @@ export const menuRoutes: AppRoute.Route[] = [
     name: 'LabelManagement',
     component: React.lazy(() => import('@/views/LabelManagement')),
     meta: { title: 'Label-Management', icon: TagOutlined, breadcrumb: true }
+  },
+  {
+    path: 'article-management',
+    name: 'ArticleManagement',
+    component: React.lazy(() => import('@/views/ArticleManagement')),
+    meta: { title: 'Article-Management', icon: FileTextOutlined, breadcrumb: true }
   }
   // {
   //   path: 'exercise',

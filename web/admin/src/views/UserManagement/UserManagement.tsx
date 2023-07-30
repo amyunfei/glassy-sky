@@ -16,12 +16,15 @@ const UserManagement: React.FC = () => {
     fetchData, dataSource, loading, pagination, onPageChange
   } = useAntTable(queryUserListApi, { current: 1, size: 10 })
 
-  const handleEdit = (id?: string) => {
+  const handleEdit = async (id?: string) => {
     if (editorRef.current === null) return
+    let info: User | undefined
     if (id !== undefined) {
-      queryUserApi(id)
+      const [err, res] = await queryUserApi(id)
+      if (err !== null) return
+      info = res.data
     }
-    // editorRef.current.open()
+    editorRef.current.open(info)
   }
 
   const handleDelete = (id: string) => {

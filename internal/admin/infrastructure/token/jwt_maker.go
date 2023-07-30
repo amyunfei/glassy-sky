@@ -11,8 +11,8 @@ type JWTMaker struct {
 	secretKey string
 }
 
-func (maker *JWTMaker) CreateToken(username string, duration time.Duration) (string, error) {
-	payload, err := NewPayload(username, duration)
+func (maker *JWTMaker) CreateToken(userInfo UserInfo, duration time.Duration) (string, error) {
+	payload, err := NewPayload(userInfo, duration)
 	if err != nil {
 		return "", err
 	}

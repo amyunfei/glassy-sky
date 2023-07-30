@@ -10,8 +10,12 @@ var (
 	ErrExpiredToken = errors.New("token has expired")
 )
 
+type UserInfo struct {
+	Username string `json:"username"`
+	UserId   int64  `json:"userId"`
+}
 type Payload struct {
-	Username  string    `json:"username"`
+	UserInfo
 	IssuedAt  time.Time `json:"issuedAt"`
 	ExpiredAt time.Time `json:"expiredAt"`
 }
@@ -24,9 +28,9 @@ func (payload *Payload) Valid() error {
 	}
 }
 
-func NewPayload(username string, duration time.Duration) (*Payload, error) {
+func NewPayload(userInfo UserInfo, duration time.Duration) (*Payload, error) {
 	return &Payload{
-		Username:  username,
+		UserInfo:  userInfo,
 		IssuedAt:  time.Now(),
 		ExpiredAt: time.Now().Add(duration),
 	}, nil

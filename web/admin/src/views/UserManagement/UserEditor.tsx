@@ -5,18 +5,28 @@ import { UploadProps, UploadFile } from 'antd/es/upload/interface'
 import { useTranslation } from 'react-i18next'
 import Dialog from '@/components/Dialog'
 import { User, CreateUserParams, createUserApi } from '@/api/user'
+import { isEmpty, omit } from '@/utils/helper'
 
 export type UserEditorInstance = {
   open: (info?: User) => void
 }
 const UserEditor = forwardRef<UserEditorInstance, {}>((_, ref) => {
+  const [title, setTitle] = useState<string>()
   const [visible, setVisible] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const [form] = Form.useForm<CreateUserParams>()
   const { t } = useTranslation()
+  const [id, setId] = useState<string>('')
 
   useImperativeHandle(ref, () => ({
     open: (info?: User) => {
+      if (!isEmpty(info)) {
+        setId(info.id)
+        form.setFieldsValue(omit(info, ['createdAt', 'updatedAt']))
+        setTitle(t('module.user.editUser'))
+      } else {
+        setTitle(t('module.user.addUser'))
+      }
       setVisible(true)
     }
   }))
@@ -25,9 +35,12 @@ const UserEditor = forwardRef<UserEditorInstance, {}>((_, ref) => {
     setVisible(false)
   }
 
+  const afterClose = () => {
+    form.resetFields()
+  }
+
   const handleUploadChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
     const { file } = info
-
   }
 
   const onConfirm = async () => {
@@ -47,10 +60,12 @@ const UserEditor = forwardRef<UserEditorInstance, {}>((_, ref) => {
   return (
     <Dialog
       width={1000}
+      title={title}
       open={visible}
       loading={loading}
-      onConfirm={onConfirm}
       onClose={onClose}
+      onConfirm={onConfirm}
+      afterClose={afterClose}
     >
       <Form form={form} layout="vertical">
         <Row>
@@ -69,7 +84,7 @@ const UserEditor = forwardRef<UserEditorInstance, {}>((_, ref) => {
               <Input />
             </Form.Item>
             <Form.Item name="password" label="密码" rules={[{ required: true, message: '请输入密码' }]}>
-              <Input />
+              <Input.Password />
             </Form.Item>
             <Form.Item name="nickname" label="昵称" rules={[{ required: true, message: '请输入昵称' }]}>
               <Input />

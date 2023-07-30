@@ -60,6 +60,10 @@
       "editLabel": "编辑标签",
       "deleteLabel": "删除标签",
       "deleteLabelTips": "确定删除该标签吗？"
+    },
+    "user": {
+      "addUser": "添加用户",
+      "editUser": "编辑用户"
     }
   }
 }
