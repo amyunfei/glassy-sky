@@ -61,6 +61,9 @@ func Start(config *config.Config) {
 	authRouter.GET("/label", labelHandlers.ListLabel)
 	authRouter.GET("/label/:id", labelHandlers.GetLabel)
 
+	articleHandlers := InitializeArticleHandlers(queries, appOptions)
+	authRouter.POST("/article", articleHandlers.CreateArticle)
+
 	router.Run(config.ServerAddress)
 	logger.Info(fmt.Sprintf("glassy-sky running on %s ...", config.ServerAddress))
 }

@@ -38,3 +38,11 @@ func InitializeLabelHandlers(repo postgresql.Repository, options service.LabelOp
 	)
 	return handler.LabelHandlers{}
 }
+
+func InitializeArticleHandlers(repo postgresql.Repository, options service.ArticleOptions) handler.ArticleHandlers {
+	wire.Build(
+		handler.NewArticleHandlers,
+		service.NewArticleService,
+	)
+	return handler.ArticleHandlers{}
+}

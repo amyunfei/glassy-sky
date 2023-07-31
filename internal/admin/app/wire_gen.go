@@ -40,3 +40,9 @@ func InitializeLabelHandlers(repo postgresql.Repository, options service.LabelOp
 	labelHandlers := handler.NewLabelHandlers(labelService)
 	return labelHandlers
 }
+
+func InitializeArticleHandlers(repo postgresql.Repository, options service.ArticleOptions) handler.ArticleHandlers {
+	articleService := service.NewArticleService(repo, options)
+	articleHandlers := handler.NewArticleHandlers(articleService)
+	return articleHandlers
+}
